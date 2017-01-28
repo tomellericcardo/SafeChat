@@ -2,14 +2,14 @@
 
 from flask import Flask, g, send_from_directory, request
 from flask_sslify import SSLify
-#from SafeChat import *
+from SafeChat import *
 from json import dumps
 
 
 # VARIABILI GLOBALI
 
 app = Flask(__name__)
-sslify = SSLify(app)'''
+sslify = SSLify(app)
 safeChat = SafeChat(g, 'database.db', app)
 
 
@@ -22,7 +22,7 @@ def apri_connessione():
 @app.teardown_request
 def chiudi_connessione(exception):
     safeChat.chiudi_connessione()
-'''
+
 
 # INVIO FILES
 

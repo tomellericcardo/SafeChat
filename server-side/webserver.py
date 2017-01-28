@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, g, send_from_directory, request
-from json import dumps
+from flask_sslify import SSLify
 from SafeChat import *
+from json import dumps
 
 
 # VARIABILI GLOBALI
 
 WEBSERVER = Flask(__name__)
+SSLIFY = SSLify(WEBSERVER)
 SAFECHAT = SafeChat(g, 'database.db', WEBSERVER)
 
 
@@ -36,3 +38,9 @@ def login():
 @WEBSERVER.route('/home')
 def home():
     return send_from_directory('../client-side/html/', 'home.html')
+
+
+# AVVIO DEL SERVER
+
+if __name__ == '__main__':
+    WEBSERVER.run(port = 80)

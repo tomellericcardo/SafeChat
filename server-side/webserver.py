@@ -8,34 +8,34 @@ from json import dumps
 
 # VARIABILI GLOBALI
 
-WEBSERVER = Flask(__name__)
-SSLIFY = SSLify(WEBSERVER)
-SAFECHAT = SafeChat(g, 'database.db', WEBSERVER)
+app = Flask(__name__)
+sslify = SSLify(app)
+safeChat = SafeChat(g, 'database.db', app)
 
 
 # OPERAZIONI DI SESSIONE
 
-@WEBSERVER.before_request
+@app.before_request
 def apri_connessione():
-    SAFECHAT.apri_connessione()
+    safeChat.apri_connessione()
 
-@WEBSERVER.teardown_request
+@app.teardown_request
 def chiudi_connessione(exception):
-    SAFECHAT.chiudi_connessione()
+    safeChat.chiudi_connessione()
 
 
 # INVIO FILES
 
-@WEBSERVER.route('/<nome_cartella>/<nome_file>')
+@app.route('/<nome_cartella>/<nome_file>')
 def invia_file(nome_cartella, nome_file):
     return send_from_directory('../client-side/' + nome_cartella + '/', nome_file)
 
-@WEBSERVER.route('/')
-@WEBSERVER.route('/login')
+@app.route('/')
+@app.route('/login')
 def login():
     return send_from_directory('../client-side/html/', 'login.html')
 
-@WEBSERVER.route('/home')
+@app.route('/home')
 def home():
     return send_from_directory('../client-side/html/', 'home.html')
 
@@ -43,4 +43,4 @@ def home():
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    WEBSERVER.run()
+    app.run()

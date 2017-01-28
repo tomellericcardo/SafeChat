@@ -9,10 +9,10 @@ class SafeBase:
         self.g = g
         self.database_filename = database_filename
     
-    def open_database_connection(self):
+    def apri_connessione(self):
         self.g.db = connect(self.database_filename)
     
-    def close_database_connection(self):
+    def chiudi_connessione(self):
         db = getattr(self.g, 'db', None)
         if db is not None:
             db.close()

@@ -10,7 +10,7 @@ from json import dumps
 
 app = Flask(__name__)
 sslify = SSLify(app)
-safeChat = SafeChat(g, 'database.db', app)
+safeChat = SafeChat(g, 'database.db')
 
 
 # OPERAZIONI DI SESSIONE

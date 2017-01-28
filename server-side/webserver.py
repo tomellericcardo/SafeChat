@@ -43,4 +43,4 @@ def home():
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    WEBSERVER.run(port = 80)
+    WEBSERVER.run()

@@ -16,3 +16,9 @@ class SafeChat:
     
     def sessione_valida(self, id_sessione):
         return False
+    
+    def utente_valido(self, username, password):
+        return True
+    
+    def genera_id_sessione(self, username):
+        return '01'

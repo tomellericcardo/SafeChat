@@ -9,7 +9,7 @@ from json import dumps
 # VARIABILI GLOBALI
 
 app = Flask(__name__)
-sslify = SSLify(app)
+ssLify = SSLify(app)
 safeChat = SafeChat(g, 'database.db')
 
 
@@ -31,8 +31,11 @@ def invia_file(nome_cartella, nome_file):
     return send_from_directory('../client-side/' + nome_cartella + '/', nome_file)
 
 @app.route('/')
-@app.route('/login')
+@app.route('/accedi')
 def login():
+    id_sessione = request.cookies.get('id_sessione')
+    if safeChat.sessione_valida(id_sessione):
+        return redirect('/home')
     return send_from_directory('../client-side/html/', 'login.html')
 
 @app.route('/home')

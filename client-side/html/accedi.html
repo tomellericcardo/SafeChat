@@ -2,13 +2,13 @@
 <html>
     <head>
         
-        <title>Login - SafeChat</title>
+        <title>Accedi - SafeChat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
         
         <!-- STYLES -->
         <link rel="stylesheet" href="/css/w3.css">
-        <link rel="stylesheet" href="/css/login.css">
+        <link rel="stylesheet" href="/css/accedi.css">
         
         <!-- STANDALONE -->
         <link rel="manifest" href="/json/manifest.json">
@@ -23,13 +23,21 @@
     <body>
         
         <!-- HEADER -->
-        <header class="w3-container">
-            
+        <header class="w3-container w3-green">
+            <h1 class="w3-xxxlarge">SafeChat</h1>
         </header>
+        
+        <!-- LOGIN FORM -->
+        <div class="w3-container w3-padding-32 w3-white">
+            <h1 class="w3-large">Accedi</h1>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button id="login">Accedi</button>
+        </div>
         
         <!-- SCRIPTS -->
         <script type="text/javascript" src="/js/jquery-3.1.1.js"></script>
-        <script type="text/javascript" src="/js/login.js"></script>
+        <script type="text/javascript" src="/js/accedi.js"></script>
         
     </body>
 </html>

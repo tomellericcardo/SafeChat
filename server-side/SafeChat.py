@@ -15,4 +15,4 @@ class SafeChat:
         self.safe_base.chiudi_connessione()
     
     def sessione_valida(self, id_sessione):
-        return false
+        return False

@@ -36,7 +36,7 @@ def login():
     id_sessione = request.cookies.get('id_sessione')
     if safeChat.sessione_valida(id_sessione):
         return redirect('/home')
-    return send_from_directory('../client-side/html/', 'login.html')
+    return send_from_directory('../client-side/html/', 'accedi.html')
 
 @app.route('/home')
 def home():

@@ -23,7 +23,7 @@ class SafeBase:
                             FROM utente
                             WHERE username = ?
                             AND password = ?''', (username, password))
-        valido = cursore.fetchone() == 1
+        valido = cursore.fetchone()[0] == 1
         cursore.close()
         return valido
     
@@ -32,7 +32,7 @@ class SafeBase:
         cursore.execute(''' SELECT COUNT(*)
                             FROM utente
                             WHERE username = ? ''', (username,))
-        presente = cursore.fetchone() == 1
+        presente = cursore.fetchone()[0] == 1
         cursore.close()
         return presente
     

@@ -14,11 +14,11 @@ class SafeChat:
     def chiudi_connessione(self):
         self.safe_base.chiudi_connessione()
     
-    def sessione_valida(self, id_sessione):
-        return False
-    
     def utente_valido(self, username, password):
-        return True
+        return self.safe_base.utente_valido(username, password)
     
-    def genera_id_sessione(self, username):
-        return '01'
+    def username_presente(self, username):
+        return self.safe_base.username_presente(username)
+    
+    def registra_utente(self, username, password, chiave):
+        return self.safe_base.registra_utente(username, password, chiave)

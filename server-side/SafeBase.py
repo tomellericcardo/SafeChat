@@ -16,3 +16,29 @@ class SafeBase:
         db = getattr(self.g, 'db', None)
         if db is not None:
             db.close()
+    
+    def utente_valido(self, username, password):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT COUNT(*)
+                            FROM utente
+                            WHERE username = ?
+                            AND password = ?''', (username, password))
+        valido = cursore.fetchone() == 1
+        cursore.close()
+        return valido
+    
+    def username_presente(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT COUNT(*)
+                            FROM utente
+                            WHERE username = ? ''', (username,))
+        presente = cursore.fetchone() == 1
+        cursore.close()
+        return presente
+    
+    def registra_utente(self, username, password, chiave):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' INSERT INTO utente
+                            VALUES (?, ?, ?) ''', (username, password, chiave))
+        self.g.db.commit()
+        cursore.close()

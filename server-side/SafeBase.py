@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from os import path
 from sqlite3 import *
 
 
@@ -10,7 +11,8 @@ class SafeBase:
         self.database_filename = database_filename
     
     def apri_connessione(self):
-        self.g.db = connect(self.database_filename)
+        root = path.dirname(path.realpath(__file__))
+        self.g.db = connect(path.join(root, 'database.db'))
     
     def chiudi_connessione(self):
         db = getattr(self.g, 'db', None)

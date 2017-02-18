@@ -2,7 +2,7 @@ registrati = {
     
     init: function() {
         this.accesso_eseguito();
-        this.signin();
+        this.registra_utente();
     },
     
     accesso_eseguito: function() {

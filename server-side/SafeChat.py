@@ -1,24 +1,60 @@
 # -*- coding: utf-8 -*-
 
-from SafeBase import *
+from hashlib import sha256
+from os import path
+import random
+from sqlite3 import *
 
 
 class SafeChat:
     
-    def __init__(self, g, database_filename):
-        self.safe_base = SafeBase(g, database_filename)
+    def __init__(self, g, database_filename, seme, pepe):
+        self.g = g
+        self.database_filename = database_filename
+        self.pepe = pepe
+        random.seed(seme)
     
     def apri_connessione(self):
-        self.safe_base.apri_connessione()
+        root = path.dirname(path.realpath(__file__))
+        self.g.db = connect(path.join(root, 'database.db'))
     
     def chiudi_connessione(self):
-        self.safe_base.chiudi_connessione()
+        db = getattr(self.g, 'db', None)
+        if db is not None:
+            db.close()
     
     def utente_valido(self, username, password):
-        return self.safe_base.utente_valido(username, password)
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT password, sale
+                            FROM utente
+                            WHERE username = ? ''', (username,))
+        password_criptata = cursore.fetchone()[0]
+        sale = cursore.fetchone()[1]
+        valido = password_criptata == sha256(password + sale + self.pepe).digest()
+        cursore.close()
+        return valido
     
     def username_presente(self, username):
-        return self.safe_base.username_presente(username)
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT COUNT(*)
+                            FROM utente
+                            WHERE username = ? ''', (username,))
+        presente = cursore.fetchone()[0] == 1
+        cursore.close()
+        return presente
+    
+    def genera_sale(self):
+        sale = ''
+        alfabeto = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        for i in range(16):
+            sale += random.choice(alfabeto)
+        return sale
     
     def registra_utente(self, username, password, chiave):
-        return self.safe_base.registra_utente(username, password, chiave)
+        sale = self.genera_sale()
+        password_criptata = sha256(password + sale + self.pepe).digest()
+        cursore = self.g.db.cursor()
+        cursore.execute(''' INSERT INTO utente
+                            VALUES (?, ?, ?, ?) ''', (username, password_criptata, chiave, sale))
+        self.g.db.commit()
+        cursore.close()

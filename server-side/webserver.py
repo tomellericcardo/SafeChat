@@ -10,7 +10,9 @@ from json import dumps
 
 app = Flask(__name__)
 ssLify = SSLify(app)
-safeChat = SafeChat(g, 'database.db')
+safeChat = SafeChat(g, 'database.db', \
+                       'seme', \
+                       'piper_nigrum')
 
 
 # OPERAZIONI DI SESSIONE
@@ -44,10 +46,10 @@ def home():
     return send_from_directory('../client-side/html/', 'home.html')
 
 
-# CONTESTI
+# ALTRI CONTESTI
 
-@app.route('/utente_valido', methods = ['POST'])
-@app.route('/login', methods = ['POST'])
+@app.route('/accesso_eseguito', methods = ['POST'])
+@app.route('/connetti_utente', methods = ['POST'])
 def utente_valido():
     richiesta = request.get_json(force = True)
     username = richiesta['username']
@@ -55,14 +57,14 @@ def utente_valido():
     valido = safeChat.utente_valido(username, password)
     return dumps({'utente_valido': valido})
 
-@app.route('/signin', methods = ['POST'])
-def sigin():
+@app.route('/registra_utente', methods = ['POST'])
+def registra_utente():
     richiesta = request.get_json(force = True)
     username = richiesta['username']
-    password = richiesta['password']
-    chiave = richiesta['chiave']
     if safeChat.username_presente(username):
         return dumps({'username_presente': True})
+    password = richiesta['password']
+    chiave = richiesta['chiave']
     safeChat.registra_utente(username, password, chiave)
     return dumps({'utente_registrato': True})
 

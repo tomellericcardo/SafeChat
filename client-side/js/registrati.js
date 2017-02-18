@@ -6,40 +6,42 @@ registrati = {
     },
     
     accesso_eseguito: function() {
-        var username = sessionStorage.getItem('username');
-        var password = sessionStorage.getItem('password');
-        var richiesta = {username: username, password: password};
-        $.ajax({
-            url: 'utente_valido',
-            method: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(richiesta),
-            success: function(risposta) {
-                if (risposta.utente_valido) {
-                    window.location.href = '/home';
+        if (!sessionStorage.length === 0) {
+            var username = sessionStorage.getItem('username');
+            var password = sessionStorage.getItem('password');
+            var richiesta = {username: username, password: password};
+            $.ajax({
+                url: 'accesso_eseguito',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(richiesta),
+                success: function(risposta) {
+                    if (risposta.utente_valido) {
+                        window.location.href = '/home';
+                    }
+                },
+                error: function() {
+                    registrati.errore('Errore del server!');
                 }
-            },
-            error: function() {
-                registrati.errore('Errore del server!');
-            }
-        });
+            });
+        }
     },
     
-    signin: function() {
-        $('#signin').on('click', function() {
+    registra_utente: function() {
+        $('#registra_utente').on('click', function() {
             var username = $('#username').val();
             if (username.length >= 4) {
                 var password1 = $('#password1').val();
                 var password2 = $('#password2').val();
                 if (password1.length >= 8) {
-                    if (password1 == password2) {
+                    if (password1 === password2) {
                         var password = SHA256(password1);
-                        var chiavi = cryptico.generateRSAKey(password, 1024)
+                        var chiavi = cryptico.generateRSAKey(password, 1024);
                         var chiave_pubblica = cryptico.publicKeyString(chiavi);     
                         var richiesta = {username: username, password: password, chiave: chiave_pubblica};
                         $.ajax({
-                            url: 'signin',
+                            url: 'registra_utente',
                             method: 'POST',
                             contentType: 'application/json',
                             dataType: 'json',

@@ -6,7 +6,7 @@ accedi = {
     },
     
     accesso_eseguito: function() {
-        if (!sessionStorage.length === 0) {
+        if (!sessionStorage.length == 0) {
             var username = sessionStorage.getItem('username');
             var password = sessionStorage.getItem('password');
             var richiesta = {username: username, password: password};
@@ -31,9 +31,9 @@ accedi = {
     connetti_utente: function() {
         $('#connetti_utente').on('click', function() {
             var username = $('#username').val();
-            var plain_password = $('#password').val();
-            if (username.length > 0 || password.length > 0) {
-                var password = SHA256(plain_password);
+            var password_chiara = $('#password').val();
+            if (username.length > 0 && password_chiara.length > 0) {
+                var password = SHA256(password_chiara);
                 var richiesta = {username: username, password: password};
                 $.ajax({
                     url: 'connetti_utente',

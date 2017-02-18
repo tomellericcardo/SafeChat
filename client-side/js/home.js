@@ -6,7 +6,7 @@ home = {
     },
     
     accesso_eseguito: function() {
-        if (!sessionStorage.length === 0) {
+        if (!sessionStorage.length == 0) {
             var username = sessionStorage.getItem('username');
             var password = sessionStorage.getItem('password');
             var richiesta = {username: username, password: password};

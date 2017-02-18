@@ -17,6 +17,7 @@ class SafeChat:
     def apri_connessione(self):
         root = path.dirname(path.realpath(__file__))
         self.g.db = connect(path.join(root, 'database.db'))
+        self.g.db.text_factory = str
     
     def chiudi_connessione(self):
         db = getattr(self.g, 'db', None)
@@ -24,13 +25,16 @@ class SafeChat:
             db.close()
     
     def utente_valido(self, username, password):
+        valido = False
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT password, sale
                             FROM utente
                             WHERE username = ? ''', (username,))
-        password_criptata = cursore.fetchone()[0]
-        sale = cursore.fetchone()[1]
-        valido = password_criptata == sha256(password + sale + self.pepe).digest()
+        risultato = cursore.fetchone()
+        if risultato:
+            password_criptata = risultato[0]
+            sale = risultato[1]
+            valido = password_criptata == sha256(password + sale + self.pepe).hexdigest()
         cursore.close()
         return valido
     
@@ -52,7 +56,7 @@ class SafeChat:
     
     def registra_utente(self, username, password, chiave):
         sale = self.genera_sale()
-        password_criptata = sha256(password + sale + self.pepe).digest()
+        password_criptata = sha256(password + sale + self.pepe).hexdigest()
         cursore = self.g.db.cursor()
         cursore.execute(''' INSERT INTO utente
                             VALUES (?, ?, ?, ?) ''', (username, password_criptata, chiave, sale))

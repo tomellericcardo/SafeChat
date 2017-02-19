@@ -2,7 +2,7 @@
 
 from flask import Flask, g, send_from_directory, request
 from flask_sslify import SSLify
-from SafeChat import *
+from safeChat import SafeChat
 from json import dumps
 
 
@@ -10,9 +10,7 @@ from json import dumps
 
 app = Flask(__name__)
 ssLify = SSLify(app)
-safeChat = SafeChat(g, 'database.db', \
-                       'seme', \
-                       'piper_nigrum')
+safeChat = SafeChat(g, 'database.db', 'piper_nigrum')
 
 
 # OPERAZIONI DI SESSIONE

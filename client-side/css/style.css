@@ -1,4 +1,11 @@
 
+/*** FONTS ***/
+
+p, h1, button {
+    font-family: 'Roboto', sans-serif;
+}
+
+
 /*** LINKS ***/
 
 a:link, a:visited {

@@ -2,6 +2,7 @@ home = {
     
     init: function() {
         this.accesso_eseguito();
+        this.impostazioni();
         this.disconnetti_utente();
     },
     
@@ -26,6 +27,16 @@ home = {
                 }
             });
         }
+    },
+    
+    impostazioni: function() {
+        $('#impostazioni').on('click', function() {
+            if ($('#sidenav').css('display') == 'none') {
+                $('#sidenav').css('display', 'block');
+            } else {
+                $('#sidenav').css('display', 'none');
+            }
+        });
     },
     
     disconnetti_utente : function() {

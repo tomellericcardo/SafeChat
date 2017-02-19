@@ -2,13 +2,20 @@
 <html>
     <head>
         
-        <title>Accedi - SafeChat</title>
+        <title>Home - SafeChat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
         
         <!-- STYLES -->
         <link rel="stylesheet" href="/css/w3.css">
+        <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="/css/home.css">
+        
+        <!-- FONTS -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        
+        <!-- ICONS -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         
         <!-- STANDALONE -->
         <link rel="manifest" href="/json/manifest.json">
@@ -23,18 +30,27 @@
     <body>
         
         <!-- HEADER -->
-        <header class="w3-container w3-center w3-green">
-            <h1 class="w3-xxxlarge">SafeChat</h1>
+        <header class="w3-container w3-padding-8 w3-display-container w3-center w3-green">
+            <i id="impostazioni" class="w3-margin w3-display-topleft material-icons">menu</i>
+            <h1 class="w3-xlarge">SafeChat</h1>
+            <i class="w3-margin w3-display-topright material-icons">notifications</i>
         </header>
         
-        <!-- MESSAGGIO -->
-        <div class="w3-container w3-center w3-light-grey">
-            <p id="messaggio"><br></p>
-        </div>
-        
-        <div class="w3-container w3-padding-16 w3-center">
-            <button id="disconnetti_utente" class="w3-btn w3-large w3-yellow">Esci</button>
-        </div>
+        <!-- SIDENAV -->
+        <nav id="sidenav" class="w3-sidenav w3-card-2 w3-animate-left">
+            <a href="#" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="w3-margin-top material-icons md-18">settings</i></div>
+                    <div class="w3-col s10"><p>Impostazioni</p></div>
+                </div>
+            </a>
+            <a href="#" id="disconnetti_utente" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="w3-margin-top material-icons md-18">clear</i></div>
+                    <div class="w3-col s10"><p>Esci</p></div>
+                </div>
+            </a>
+        </nav>
         
         <!-- SCRIPTS -->
         <script type="text/javascript" src="/js/jquery.js"></script>

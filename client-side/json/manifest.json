@@ -1,11 +1,11 @@
 {
     "name": "SafeChat",
     "short_name": "SafeChat",
-    "description": "A simple and safe python-based chat application",
+    "description": "A simple and safe chat application",
     "start_url": "/",
     "display": "standalone",
-    "theme_color": "",
-    "background_color": "",
+    "theme_color": "#4CAF50",
+    "background_color": "#4CAF50",
     "icons": [
         {
             "src": "",

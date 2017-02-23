@@ -74,3 +74,28 @@ class SafeChat:
                             FROM utente
                             WHERE username REGEXP ? ''', (username,))
         return cursore.fetchall()
+    
+    def chiave_pubblica(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT chiave
+                            FROM utente
+                            WHERE username = ? ''', (username,))
+        return cursore.fetchone()[0]
+    
+    def leggi_messaggi(self, proprietario, partecipante):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT mittente, testo
+                            FROM messaggio
+                            WHERE proprietario = ?  AND partecipante = ? 
+                            ORDER BY data_ora ASC''', (proprietario, partecipante))
+        return cursore.fetchall()
+    
+    def invia_messaggio(self, mittente, destinatario, testo_mittente, testo_destinatario):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
+                            VALUES (?, ?, ?, ?) ''', (mittente, destinatario, mittente, testo_mittente))
+        self.g.db.commit()
+        cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
+                            VALUES (?, ?, ?, ?) ''', (destinatario, mittente, mittente, testo_destinatario))
+        self.g.db.commit()
+        cursore.close()

@@ -2,8 +2,7 @@ scrivi = {
     
     init: function() {
         this.accesso_eseguito();
-        this.menu();
-        this.disconnetti_utente();
+        this.init_home();
         this.richiesta_ricerca();
     },
     
@@ -30,21 +29,9 @@ scrivi = {
         }
     },
     
-    menu: function() {
-        $('#menu').on('click', function() {
-            if ($('#sidenav').css('display') == 'none') {
-                $('#sidenav').css('display', 'block');
-            } else {
-                $('#sidenav').css('display', 'none');
-            }
-        });
-    },
-    
-    disconnetti_utente : function() {
-        $('#disconnetti_utente').on('click', function() {
-            sessionStorage.setItem('username', '');
-            sessionStorage.setItem('password', '');
-            window.location.href = '/accedi';
+    init_home: function() {
+        $('#home').on('click', function() {
+            window.location.href = '/home';
         });
     },
     
@@ -96,26 +83,10 @@ scrivi = {
         }
     },
     
-    crea_conversazione: function(destinatario) {
+    nuova_conversazione: function(destinatario) {
         var mittente = sessionStorage.getItem('username');
         if (mittente != destinatario) {
-            $('.caricamento').css('display', 'inline');
-            var richiesta = {mittente: mittente, destinatario: destinatario};
-            $.ajax({
-                url: 'crea_conversazione',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(richiesta),
-                success: function(risposta) {
-                    $('.caricamento').css('display', 'none');
-                    window.location.href = '/conversazione?utente=' + destinatario;
-                },
-                error: function() {
-                    $('.caricamento').css('display', 'none');
-                    scrivi.errore('Errore del server!');
-                }
-            });
+            window.location.href = '/conversazione?con=' + destinatario;
         } else {
             scrivi.errore('Vuoi parlare da solo?');
         }

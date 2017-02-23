@@ -2,7 +2,7 @@ home = {
     
     init: function() {
         this.accesso_eseguito();
-        this.menu();
+        this.init_menu();
         this.disconnetti_utente();
     },
     
@@ -29,7 +29,7 @@ home = {
         }
     },
     
-    menu: function() {
+    init_menu: function() {
         $('#menu').on('click', function() {
             if ($('#sidenav').css('display') == 'none') {
                 $('#sidenav').css('display', 'block');

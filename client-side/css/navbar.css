@@ -1,11 +1,17 @@
 
 /*** HEADER ***/
 
-header h1 {
+#header {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+#header h1 {
     margin: 2px 0px 0px 4px;
 }
 
-header i {
+#header i {
     cursor: pointer;
 }
 
@@ -13,6 +19,7 @@ header i {
 /*** SIDENAV ***/
 
 #sidenav {
+    margin-top: 54px;
     display: none;
 }
 
@@ -20,6 +27,6 @@ header i {
     font-size: 20px;
 }
 
-#disconnetti_utente {
+#informazioni {
     width: 200px;
 }

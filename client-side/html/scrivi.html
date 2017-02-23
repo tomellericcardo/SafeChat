@@ -9,7 +9,7 @@
         <!-- STYLES -->
         <link rel="stylesheet" href="/css/w3.css">
         <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="/css/home.css">
+        <link rel="stylesheet" href="/css/navbar.css">
         
         <!-- FONTS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -29,51 +29,11 @@
     <body>
         
         <!-- HEADER -->
-        <header class="w3-container w3-padding-8 w3-display-container w3-center w3-green">
-            <i id="menu" class="w3-margin w3-display-topleft material-icons">menu</i>
+        <header id="header" class="w3-container w3-padding-8 w3-display-container w3-center w3-green">
+            <i id="home" class="w3-margin w3-display-topleft material-icons">home</i>
             <h1 class="w3-xlarge">SafeChat</h1>
-            <i class="material-icons w3-margin w3-display-topright">notifications</i>
+            <i id="notifiche" class="material-icons w3-margin w3-display-topright">notifications</i>
         </header>
-        
-        <!-- SIDENAV -->
-        <nav id="sidenav" class="w3-sidenav w3-card-2 w3-animate-left">
-            <a href="/home" class="w3-hover-light-grey">
-                <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">home</i></div>
-                    <div class="w3-col s10"><p>Home</p></div>
-                </div>
-            </a><hr>
-            <a href="#" class="w3-hover-light-grey">
-                <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">notifications</i></div>
-                    <div class="w3-col s10"><p>Notifiche</p></div>
-                </div>
-            </a><hr>
-            <a href="#" class="w3-hover-light-grey">
-                <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">person</i></div>
-                    <div class="w3-col s10"><p>Profilo</p></div>
-                </div>
-            </a><hr>
-            <a href="#" class="w3-hover-light-grey">
-                <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">settings</i></div>
-                    <div class="w3-col s10"><p>Impostazioni</p></div>
-                </div>
-            </a><hr>
-            <a href="#" class="w3-hover-light-grey">
-                <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">info</i></div>
-                    <div class="w3-col s10"><p>Informazioni</p></div>
-                </div>
-            </a>
-            <a href="#" id="disconnetti_utente" class="w3-bottom w3-hover-light-grey">
-                <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">exit_to_app</i></div>
-                    <div class="w3-col s10"><p>Esci</p></div>
-                </div>
-            </a>
-        </nav>
         
         <!-- MESSAGGIO -->
         <div class="w3-container w3-center w3-light-grey">
@@ -88,7 +48,7 @@
                 <input type="text" id="username" placeholder="Username" class="w3-input">
                 <div class="w3-margin w3-right">
                     <span class="caricamento"><i class="material-icons w3-spin w3-text-grey">refresh</i></span>
-                    <button id="cerca_utente" class="w3-btn w3-yellow">Cerca</button>
+                    <button id="cerca_utente" class="w3-btn w3-blue">Cerca</button>
                 </div>
             </div>
         </div>

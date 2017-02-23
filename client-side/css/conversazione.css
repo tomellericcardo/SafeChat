@@ -1,0 +1,29 @@
+
+/*** MESSAGGI ***/
+
+#messaggi {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.testo {
+    white-space: pre-wrap;  
+    word-wrap: break-word;
+}
+
+/*** SCRIVI ***/
+
+#scrivi {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+
+#testo {
+    height: 50px;
+}
+
+#invia_messaggio {
+    width: 100%;
+    padding-top: 14px;
+}

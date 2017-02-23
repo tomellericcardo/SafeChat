@@ -3,7 +3,7 @@
 <!-- CERCA UTENTE -->
 <script type="text/html" id="cerca_utente">
     {{#risultati}}
-        <a href="#" onclick="scrivi.crea_conversazione('{{.}}')" class="w3-hover-light-grey">
+        <a href="#" onclick="scrivi.nuova_conversazione('{{.}}')" class="w3-hover-light-grey">
             <div class="w3-row-padding">
                 <div class="w3-col s10"><p>{{.}}</p></div>
                 <div class="w3-col s2"><i class="material-icons w3-margin-top">send</i></div>
@@ -15,4 +15,22 @@
             <p>Nessun risultato</p>
         </div>
     {{/risultati}}
+</script>
+
+<!-- LEGGI MESSAGGI -->
+<script type="text/html" id="leggi_messaggi">
+    {{#messaggi}}
+        <div class="w3-row-padding w3-margin-top">
+            {{#mittente}}<div class="w3-col s3">&nbsp;</div>{{/mittente}}
+            <div class="w3-col s9 w3-light-grey">
+                <p class="testo">{{testo}}</p>
+            </div>
+            {{^mittente}}<div class="w3-col s3">&nbsp;</div>{{/mittente}}
+        </div>
+    {{/messaggi}}
+    {{^messaggi}}
+        <div class="w3-container w3-center">
+            <p>Nessun messaggio</p>
+        </div>
+    {{/messaggi}}
 </script>

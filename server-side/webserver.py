@@ -47,6 +47,10 @@ def home():
 def scrivi():
     return send_from_directory('../client-side/html/', 'scrivi.html')
 
+@app.route('/conversazione')
+def conversazione():
+    return send_from_directory('../client-side/html/', 'conversazione.html')
+
 
 # ALTRI CONTESTI
 
@@ -54,15 +58,14 @@ def scrivi():
 @app.route('/connetti_utente', methods = ['POST'])
 def utente_valido():
     richiesta = request.get_json(force = True)
-    username = richiesta['username']
+    username = richiesta['username'].lower()
     password = richiesta['password']
-    valido = safeChat.utente_valido(username, password)
-    return dumps({'utente_valido': valido})
+    return dumps({'utente_valido': safeChat.utente_valido(username, password)})
 
 @app.route('/registra_utente', methods = ['POST'])
 def registra_utente():
     richiesta = request.get_json(force = True)
-    username = richiesta['username']
+    username = richiesta['username'].lower()
     if safeChat.username_presente(username):
         return dumps({'username_presente': True})
     password = richiesta['password']
@@ -73,15 +76,37 @@ def registra_utente():
 @app.route('/cerca_utente', methods = ['POST'])
 def cerca_utente():
     richiesta = request.get_json(force = True)
-    username = richiesta['username']
+    username = richiesta['username'].lower()
     return dumps({'risultati': safeChat.cerca_utente(username)})
 
-@app.route('/crea_conversazione', methods = ['POST'])
-def crea_conversazione():
+@app.route('/chiave_pubblica', methods = ['POST'])
+def chiave_pubblica():
     richiesta = request.get_json(force = True)
-    mittente = richiesta['mittente']
-    destinatario = richiesta['destinatario']
-    return dumps({'success': True})
+    username = richiesta['username'].lower()
+    return dumps({'chiave_pubblica': safeChat.chiave_pubblica(username)})
+
+@app.route('/leggi_messaggi', methods = ['POST'])
+def leggi_messaggi():
+    richiesta = request.get_json(force = True)
+    proprietario = richiesta['proprietario'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(proprietario, password):
+        return dumps({'utente_non_valido': True})
+    partecipante = richiesta['partecipante'].lower()
+    return dumps({'messaggi': safeChat.leggi_messaggi(proprietario, partecipante)})
+
+@app.route('/invia_messaggio', methods = ['POST'])
+def invia_messaggio():
+    richiesta = request.get_json(force = True)
+    mittente = richiesta['mittente'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(mittente, password):
+        return dumps({'utente_non_valido': True})
+    destinatario = richiesta['destinatario'].lower()
+    testo_mittente = richiesta['testo_mittente']
+    testo_destinatario = richiesta['testo_destinatario']
+    safeChat.invia_messaggio(mittente, destinatario, testo_mittente, testo_destinatario)
+    return dumps({'inviato': True})
 
 
 # AVVIO DEL SERVER

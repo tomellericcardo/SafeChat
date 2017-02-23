@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<!-- CERCA UTENTE -->
+<script type="text/html" id="cerca_utente">
+    {{#risultati}}
+        <a href="#" onclick="scrivi.crea_conversazione('{{.}}')" class="w3-hover-light-grey">
+            <div class="w3-row-padding">
+                <div class="w3-col s10"><p>{{.}}</p></div>
+                <div class="w3-col s2"><i class="material-icons w3-margin-top">send</i></div>
+            </div>
+        </a><hr>
+    {{/risultati}}
+    {{^risultati}}
+        <div class="w3-center">
+            <p>Nessun risultato</p>
+        </div>
+    {{/risultati}}
+</script>

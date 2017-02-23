@@ -3,6 +3,7 @@
 from hashlib import sha256
 from os import path
 from random import choice
+from re import compile
 from sqlite3 import connect
 
 
@@ -17,11 +18,16 @@ class SafeChat:
         root = path.dirname(path.realpath(__file__))
         self.g.db = connect(path.join(root, 'database.db'))
         self.g.db.text_factory = str
+        self.g.db.create_function("REGEXP", 2, self.regexp)
     
     def chiudi_connessione(self):
         db = getattr(self.g, 'db', None)
         if db is not None:
             db.close()
+    
+    def regexp(self, espressione, oggetto):
+        reg = compile(espressione)
+        return reg.search(oggetto) is not None
     
     def utente_valido(self, username, password):
         valido = False
@@ -61,3 +67,10 @@ class SafeChat:
                             VALUES (?, ?, ?, ?) ''', (username, password_criptata, chiave, sale))
         self.g.db.commit()
         cursore.close()
+    
+    def cerca_utente(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT username
+                            FROM utente
+                            WHERE username REGEXP ? ''', (username,))
+        return cursore.fetchall()

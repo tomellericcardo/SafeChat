@@ -43,6 +43,10 @@ def registrati():
 def home():
     return send_from_directory('../client-side/html/', 'home.html')
 
+@app.route('/scrivi')
+def scrivi():
+    return send_from_directory('../client-side/html/', 'scrivi.html')
+
 
 # ALTRI CONTESTI
 
@@ -66,8 +70,21 @@ def registra_utente():
     safeChat.registra_utente(username, password, chiave)
     return dumps({'utente_registrato': True})
 
+@app.route('/cerca_utente', methods = ['POST'])
+def cerca_utente():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username']
+    return dumps({'risultati': safeChat.cerca_utente(username)})
+
+@app.route('/crea_conversazione', methods = ['POST'])
+def crea_conversazione():
+    richiesta = request.get_json(force = True)
+    mittente = richiesta['mittente']
+    destinatario = richiesta['destinatario']
+    return dumps({'success': True})
+
 
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug = True)

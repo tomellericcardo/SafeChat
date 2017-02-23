@@ -87,4 +87,4 @@ def crea_conversazione():
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run()

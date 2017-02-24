@@ -85,6 +85,15 @@ def chiave_pubblica():
     username = richiesta['username'].lower()
     return dumps({'chiave_pubblica': safeChat.chiave_pubblica(username)})
 
+@app.route('/leggi_conversazioni', methods = ['POST'])
+def leggi_conversazioni():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    return dumps({'conversazioni': safeChat.leggi_conversazioni(username)})
+
 @app.route('/leggi_messaggi', methods = ['POST'])
 def leggi_messaggi():
     richiesta = request.get_json(force = True)

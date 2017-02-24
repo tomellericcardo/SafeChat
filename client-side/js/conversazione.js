@@ -162,7 +162,7 @@ conversazione = {
     
     errore: function(messaggio) {
         $('#messaggi').css('color', 'red');
-        $('#messaggi').html(messaggio);
+        $('#messaggi').html('<div class="w3-center"><p>' + messaggio + '</p></div>');
     }
     
 };

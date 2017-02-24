@@ -13,6 +13,29 @@ class SafeChat:
         self.g = g
         self.database_filename = database_filename
         self.pepe = pepe
+        self.init_db()
+    
+    def init_db(self):
+        root = path.dirname(path.realpath(__file__))
+        database = connect(path.join(root, 'database.db'))
+        cursore = database.cursor()
+        cursore.execute(''' CREATE TABLE IF NOT EXISTS utente (
+                                username text primary key,
+                                password text not null,
+                                chiave text not null,
+                                sale text not null
+                            ) ''')
+        database.commit()
+        cursore.execute(''' CREATE TABLE IF NOT EXISTS messaggio (
+                                proprietario text not null,
+                                partecipante text not null,
+                                mittente text not null,
+                                testo text not null,
+                                data_ora DATETIME DEFAULT CURRENT_TIMESTAMP
+                            ) ''')
+        database.commit()
+        cursore.close()
+        database.close()
     
     def apri_connessione(self):
         root = path.dirname(path.realpath(__file__))
@@ -68,6 +91,14 @@ class SafeChat:
         self.g.db.commit()
         cursore.close()
     
+    def leggi_conversazioni(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT partecipante
+                            FROM messaggio
+                            WHERE proprietario = ? 
+                            GROUP BY partecipante ''', (username,))
+        return cursore.fetchall()
+    
     def cerca_utente(self, username):
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT username
@@ -86,8 +117,8 @@ class SafeChat:
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT mittente, testo
                             FROM messaggio
-                            WHERE proprietario = ?  AND partecipante = ? 
-                            ORDER BY data_ora ASC''', (proprietario, partecipante))
+                            WHERE proprietario = ? AND partecipante = ? 
+                            ORDER BY data_ora ASC ''', (proprietario, partecipante))
         return cursore.fetchall()
     
     def invia_messaggio(self, mittente, destinatario, testo_mittente, testo_destinatario):

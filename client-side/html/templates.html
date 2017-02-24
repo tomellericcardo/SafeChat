@@ -1,5 +1,22 @@
 <!DOCTYPE html>
 
+<!-- LEGGI CONVERSAZIONI -->
+<script type="text/html" id="leggi_conversazioni">
+    {{#conversazioni}}
+        <a href="/conversazione?con={{.}}" class="w3-hover-light-grey conversazione">
+            <div class="w3-row-padding">
+                <div class="w3-col s2"><i class="material-icons w3-margin-top">person</i></div>
+                <div class="w3-col s10"><p>{{.}}</p></div>
+            </div>
+        </a><hr>
+    {{/conversazioni}}
+    {{^conversazioni}}
+        <div class="w3-center">
+            <p>Nessuna conversazione</p>
+        </div>
+    {{/conversazioni}}
+</script>
+
 <!-- CERCA UTENTE -->
 <script type="text/html" id="cerca_utente">
     {{#risultati}}

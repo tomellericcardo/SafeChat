@@ -18,6 +18,11 @@ a:hover, a:active {
     color: black;
 }
 
+.conversazione:link, .conversazione:visited, .conversazione:hover, .conversazione:active {
+    text-decoration: none;
+    color: black;
+}
+
 
 /*** OTHERS **/
 

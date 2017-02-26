@@ -66,7 +66,7 @@ registrati = {
                                     $('#username').css('border-color', 'red');
                                     registrati.errore('Username gi&agrave; presente nel sistema!');
                                 } else if (risposta.utente_registrato) {
-                                    sessionStorage.setItem('username', username);
+                                    sessionStorage.setItem('username', username.toLowerCase());
                                     sessionStorage.setItem('password', password);
                                     window.location.href = '/home';
                                 }

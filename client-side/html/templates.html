@@ -3,12 +3,17 @@
 <!-- LEGGI CONVERSAZIONI -->
 <script type="text/html" id="leggi_conversazioni">
     {{#conversazioni}}
-        <a href="/conversazione?con={{.}}" class="w3-hover-light-grey conversazione">
-            <div class="w3-row-padding">
-                <div class="w3-col s2"><i class="material-icons w3-margin-top">person</i></div>
-                <div class="w3-col s10"><p>{{.}}</p></div>
+        <div class="w3-row-padding w3-hover-light-grey">
+            <div class="w3-col s2 w3-text-blue">
+                <i class="material-icons w3-margin-top">person</i>
             </div>
-        </a><hr>
+            <a href="/conversazione?con={{.}}" class="conversazione">
+                <div class="w3-col s8"><p>{{.}}</p></div>
+            </a>
+            <div onclick="home.elimina_conversazione('{{.}}')" class="w3-col s2 w3-text-red">
+                <i class="material-icons w3-margin-top">delete</i>
+            </div>
+        </div><hr>
     {{/conversazioni}}
     {{^conversazioni}}
         <div class="w3-center">
@@ -38,11 +43,18 @@
 <script type="text/html" id="leggi_messaggi">
     {{#messaggi}}
         <div class="w3-row-padding w3-margin-top">
-            {{#mittente}}<div class="w3-col s3">&nbsp;</div>{{/mittente}}
-            <div class="w3-col s9 w3-light-grey">
-                <p class="testo">{{testo}}</p>
-            </div>
-            {{^mittente}}<div class="w3-col s3">&nbsp;</div>{{/mittente}}
+            {{#mittente}}
+                <div class="w3-col s3">&nbsp;</div>
+                <div class="w3-col s9 w3-pale-green">
+                    <p class="testo">{{testo}}</p>
+                </div>
+            {{/mittente}}
+            {{^mittente}}
+                <div class="w3-col s9 w3-light-grey">
+                    <p class="testo">{{testo}}</p>
+                </div>
+                <div class="w3-col s3">&nbsp;</div>
+            {{/mittente}}
         </div>
     {{/messaggi}}
     {{^messaggi}}

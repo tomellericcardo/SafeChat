@@ -5,6 +5,8 @@ home = {
         this.init_menu();
         this.disconnetti_utente();
         this.leggi_conversazioni();
+        this.chiudi_elimina();
+        this.elimina_definitivo();
     },
     
     accesso_eseguito: function() {
@@ -75,6 +77,47 @@ home = {
             error: function() {
                 home.errore('Errore del server!');
             }
+        });
+    },
+    
+    elimina_conversazione: function(partecipante) {
+        $('#partecipante').html(partecipante);
+        $('#elimina_conversazione').css('display', 'block');
+    },
+    
+    chiudi_elimina: function() {
+        $('#chiudi_elimina').on('click', function() {
+            $('#elimina_conversazione').css('display', 'none');
+        });
+    },
+    
+    elimina_definitivo: function() {
+        $('#elimina_definitivo').on('click', function() {
+            var partecipante = $('#partecipante').html();
+            var richiesta = {proprietario: sessionStorage.getItem('username'),
+                             password: sessionStorage.getItem('password'),
+                             partecipante: partecipante};
+            $.ajax({
+                url: 'elimina_conversazione',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(richiesta),
+                success: function(risposta) {
+                    if (risposta.utente_non_valido) {
+                        sessionStorage.setItem('username', '');
+                        sessionStorage.setItem('password', '');
+                        window.location.href = '/accedi';
+                    } else {
+                        $('#elimina_conversazione').css('display', 'none');
+                        home.leggi_conversazioni();
+                    }
+                },
+                error: function() {
+                    $('#elimina_conversazione').css('display', 'none');
+                    home.errore('Errore del server!');
+                }
+            });
         });
     },
     

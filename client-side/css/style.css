@@ -20,7 +20,15 @@ a:hover, a:active {
 
 .conversazione:link, .conversazione:visited, .conversazione:hover, .conversazione:active {
     text-decoration: none;
-    color: black;
+    color: #757575;
+}
+
+
+/*** IMAGES ***/
+
+img {
+    max-width: 90%;
+    padding: 10%;
 }
 
 

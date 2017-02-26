@@ -2,7 +2,7 @@
 <html>
     <head>
         
-        <title>Conversazione - SafeChat</title>
+        <title>Informazioni - SafeChat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
         
@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="/css/w3.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="/css/navbar.css">
-        <link rel="stylesheet" href="/css/conversazione.css">
         
         <!-- FONTS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -32,42 +31,35 @@
         <!-- HEADER -->
         <header id="header" class="w3-container w3-padding-8 w3-display-container w3-center w3-green">
             <i id="home" class="w3-margin w3-display-topleft material-icons">home</i>
-            <h1 id="partecipante" class="w3-xlarge">SafeChat</h1>
+            <h1 class="w3-xlarge">Informazioni</h1>
             <i id="notifiche" class="material-icons w3-margin w3-display-topright">notifications</i>
         </header>
         
-        <!-- MESSAGGI -->
-        <div class="w3-row w3-padding-16 w3-white">
+        <!-- ICONA --->
+        <div id="primo_elemento" class="w3-row w3-padding-bottom w3-center w3-light-grey">
             <div class="w3-third w3-hide-small">&nbsp;</div>
-            <div id="messaggi" class="w3-third">
-                <div class="w3-center caricamento">
-                    <p><i class="material-icons w3-spin w3-text-grey">refresh</i></p>
-                </div>
+            <div id="conversazioni" class="w3-third">
+                <img src="/img/icona192.png">
+                <h1 class="w3-large w3-text-grey">SafeChat - v 1.0</h1>
             </div>
         </div>
         
-        <!-- SCRIVI -->
-        <div id="scrivi" class="w3-light-grey">
+        <!-- TESTO -->
+        <div class="w3-row w3-padding-16 w3-center w3-white w3-text-grey">
             <div class="w3-third w3-hide-small">&nbsp;</div>
-            <div class="w3-third">
-                <div class="w3-row w3-light-grey">
-                    <div class="w3-col s10 m9 l10">
-                        <input type="text" id="testo" placeholder="Messaggio" class="w3-input">
-                    </div>
-                    <div class="w3-col s2 m3 l2">
-                        <button id="invia_messaggio" class="w3-btn w3-blue">
-                            <i class="material-icons">send</i>
-                        </button>
-                    </div>
-                </div>
+            <div id="conversazioni" class="w3-third">
+                <p class="w3-center">Sviluppato da Riccardo Tomelleri</p>
+                <p>
+                    E-mail: <a href="mailto:tomelleri.riccardo@gmail.com">tomelleri.riccardo@gmail.com</a>
+                    <br>Link al progetto: <a href="https://www.github.com/tomellericcardo/SafeChat" target="_blank">www.github.com</a>
+                </p>
+                <p id="messaggio" class="w3-text-red"></p>
             </div>
         </div>
         
         <!-- SCRIPTS -->
         <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/cryptico.js"></script>
-        <script type="text/javascript" src="/js/mustache.js"></script>
-        <script type="text/javascript" src="/js/conversazione.js"></script>
+        <script type="text/javascript" src="/js/info.js"></script>
         
     </body>
 </html>

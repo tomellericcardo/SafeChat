@@ -6,6 +6,7 @@ conversazione = {
         this.init_home();
         this.leggi_messaggi();
         this.richiesta_invio();
+        this.init_testo();
     },
     
     accesso_eseguito: function() {
@@ -134,7 +135,7 @@ conversazione = {
             var testo_destinatario = cryptico.encrypt(testo, conversazione.chiave_partecipante).cipher;
             var richiesta = {mittente: this.proprietario,
                              password: this.password,
-                             destinatario:this.partecipante,
+                             destinatario: this.partecipante,
                              testo_mittente: testo_mittente,
                              testo_destinatario: testo_destinatario};
             $.ajax({
@@ -158,6 +159,12 @@ conversazione = {
                 }
             });
         }
+    },
+    
+    init_testo: function() {
+        $('#testo').on('click', function() {
+            $('html, body').animate({scrollTop: $(document).height()}, 'slow');
+        });
     },
     
     errore: function(messaggio) {

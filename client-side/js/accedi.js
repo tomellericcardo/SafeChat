@@ -56,7 +56,7 @@ accedi = {
                 success: function(risposta) {
                     $('.caricamento').css('display', 'none');
                     if (risposta.utente_valido) {
-                        sessionStorage.setItem('username', username);
+                        sessionStorage.setItem('username', username.toLowerCase());
                         sessionStorage.setItem('password', password);
                         window.location.href = '/home';
                     } else {

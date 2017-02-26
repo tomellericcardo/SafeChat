@@ -51,6 +51,10 @@ def scrivi():
 def conversazione():
     return send_from_directory('../client-side/html/', 'conversazione.html')
 
+@app.route('/info')
+def info():
+    return send_from_directory('../client-side/html/', 'info.html')
+
 
 # ALTRI CONTESTI
 
@@ -93,6 +97,17 @@ def leggi_conversazioni():
     if not safeChat.utente_valido(username, password):
         return dumps({'utente_non_valido': True})
     return dumps({'conversazioni': safeChat.leggi_conversazioni(username)})
+
+@app.route('/elimina_conversazione', methods = ['POST'])
+def elimina_conversazione():
+    richiesta = request.get_json(force = True)
+    proprietario = richiesta['proprietario'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(proprietario, password):
+        return dumps({'utente_non_valido': True})
+    partecipante = richiesta['partecipante'].lower()
+    safeChat.elimina_conversazione(proprietario, partecipante)
+    return dumps({'success': True})
 
 @app.route('/leggi_messaggi', methods = ['POST'])
 def leggi_messaggi():

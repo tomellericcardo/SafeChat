@@ -20,17 +20,17 @@ class SafeChat:
         database = connect(path.join(root, 'database.db'))
         cursore = database.cursor()
         cursore.execute(''' CREATE TABLE IF NOT EXISTS utente (
-                                username text primary key,
-                                password text not null,
-                                chiave text not null,
-                                sale text not null
+                                username TEXT PRIMARY KEY,
+                                password TEXT NOT NULL,
+                                chiave TEXT NOT NULL,
+                                sale TEXT NOT NULL
                             ) ''')
         database.commit()
         cursore.execute(''' CREATE TABLE IF NOT EXISTS messaggio (
-                                proprietario text not null,
-                                partecipante text not null,
-                                mittente text not null,
-                                testo text not null,
+                                proprietario TEXT NOT NULL,
+                                partecipante TEXT NOT NULL,
+                                mittente TEXT NOT NULL,
+                                testo TEXT NOT NULL,
                                 data_ora DATETIME DEFAULT CURRENT_TIMESTAMP
                             ) ''')
         database.commit()
@@ -98,6 +98,13 @@ class SafeChat:
                             WHERE proprietario = ? 
                             GROUP BY partecipante ''', (username,))
         return cursore.fetchall()
+    
+    def elimina_conversazione(self, proprietario, partecipante):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' DELETE FROM messaggio
+                            WHERE proprietario = ? AND partecipante = ? ''', (proprietario, partecipante))
+        self.g.db.commit()
+        cursore.close()
     
     def cerca_utente(self, username):
         cursore = self.g.db.cursor()

@@ -39,7 +39,19 @@ notifiche = {
         var opzioni = {
             body: testo_notifica,
             icon: '/img/icona128.png',
+            vibrate: [200, 200]
         };
+        navigator.serviceWorker.register('/js/sw.js');
+        function showNotification() {
+            Notification.requestPermission(function(result) {
+                if (result === 'granted') {
+                    navigator.serviceWorker.ready.then(function(registration) {
+                        registration.showNotification('SafeChat', opzioni);
+                    });
+                }
+            });
+        }
+        /*
         if (Notification.permission == 'granted') {
             var notifica = new Notification('SafeChat', opzioni);
         } else if (Notification.permission != 'denied') {
@@ -48,7 +60,7 @@ notifiche = {
                     var notifica = new Notification('SafeChat', opzioni);
                 }
             });
-        }
+        } */
     }
     
 };

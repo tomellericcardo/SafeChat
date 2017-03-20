@@ -7,7 +7,10 @@ conversazione = {
         this.leggi_messaggi();
         this.richiesta_invio();
         this.init_testo();
+        setInterval(this.aggiorna_messaggi, 5000);
     },
+    
+    n_messaggi: 0,
     
     accesso_eseguito: function() {
         if (!sessionStorage.length == 0) {
@@ -103,6 +106,7 @@ conversazione = {
                         var testo = cryptico.decrypt(risposta.messaggi[i][1], conversazione.chiave_privata).plaintext;
                         messaggi[i] = {mittente: mittente, testo: testo};
                     }
+                    conversazione.n_messaggi = messaggi.length;
                     var risultato = {messaggi: messaggi};
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_messaggi').html();
@@ -164,6 +168,31 @@ conversazione = {
     init_testo: function() {
         $('#testo').on('click', function() {
             $('html, body').animate({scrollTop: $(document).height()}, 'slow');
+        });
+    },
+    
+    aggiorna_messaggi: function() {
+        var richiesta = {proprietario: conversazione.proprietario,
+                         password: conversazione.password,
+                         partecipante: conversazione.partecipante};
+        $.ajax({
+            url: 'n_messaggi',
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(richiesta),
+            success: function(risposta) {
+                if (risposta.utente_non_valido) {
+                    sessionStorage.setItem('username', '');
+                    sessionStorage.setItem('password', '');
+                    window.location.href = '/accedi';
+                } else if (risposta.n_messaggi != conversazione.n_messaggi) {
+                    conversazione.leggi_messaggi();
+                }
+            },
+            error: function() {
+                conversazione.errore('Errore del server!');
+            }
         });
     },
     

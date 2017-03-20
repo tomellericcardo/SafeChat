@@ -106,6 +106,14 @@ class SafeChat:
         self.g.db.commit()
         cursore.close()
     
+    def n_conversazioni(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT COUNT(partecipante)
+                            FROM messaggio
+                            WHERE proprietario = ? 
+                            GROUP BY partecipante ''', (username,))
+        return cursore.fetchall()
+    
     def cerca_utente(self, username):
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT username
@@ -124,7 +132,7 @@ class SafeChat:
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT mittente, testo
                             FROM messaggio
-                            WHERE proprietario = ? AND partecipante = ? 
+                            WHERE proprietario = ? AND partecipante = ?
                             ORDER BY data_ora ASC ''', (proprietario, partecipante))
         return cursore.fetchall()
     
@@ -137,3 +145,10 @@ class SafeChat:
                             VALUES (?, ?, ?, ?) ''', (destinatario, mittente, mittente, testo_destinatario))
         self.g.db.commit()
         cursore.close()
+    
+    def n_messaggi(self, proprietario, partecipante):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT COUNT(*)
+                            FROM messaggio
+                            WHERE proprietario = ? AND partecipante = ? ''', (proprietario, partecipante))
+        return cursore.fetchall()

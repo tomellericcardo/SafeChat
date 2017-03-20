@@ -109,6 +109,15 @@ def elimina_conversazione():
     safeChat.elimina_conversazione(proprietario, partecipante)
     return dumps({'success': True})
 
+@app.route('/n_conversazioni', methods = ['POST'])
+def n_conversazioni():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    return dumps({'n_conversazioni': safeChat.n_conversazioni(username)})
+
 @app.route('/leggi_messaggi', methods = ['POST'])
 def leggi_messaggi():
     richiesta = request.get_json(force = True)
@@ -132,8 +141,18 @@ def invia_messaggio():
     safeChat.invia_messaggio(mittente, destinatario, testo_mittente, testo_destinatario)
     return dumps({'inviato': True})
 
+@app.route('/n_messaggi', methods = ['POST'])
+def n_messaggi():
+    richiesta = request.get_json(force = True)
+    proprietario = richiesta['proprietario'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(proprietario, password):
+        return dumps({'utente_non_valido': True})
+    partecipante = richiesta['partecipante'].lower()
+    return dumps({'n_messaggi': safeChat.n_messaggi(proprietario, partecipante)})
+
 
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    app.run()
+    app.run(threaded = True)

@@ -1,36 +1,12 @@
 home = {
     
     init: function() {
-        this.accesso_eseguito();
         this.init_menu();
         this.disconnetti_utente();
         this.leggi_conversazioni();
         this.chiudi_elimina();
         this.elimina_definitivo();
         setInterval(this.leggi_conversazioni, 5000);
-    },
-    
-    accesso_eseguito: function() {
-        if (!sessionStorage.length == 0) {
-            var username = sessionStorage.getItem('username');
-            var password = sessionStorage.getItem('password');
-            var richiesta = {username: username, password: password};
-            $.ajax({
-                url: 'accesso_eseguito',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(richiesta),
-                success: function(risposta) {
-                    if (!risposta.utente_valido) {
-                        window.location.href = '/accedi';
-                    }
-                },
-                error: function() {
-                    accedi.errore('Errore del server!');
-                }
-            });
-        }
     },
     
     init_menu: function() {
@@ -47,16 +23,14 @@ home = {
     
     disconnetti_utente : function() {
         $('#disconnetti_utente').on('click', function() {
-            sessionStorage.setItem('username', '');
-            sessionStorage.setItem('password', '');
-            window.location.href = '/accedi';
+            utente.disconnetti_utente();
         });
     },
     
     leggi_conversazioni: function() {
         $('.caricamento').css('display', 'inline');
-        var richiesta = {username: sessionStorage.getItem('username'),
-                         password: sessionStorage.getItem('password')};
+        var richiesta = {username: utente.username,
+                         password: utente.password};
         $.ajax({
             url: 'leggi_conversazioni',
             method: 'POST',
@@ -65,9 +39,7 @@ home = {
             data: JSON.stringify(richiesta),
             success: function(risposta) {
                 if (risposta.utente_non_valido) {
-                    sessionStorage.setItem('username', '');
-                    sessionStorage.setItem('password', '');
-                    window.location.href = '/accedi';
+                    utente.disconnetti_utente();
                 } else if (risposta.conversazioni) {
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_conversazioni').html();
@@ -95,8 +67,8 @@ home = {
     elimina_definitivo: function() {
         $('#elimina_definitivo').on('click', function() {
             var partecipante = $('#partecipante').html();
-            var richiesta = {proprietario: sessionStorage.getItem('username'),
-                             password: sessionStorage.getItem('password'),
+            var richiesta = {proprietario: utente.username,
+                             password: utente.password,
                              partecipante: partecipante};
             $.ajax({
                 url: 'elimina_conversazione',
@@ -106,9 +78,7 @@ home = {
                 data: JSON.stringify(richiesta),
                 success: function(risposta) {
                     if (risposta.utente_non_valido) {
-                        sessionStorage.setItem('username', '');
-                        sessionStorage.setItem('password', '');
-                        window.location.href = '/accedi';
+                        utente.disconnetti_utente();
                     } else {
                         $('#elimina_conversazione').css('display', 'none');
                         home.leggi_conversazioni();

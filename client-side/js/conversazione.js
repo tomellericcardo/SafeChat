@@ -1,7 +1,6 @@
 conversazione = {
     
     init: function() {
-        this.accesso_eseguito();
         this.operazioni_iniziali();
         this.init_home();
         this.leggi_messaggi();
@@ -11,29 +10,6 @@ conversazione = {
     },
     
     n_messaggi: 0,
-    
-    accesso_eseguito: function() {
-        if (!sessionStorage.length == 0) {
-            var username = sessionStorage.getItem('username');
-            var password = sessionStorage.getItem('password');
-            var richiesta = {username: username, password: password};
-            $.ajax({
-                url: 'accesso_eseguito',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(richiesta),
-                success: function(risposta) {
-                    if (!risposta.utente_valido) {
-                        window.location.href = '/accedi';
-                    }
-                },
-                error: function() {
-                    conversazione.errore('Errore del server!');
-                }
-            });
-        }
-    },
     
     leggi_parametro: function(parametro) {
         var indirizzo_pagina = decodeURIComponent(window.location.search.substring(1));
@@ -48,9 +24,12 @@ conversazione = {
     },
     
     operazioni_iniziali: function() {
-        this.proprietario = sessionStorage.getItem('username');
-        this.password = sessionStorage.getItem('password');
+        this.proprietario = utente.username;
+        this.password = utente.password;
         this.partecipante = this.leggi_parametro('con');
+        if (this.proprietario == this.partecipante) {
+            window.location.href = '/home';
+        }
         this.chiave_privata = cryptico.generateRSAKey(this.password, 1024);
         this.chiave_pubblica = cryptico.publicKeyString(this.chiave_privata);
         this.chiave_destinatario();
@@ -96,9 +75,7 @@ conversazione = {
             data: JSON.stringify(richiesta),
             success: function(risposta) {
                 if (risposta.utente_non_valido) {
-                    sessionStorage.setItem('username', '');
-                    sessionStorage.setItem('password', '');
-                    window.location.href = '/accedi';
+                    utente.disconnetti_utente();
                 } else if (risposta.messaggi) {
                     var messaggi = [];
                     for (var i = 0; i < risposta.messaggi.length; i++) {
@@ -150,9 +127,7 @@ conversazione = {
                 data: JSON.stringify(richiesta),
                 success: function(risposta) {
                     if (risposta.utente_non_valido) {
-                        sessionStorage.setItem('username', '');
-                        sessionStorage.setItem('password', '');
-                        window.location.href = '/accedi';
+                        utente.disconnetti_utente();
                     } else if (risposta.inviato) {
                         $('#testo').val('');
                         conversazione.leggi_messaggi();
@@ -183,9 +158,7 @@ conversazione = {
             data: JSON.stringify(richiesta),
             success: function(risposta) {
                 if (risposta.utente_non_valido) {
-                    sessionStorage.setItem('username', '');
-                    sessionStorage.setItem('password', '');
-                    window.location.href = '/accedi';
+                    utente.disconnetti_utente();
                 } else if (risposta.n_messaggi != conversazione.n_messaggi) {
                     conversazione.leggi_messaggi();
                 }

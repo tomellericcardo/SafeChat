@@ -1,33 +1,12 @@
 accedi = {
     
     init: function() {
-        this.accesso_eseguito();
+        this.disconnetti_utente();
         this.richiesta_accesso();
     },
     
-    accesso_eseguito: function() {
-        if (sessionStorage.length != 0) {
-            var username = sessionStorage.getItem('username');
-            var password = sessionStorage.getItem('password');
-            var richiesta = {username: username, password: password};
-            $.ajax({
-                url: 'accesso_eseguito',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(richiesta),
-                success: function(risposta) {
-                    if (risposta.utente_valido) {
-                        window.location.href = '/home';
-                    } else {
-                        sessionStorage.clear();
-                    }
-                },
-                error: function() {
-                    accedi.errore('Errore del server!');
-                }
-            });
-        }
+    disconnetti_utente: function() {
+        sessionStorage.clear();
     },
     
     richiesta_accesso: function() {

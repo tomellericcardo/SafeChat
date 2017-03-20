@@ -1,8 +1,12 @@
 registrati = {
     
     init: function() {
-        this.accesso_eseguito();
+        this.disconnetti_utente();
         this.richiesta_registrazione();
+    },
+    
+    disconnetti_utente: function() {
+        sessionStorage.clear();
     },
     
     accesso_eseguito: function() {

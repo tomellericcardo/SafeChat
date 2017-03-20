@@ -46,12 +46,6 @@
             </a><hr>
             <a href="#" class="w3-hover-light-grey">
                 <div class="w3-row-padding">
-                    <div class="w3-col s2"><i class="material-icons w3-margin-top">notifications</i></div>
-                    <div class="w3-col s10"><p>Notifiche</p></div>
-                </div>
-            </a><hr>
-            <a href="#" class="w3-hover-light-grey">
-                <div class="w3-row-padding">
                     <div class="w3-col s2"><i class="material-icons w3-margin-top">person</i></div>
                     <div class="w3-col s10"><p>Profilo</p></div>
                 </div>
@@ -88,14 +82,14 @@
         
         <!-- ELIMINA CONVERSAZIONE -->
         <div id="elimina_conversazione" class="w3-modal">
-            <div class="w3-modal-content">
+            <div class="w3-modal-content w3-card-8">
                 <div class="w3-container w3-red">
                     <span id="chiudi_elimina" class="w3-closebtn">&times;</span>
                     <h1 class="w3-xlarge">Conferma</h1>
                 </div>
                 <div class="w3-container w3-padding-bottom w3-white">
                     <p>Sei sicuro di voler eliminare in modo definitivo la tua conversazione con <b><span id="partecipante"></span></b>?</p>
-                    <button id="elimina_definitivo" class="w3-btn w3-blue">Sicuro</button>
+                    <button id="elimina_definitivo" class="w3-right w3-btn w3-blue">Sicuro</button>
                 </div>
             </div>
         </div>
@@ -105,6 +99,7 @@
         <script type="text/javascript" src="/js/mustache.js"></script>
         <script type="text/javascript" src="/js/utente.js"></script>
         <script type="text/javascript" src="/js/home.js"></script>
+        <script type="text/javascript" src="/js/notifiche.js"></script>
         
     </body>
 </html>

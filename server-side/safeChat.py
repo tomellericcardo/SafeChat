@@ -31,7 +31,8 @@ class SafeChat:
                                 partecipante TEXT NOT NULL,
                                 mittente TEXT NOT NULL,
                                 testo TEXT NOT NULL,
-                                data_ora DATETIME DEFAULT CURRENT_TIMESTAMP
+                                data_ora DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                letto INT DEFAULT 0
                             ) ''')
         database.commit()
         cursore.close()
@@ -41,7 +42,7 @@ class SafeChat:
         root = path.dirname(path.realpath(__file__))
         self.g.db = connect(path.join(root, 'database.db'))
         self.g.db.text_factory = str
-        self.g.db.create_function("REGEXP", 2, self.regexp)
+        self.g.db.create_function('REGEXP', 2, self.regexp)
     
     def chiudi_connessione(self):
         db = getattr(self.g, 'db', None)
@@ -134,12 +135,18 @@ class SafeChat:
                             FROM messaggio
                             WHERE proprietario = ? AND partecipante = ?
                             ORDER BY data_ora ASC ''', (proprietario, partecipante))
-        return cursore.fetchall()
+        risposta = cursore.fetchall()
+        cursore.execute(''' UPDATE messaggio
+                            SET letto = 1
+                            WHERE proprietario = ? AND partecipante = ? ''', (proprietario, partecipante))
+        self.g.db.commit()
+        cursore.close()
+        return risposta
     
     def invia_messaggio(self, mittente, destinatario, testo_mittente, testo_destinatario):
         cursore = self.g.db.cursor()
-        cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
-                            VALUES (?, ?, ?, ?) ''', (mittente, destinatario, mittente, testo_mittente))
+        cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, testo, letto)
+                            VALUES (?, ?, ?, ?, 1) ''', (mittente, destinatario, mittente, testo_mittente))
         self.g.db.commit()
         cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
                             VALUES (?, ?, ?, ?) ''', (destinatario, mittente, mittente, testo_destinatario))
@@ -152,3 +159,10 @@ class SafeChat:
                             FROM messaggio
                             WHERE proprietario = ? AND partecipante = ? ''', (proprietario, partecipante))
         return cursore.fetchall()
+    
+    def leggi_notifiche(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT COUNT(*)
+                            FROM messaggio
+                            WHERE proprietario = ? AND letto = 0 ''', (username,))
+        return cursore.fetchone()[0]

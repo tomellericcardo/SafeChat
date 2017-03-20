@@ -151,6 +151,15 @@ def n_messaggi():
     partecipante = richiesta['partecipante'].lower()
     return dumps({'n_messaggi': safeChat.n_messaggi(proprietario, partecipante)})
 
+@app.route('/leggi_notifiche', methods = ['POST'])
+def leggi_notifiche():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    return dumps({'n_notifiche': safeChat.leggi_notifiche(username)})
+
 
 # AVVIO DEL SERVER
 

@@ -51,6 +51,10 @@ def scrivi():
 def conversazione():
     return send_from_directory('../client-side/html/', 'conversazione.html')
 
+@app.route('/profilo')
+def profilo():
+    return send_from_directory('../client-side/html/', 'profilo.html')
+
 @app.route('/info')
 def info():
     return send_from_directory('../client-side/html/', 'info.html')

@@ -94,7 +94,8 @@ class SafeChat:
     
     def leggi_conversazioni(self, username):
         cursore = self.g.db.cursor()
-        cursore.execute(''' SELECT partecipante
+        cursore.execute(''' SELECT partecipante,
+                            SUM(CASE letto WHEN 0 THEN 1 ELSE 0 END)
                             FROM messaggio
                             WHERE proprietario = ? 
                             GROUP BY partecipante ''', (username,))

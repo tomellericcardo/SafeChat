@@ -2,14 +2,13 @@ conversazione = {
     
     init: function() {
         this.operazioni_iniziali();
-        this.init_home();
-        this.leggi_messaggi();
-        this.richiesta_invio();
-        this.init_testo();
-        setInterval(this.aggiorna_messaggi, 5000);
+        if (this.partecipante) {
+            this.leggi_messaggi();
+            this.richiesta_invio();
+            this.init_testo();
+            setInterval(this.aggiorna_messaggi, 5000);
+        }
     },
-    
-    n_messaggi: 0,
     
     leggi_parametro: function(parametro) {
         var indirizzo_pagina = decodeURIComponent(window.location.search.substring(1));
@@ -27,15 +26,18 @@ conversazione = {
         this.proprietario = utente.username;
         this.password = utente.password;
         this.partecipante = this.leggi_parametro('con');
-        if (this.proprietario == this.partecipante) {
+        if (this.proprietario == this.partecipante || !this.partecipante) {
             window.location.href = '/home';
+        } else {
+            this.chiave_privata = cryptico.generateRSAKey(this.password, 1024);
+            this.chiave_pubblica = cryptico.publicKeyString(this.chiave_privata);
+            this.chiave_destinatario();
+            $('#partecipante').html(this.partecipante);
+            $('title').html(this.partecipante + ' - SafeChat');
+            this.init_profilo();
+            $('.caricamento').css('display', 'inline');
+            this.n_messaggi = 0;
         }
-        this.chiave_privata = cryptico.generateRSAKey(this.password, 1024);
-        this.chiave_pubblica = cryptico.publicKeyString(this.chiave_privata);
-        this.chiave_destinatario();
-        $('#partecipante').html(this.partecipante);
-        $('title').html(this.partecipante + ' - SafeChat');
-        $('.caricamento').css('display', 'inline');
     },
     
     chiave_destinatario: function() {
@@ -57,9 +59,9 @@ conversazione = {
         });
     },
     
-    init_home: function() {
-        $('#home').on('click', function() {
-            window.location.href = '/home';
+    init_profilo: function() {
+        $('#partecipante').on('click', function() {
+            window.location.href = '/profilo?di=' + conversazione.partecipante;
         });
     },
     

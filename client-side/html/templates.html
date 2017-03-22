@@ -4,13 +4,21 @@
 <script type="text/html" id="leggi_conversazioni">
     {{#conversazioni}}
         <div class="w3-row-padding w3-hover-light-grey">
-            <div class="w3-col s2 w3-text-blue">
-                <i class="material-icons w3-margin-top">person</i>
-            </div>
-            <a href="/conversazione?con={{.}}" class="conversazione">
-                <div class="w3-col s8"><p>{{.}}</p></div>
+            <a href="/profilo?di={{partecipante}}" class="conversazione">
+                <div class="w3-col s2 w3-text-blue">
+                    <i class="material-icons w3-margin-top">person</i>
+                </div>
             </a>
-            <div onclick="home.elimina_conversazione('{{.}}')" class="w3-col s2 w3-text-red">
+            <a href="/conversazione?con={{partecipante}}" class="conversazione">
+                <div class="w3-col s6"><p>{{partecipante}}</p></div>
+            </a>
+            <div class="w3-col s2 w3-text-red">
+                &nbsp;
+                {{#non_letti}}
+                    <p class="w3-badge w3-green">{{non_letti}}</p>
+                {{/non_letti}}
+            </div>
+            <div onclick="home.elimina_conversazione('{{partecipante}}')" class="w3-col s2 w3-text-orange">
                 <i class="material-icons w3-margin-top">delete</i>
             </div>
         </div><hr>

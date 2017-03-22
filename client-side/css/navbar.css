@@ -16,6 +16,10 @@
     cursor: pointer;
 }
 
+#notifiche {
+    display: none;
+}
+
 
 /*** SIDENAV ***/
 

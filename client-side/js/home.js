@@ -1,30 +1,10 @@
 home = {
     
     init: function() {
-        this.init_menu();
-        this.disconnetti_utente();
         this.leggi_conversazioni();
         this.chiudi_elimina();
         this.elimina_definitivo();
         setInterval(this.leggi_conversazioni, 5000);
-    },
-    
-    init_menu: function() {
-        $('#menu, #chiudi_menu').on('click', function() {
-            if ($('#sidenav').css('display') == 'none') {
-                $('#sidenav').css('display', 'block');
-                $('#chiudi_menu').css('display', 'block');
-            } else {
-                $('#sidenav').css('display', 'none');
-                $('#chiudi_menu').css('display', 'none');
-            }
-        });
-    },
-    
-    disconnetti_utente : function() {
-        $('#disconnetti_utente').on('click', function() {
-            utente.disconnetti_utente();
-        });
     },
     
     leggi_conversazioni: function() {
@@ -41,6 +21,12 @@ home = {
                 if (risposta.utente_non_valido) {
                     utente.disconnetti_utente();
                 } else if (risposta.conversazioni) {
+                    for (var i = 0; i < risposta.conversazioni.length; i++) {
+                        var partecipante = risposta.conversazioni[i][0];
+                        var non_letti = risposta.conversazioni[i][1];
+                        risposta.conversazioni[i] = {partecipante: partecipante,
+                                                     non_letti: non_letti};
+                    }
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_conversazioni').html();
                         $('#conversazioni').html(Mustache.render(template, risposta));

@@ -1,14 +1,7 @@
 scrivi = {
     
     init: function() {
-        this.init_home();
         this.richiesta_ricerca();
-    },
-    
-    init_home: function() {
-        $('#home').on('click', function() {
-            window.location.href = '/home';
-        });
     },
     
     richiesta_ricerca: function() {

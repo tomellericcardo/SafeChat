@@ -31,10 +31,51 @@
         
         <!-- HEADER -->
         <header id="header" class="w3-container w3-padding-8 w3-display-container w3-center w3-green">
-            <i id="home" class="w3-margin w3-display-topleft material-icons">home</i>
+            <i id="menu" class="w3-margin w3-display-topleft material-icons">menu</i>
             <h1 id="partecipante" class="w3-xlarge">SafeChat</h1>
             <i id="notifiche" class="material-icons w3-margin w3-display-topright">notifications</i>
         </header>
+        
+        <!-- SIDENAV -->
+        <div id="chiudi_menu">&nbsp;</div>
+        <nav id="sidenav" class="w3-sidenav w3-card-2 w3-animate-left">
+            <a href="/home" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">home</i></div>
+                    <div class="w3-col s10"><p>Home</p></div>
+                </div>
+            </a><hr>
+            <a href="/scrivi" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">message</i></div>
+                    <div class="w3-col s10"><p>Scrivi</p></div>
+                </div>
+            </a><hr>
+            <a href="/profilo" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">person</i></div>
+                    <div class="w3-col s10"><p>Profilo</p></div>
+                </div>
+            </a><hr>
+            <a href="#" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">settings</i></div>
+                    <div class="w3-col s10"><p>Impostazioni</p></div>
+                </div>
+            </a><hr>
+            <a href="#" id="disconnetti_utente" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">exit_to_app</i></div>
+                    <div class="w3-col s10"><p>Esci</p></div>
+                </div>
+            </a>
+            <a href="/info" id="informazioni" class="w3-bottom w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">info</i></div>
+                    <div class="w3-col s10"><p>Informazioni</p></div>
+                </div>
+            </a>
+        </nav>
         
         <!-- MESSAGGI -->
         <div class="w3-row w3-padding-16 w3-white">
@@ -68,7 +109,9 @@
         <script type="text/javascript" src="/js/cryptico.js"></script>
         <script type="text/javascript" src="/js/mustache.js"></script>
         <script type="text/javascript" src="/js/utente.js"></script>
+        <script type="text/javascript" src="/js/navbar.js"></script>
         <script type="text/javascript" src="/js/conversazione.js"></script>
+        <script type="text/javascript" src="/js/notifiche.js"></script>
         
     </body>
 </html>

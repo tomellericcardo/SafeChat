@@ -1,11 +1,10 @@
 notifiche = {
     
     init: function() {
+        this.n_notifiche = sessionStorage.getItem('n_notifiche');
         this.leggi_notifiche();
         setInterval(this.leggi_notifiche, 5000);
     },
-    
-    n_notifiche: sessionStorage.getItem('n_notifiche'),
     
     leggi_notifiche: function() {
         var richiesta = {username: utente.username,
@@ -23,13 +22,18 @@ notifiche = {
                     notifiche.n_notifiche = risposta.n_notifiche;
                     sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
                     if (notifiche.n_notifiche != 0) {
+                        $('#notifiche').css('display', 'block');
                         if (notifiche.n_notifiche == 1) {
                             var testo_notifica = 'Hai un nuovo messaggio';
                         } else {
                             var testo_notifica = 'Hai ' + notifiche.n_notifiche + ' nuovi messaggi';
                         }
                         notifiche.notifica(testo_notifica);
+                    } else {
+                        $('#notifiche').css('display', 'none');
                     }
+                } else if (notifiche.n_notifiche != 0) {
+                    $('#notifiche').css('display', 'block');
                 }
             }
         });
@@ -41,17 +45,6 @@ notifiche = {
             icon: '/img/icona128.png',
             vibrate: [200, 200]
         };
-        navigator.serviceWorker.register('/js/sw.js');
-        function showNotification() {
-            Notification.requestPermission(function(result) {
-                if (result === 'granted') {
-                    navigator.serviceWorker.ready.then(function(registration) {
-                        registration.showNotification('SafeChat', opzioni);
-                    });
-                }
-            });
-        }
-        /*
         if (Notification.permission == 'granted') {
             var notifica = new Notification('SafeChat', opzioni);
         } else if (Notification.permission != 'denied') {
@@ -60,7 +53,7 @@ notifiche = {
                     var notifica = new Notification('SafeChat', opzioni);
                 }
             });
-        } */
+        }
     }
     
 };

@@ -8,7 +8,7 @@ scrivi = {
         $('#cerca_utente').on('click', function() {
             scrivi.cerca_utente();
         });
-        $('#username').on('keyup', function(e) {
+        $('#testo').on('keyup', function(e) {
             if (e.keyCode == 13) {
                 scrivi.cerca_utente();
             }
@@ -17,11 +17,11 @@ scrivi = {
     
     cerca_utente: function() {
         $('#messaggio').html('<br>');
-        $('#username').css('border-color', '#757575');
-        var username = $('#username').val();
-        if (username.length > 0) {
+        $('#testo').css('border-color', '#757575');
+        var testo = $('#testo').val();
+        if (testo.length > 0) {
             $('.caricamento').css('display', 'inline');
-            var richiesta = {username: username};
+            var richiesta = {testo: testo};
             $.ajax({
                 url: 'cerca_utente',
                 method: 'POST',
@@ -31,13 +31,21 @@ scrivi = {
                 success: function(risposta) {
                     $('.caricamento').css('display', 'none');
                     if (risposta.risultati) {
+                        for (var i = 0; i < risposta.risultati.length; i++) {
+                            var username = risposta.risultati[i][0];
+                            var nome = risposta.risultati[i][1];
+                            var cognome = risposta.risultati[i][2];
+                            risposta.risultati[i] = {username: username,
+                                                     nome: nome,
+                                                     cognome: cognome};
+                        }
                         $.get('/html/templates.html', function(contenuto) {
                             var template = $(contenuto).filter('#cerca_utente').html();
                             $('#risultati').html(Mustache.render(template, risposta));
                         });
                     } else {
-                        $('#username').val('');
-                        $('#username').css('border-color', 'red');
+                        $('#testo').val('');
+                        $('#testo').css('border-color', 'red');
                         scrivi.errore('Nessuna corrispondenza trovata!');
                     }
                 },
@@ -47,8 +55,8 @@ scrivi = {
                 }
             });
         } else {
-            $('#username').css('border-color', 'red');
-            scrivi.errore('Inserisci uno username!');
+            $('#testo').css('border-color', 'red');
+            scrivi.errore('Inserisci uno criterio di ricerca!');
         }
     },
     

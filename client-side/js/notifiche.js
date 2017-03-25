@@ -1,10 +1,9 @@
 notifiche = {
     
     init: function() {
-        navigator.serviceWorker.register('/js/sw.js');
         this.n_notifiche = sessionStorage.getItem('n_notifiche');
         this.leggi_notifiche();
-        setInterval(this.leggi_notifiche, 5000);
+        setInterval(this.leggi_notifiche, 1000);
     },
     
     leggi_notifiche: function() {
@@ -31,29 +30,16 @@ notifiche = {
                         }
                         notifiche.notifica(testo_notifica);
                     } else {
-                        $('#notifiche').css('display', 'none');
+                        $('#notifiche').html('notifications_none');
                     }
                 } else if (notifiche.n_notifiche != 0) {
-                    $('#notifiche').css('display', 'block');
+                    $('#notifiche').html('notifications');
                 }
             }
         });
     },
     
     notifica: function(testo_notifica) {
-        Notification.requestPermission(function(permesso) {
-            if (permesso === 'granted') {
-                navigator.serviceWorker.ready.then(function(registrazione) {
-                    registrazione.showNotification('SafeChat', {
-                        body: testo_notifica,
-                        icon: '/img/icona128.png',
-                        vibrate: [100, 100, 100],
-                        tag: 'safechat'
-                    });
-                });
-            }
-        });
-        /*
         var opzioni = {
             body: testo_notifica,
             icon: '/img/icona128.png',
@@ -68,7 +54,6 @@ notifiche = {
                 }
             });
         }
-        */
     }
     
 };

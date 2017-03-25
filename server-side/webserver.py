@@ -84,8 +84,8 @@ def registra_utente():
 @app.route('/cerca_utente', methods = ['POST'])
 def cerca_utente():
     richiesta = request.get_json(force = True)
-    username = richiesta['username'].lower()
-    return dumps({'risultati': safeChat.cerca_utente(username)})
+    testo = richiesta['testo'].lower()
+    return dumps({'risultati': safeChat.cerca_utente(testo)})
 
 @app.route('/chiave_pubblica', methods = ['POST'])
 def chiave_pubblica():
@@ -163,6 +163,28 @@ def leggi_notifiche():
     if not safeChat.utente_valido(username, password):
         return dumps({'utente_non_valido': True})
     return dumps({'n_notifiche': safeChat.leggi_notifiche(username)})
+
+@app.route('/leggi_profilo', methods = ['POST'])
+def leggi_profilo():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    utente = richiesta['utente'].lower()
+    return dumps({'profilo': safeChat.leggi_profilo(utente)})
+
+@app.route('/modifica_profilo', methods = ['POST'])
+def modifica_profilo():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    nome = richiesta['nome']
+    cognome = richiesta['cognome']
+    safeChat.modifica_profilo(username, nome, cognome)
+    return dumps({'modificato': True})
 
 
 # AVVIO DEL SERVER

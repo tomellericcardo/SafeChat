@@ -26,6 +26,12 @@ class SafeChat:
                                 sale TEXT NOT NULL
                             ) ''')
         database.commit()
+        cursore.execute(''' CREATE TABLE IF NOT EXISTS profilo (
+                                username TEXT PRIMARY KEY,
+                                nome TEXT,
+                                cognome TEXT
+                            ) ''')
+        database.commit()
         cursore.execute(''' CREATE TABLE IF NOT EXISTS messaggio (
                                 proprietario TEXT NOT NULL,
                                 partecipante TEXT NOT NULL,
@@ -90,6 +96,9 @@ class SafeChat:
         cursore.execute(''' INSERT INTO utente
                             VALUES (?, ?, ?, ?) ''', (username, password_criptata, chiave, sale))
         self.g.db.commit()
+        cursore.execute(''' INSERT INTO profilo (username)
+                            VALUES (?) ''', (username,))
+        self.g.db.commit()
         cursore.close()
     
     def leggi_conversazioni(self, username):
@@ -116,11 +125,13 @@ class SafeChat:
                             GROUP BY partecipante ''', (username,))
         return cursore.fetchall()
     
-    def cerca_utente(self, username):
+    def cerca_utente(self, testo):
         cursore = self.g.db.cursor()
-        cursore.execute(''' SELECT username
-                            FROM utente
-                            WHERE username REGEXP ? ''', (username,))
+        cursore.execute(''' SELECT username, nome, cognome
+                            FROM profilo
+                            WHERE username REGEXP ?
+                            OR LOWER(nome) REGEXP ?
+                            OR LOWER(cognome) REGEXP ? ''', (testo, testo, testo))
         return cursore.fetchall()
     
     def chiave_pubblica(self, username):
@@ -167,3 +178,18 @@ class SafeChat:
                             FROM messaggio
                             WHERE proprietario = ? AND letto = 0 ''', (username,))
         return cursore.fetchone()[0]
+    
+    def leggi_profilo(self, username):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' SELECT username, nome, cognome
+                            FROM profilo
+                            WHERE username = ? ''', (username,))
+        return cursore.fetchone()
+    
+    def modifica_profilo(self, username, nome, cognome):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' UPDATE profilo
+                            SET nome = ?, cognome = ?
+                            WHERE username = ? ''', (nome, cognome, username))
+        self.g.db.commit()
+        cursore.close()

@@ -42,6 +42,16 @@ hr {
     margin: 0px;
 }
 
+
+/*** HOME ***/
+
 #elimina_conversazione {
     padding-top: 30%;
+}
+
+
+/*** PROFILO ***/
+
+#modifica_profilo, #conferma_modifica {
+    display: none;
 }

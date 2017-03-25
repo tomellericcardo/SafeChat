@@ -6,7 +6,7 @@ conversazione = {
             this.leggi_messaggi();
             this.richiesta_invio();
             this.init_testo();
-            setInterval(this.aggiorna_messaggi, 5000);
+            setInterval(this.aggiorna_messaggi, 1000);
         }
     },
     

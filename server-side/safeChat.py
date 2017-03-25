@@ -129,9 +129,7 @@ class SafeChat:
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT username, nome, cognome
                             FROM profilo
-                            WHERE username REGEXP ?
-                            OR LOWER(nome) REGEXP ?
-                            OR LOWER(cognome) REGEXP ? ''', (testo, testo, testo))
+                            WHERE LOWER(username || nome || cognome) REGEXP ? ''', (testo,))
         return cursore.fetchall()
     
     def chiave_pubblica(self, username):

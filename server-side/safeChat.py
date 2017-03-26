@@ -96,8 +96,8 @@ class SafeChat:
         cursore.execute(''' INSERT INTO utente
                             VALUES (?, ?, ?, ?) ''', (username, password_criptata, chiave, sale))
         self.g.db.commit()
-        cursore.execute(''' INSERT INTO profilo (username)
-                            VALUES (?) ''', (username,))
+        cursore.execute(''' INSERT INTO profilo
+                            VALUES (?, ?, ?) ''', (username, '', ''))
         self.g.db.commit()
         cursore.close()
     
@@ -129,7 +129,8 @@ class SafeChat:
         cursore = self.g.db.cursor()
         cursore.execute(''' SELECT username, nome, cognome
                             FROM profilo
-                            WHERE LOWER(username || nome || cognome) REGEXP ? ''', (testo,))
+                            WHERE LOWER(username || nome || cognome)
+                            REGEXP ? ''', (testo,))
         return cursore.fetchall()
     
     def chiave_pubblica(self, username):

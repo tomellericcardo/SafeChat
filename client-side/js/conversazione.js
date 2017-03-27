@@ -83,7 +83,7 @@ conversazione = {
                     for (var i = 0; i < risposta.messaggi.length; i++) {
                         var mittente = risposta.messaggi[i][0] == conversazione.proprietario;
                         var testo = cryptico.decrypt(risposta.messaggi[i][1], conversazione.chiave_privata).plaintext;
-                        messaggi[i] = {mittente: mittente, testo: testo};
+                        messaggi[i] = {mittente: mittente, testo: decodeURIComponent(escape(window.atob(testo)))};
                     }
                     conversazione.n_messaggi = messaggi.length;
                     var risultato = {messaggi: messaggi};
@@ -111,9 +111,11 @@ conversazione = {
         });
     },
     
-    invia_messaggio: function() {
+    invia_messaggio: function(testo) {
         var testo = $('#testo').val();
+        $('#testo').val('');
         if (testo.length > 0) {
+            testo = window.btoa(unescape(encodeURIComponent(testo)));
             var testo_mittente = cryptico.encrypt(testo, conversazione.chiave_pubblica).cipher;
             var testo_destinatario = cryptico.encrypt(testo, conversazione.chiave_partecipante).cipher;
             var richiesta = {mittente: this.proprietario,
@@ -131,7 +133,6 @@ conversazione = {
                     if (risposta.utente_non_valido) {
                         utente.disconnetti_utente();
                     } else if (risposta.inviato) {
-                        $('#testo').val('');
                         conversazione.leggi_messaggi();
                     }
                 },

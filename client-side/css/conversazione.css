@@ -1,4 +1,11 @@
 
+/*** NAVBAR ***/
+
+#partecipante {
+    cursor: pointer;
+}
+
+
 /*** MESSAGGI ***/
 
 #messaggi {
@@ -15,6 +22,11 @@
     word-wrap: break-word;
 }
 
+.immagine {
+    width: 100%;
+}
+
+
 /*** SCRIVI ***/
 
 #scrivi {
@@ -28,7 +40,11 @@
     height: 50px;
 }
 
-#invia_messaggio {
+#invia_messaggio, #invia_immagine {
     width: 100%;
     padding-top: 14px;
+}
+
+#immagine {
+    display: none;
 }

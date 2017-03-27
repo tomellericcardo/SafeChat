@@ -145,6 +145,19 @@ def invia_messaggio():
     safeChat.invia_messaggio(mittente, destinatario, testo_mittente, testo_destinatario)
     return dumps({'inviato': True})
 
+@app.route('/invia_immagine', methods = ['POST'])
+def invia_immagine():
+    richiesta = request.get_json(force = True)
+    mittente = richiesta['mittente'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(mittente, password):
+        return dumps({'utente_non_valido': True})
+    destinatario = richiesta['destinatario'].lower()
+    immagine_mittente = richiesta['immagine_mittente']
+    immagine_destinatario = richiesta['immagine_destinatario']
+    safeChat.invia_immagine(mittente, destinatario, immagine_mittente, immagine_destinatario)
+    return dumps({'inviata': True})
+
 @app.route('/n_messaggi', methods = ['POST'])
 def n_messaggi():
     richiesta = request.get_json(force = True)

@@ -34,8 +34,16 @@ img {
 
 /*** OTHERS **/
 
+input:focus {
+    outline: none;
+}
+
 .caricamento {
     display: none;
+}
+
+#vuoto {
+    height: 80vh;
 }
 
 hr {
@@ -47,6 +55,10 @@ hr {
 
 #elimina_conversazione {
     padding-top: 30%;
+}
+
+#cestino {
+    cursor: pointer;
 }
 
 

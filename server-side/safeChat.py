@@ -36,6 +36,7 @@ class SafeChat:
                                 proprietario TEXT NOT NULL,
                                 partecipante TEXT NOT NULL,
                                 mittente TEXT NOT NULL,
+                                immagine INT DEFAULT 0,
                                 testo TEXT NOT NULL,
                                 data_ora DATETIME DEFAULT CURRENT_TIMESTAMP,
                                 letto INT DEFAULT 0
@@ -97,7 +98,7 @@ class SafeChat:
                             VALUES (?, ?, ?, ?) ''', (username, password_criptata, chiave, sale))
         self.g.db.commit()
         cursore.execute(''' INSERT INTO profilo
-                            VALUES (?, ?, ?) ''', (username, '', ''))
+                            VALUES (?, '', '') ''', (username,))
         self.g.db.commit()
         cursore.close()
     
@@ -142,7 +143,7 @@ class SafeChat:
     
     def leggi_messaggi(self, proprietario, partecipante):
         cursore = self.g.db.cursor()
-        cursore.execute(''' SELECT mittente, testo
+        cursore.execute(''' SELECT mittente, immagine, testo
                             FROM messaggio
                             WHERE proprietario = ? AND partecipante = ?
                             ORDER BY data_ora ASC ''', (proprietario, partecipante))
@@ -161,6 +162,16 @@ class SafeChat:
         self.g.db.commit()
         cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
                             VALUES (?, ?, ?, ?) ''', (destinatario, mittente, mittente, testo_destinatario))
+        self.g.db.commit()
+        cursore.close()
+    
+    def invia_immagine(self, mittente, destinatario, immagine_mittente, immagine_destinatario):
+        cursore = self.g.db.cursor()
+        cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, immagine, testo, letto)
+                            VALUES (?, ?, ?, 1, ?, 1) ''', (mittente, destinatario, mittente, immagine_mittente))
+        self.g.db.commit()
+        cursore.execute(''' INSERT INTO messaggio (proprietario, partecipante, mittente, immagine, testo)
+                            VALUES (?, ?, ?, 1, ?) ''', (destinatario, mittente, mittente, immagine_destinatario))
         self.g.db.commit()
         cursore.close()
     

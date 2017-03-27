@@ -46,10 +46,15 @@ registrati = {
     },
     
     username_valido: function(username) {
-        if (!(username.length >= 3 && username.length <= 12)) {
+        if (!(username.length >= 4 && username.length <= 16)) {
             $('#username').val('');
             $('#username').css('border-color', 'red');
-            this.errore('L\'username deve avere dai 3 ai 12 caratteri!');
+            this.errore('L\'username deve avere dai 4 ai 16 caratteri!');
+            return false;
+        } else if (!(username.match(/^[a-z0-9]*$/gi))) {
+            $('#username').val('');
+            $('#username').css('border-color', 'red');
+            this.errore('L\'username deve avere solo caratteri alfanumerici!');
             return false;
         } else {
             return true;

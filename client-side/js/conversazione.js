@@ -6,6 +6,8 @@ conversazione = {
             this.leggi_messaggi();
             this.richiesta_invio();
             this.init_testo();
+            this.seleziona_immagine();
+            this.invia_immagine();
             setInterval(this.aggiorna_messaggi, 1000);
         }
     },
@@ -82,8 +84,11 @@ conversazione = {
                     var messaggi = [];
                     for (var i = 0; i < risposta.messaggi.length; i++) {
                         var mittente = risposta.messaggi[i][0] == conversazione.proprietario;
-                        var testo = cryptico.decrypt(risposta.messaggi[i][1], conversazione.chiave_privata).plaintext;
-                        messaggi[i] = {mittente: mittente, testo: decodeURIComponent(escape(window.atob(testo)))};
+                        var immagine = risposta.messaggi[i][1] == 1;
+                        var testo = cryptico.decrypt(risposta.messaggi[i][2], conversazione.chiave_privata).plaintext;
+                        messaggi[i] = {mittente: mittente,
+                                       immagine: immagine,
+                                       testo: decodeURIComponent(escape(window.atob(testo)))};
                     }
                     conversazione.n_messaggi = messaggi.length;
                     var risultato = {messaggi: messaggi};
@@ -169,6 +174,46 @@ conversazione = {
             error: function() {
                 conversazione.errore('Errore del server!');
             }
+        });
+    },
+    
+    seleziona_immagine: function() {
+        $('#invia_immagine').on('click', function() {
+            $('#immagine').click();
+        });
+    },
+    
+    invia_immagine: function() {
+        $('#immagine').change(function(evento) {
+            var lettore = new FileReader();
+            lettore.onload = function(e) {
+                var immagine = window.btoa(unescape(encodeURIComponent(e.target.result)));
+                var immagine_mittente = cryptico.encrypt(immagine, conversazione.chiave_pubblica).cipher;
+                var immagine_destinatario = cryptico.encrypt(immagine, conversazione.chiave_partecipante).cipher;
+                var richiesta = {mittente: conversazione.proprietario,
+                                 password: conversazione.password,
+                                 destinatario: conversazione.partecipante,
+                                 immagine_mittente: immagine_mittente,
+                                 immagine_destinatario: immagine_destinatario};
+                $.ajax({
+                    url: 'invia_immagine',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(richiesta),
+                    success: function(risposta) {
+                        if (risposta.utente_non_valido) {
+                            utente.disconnetti_utente();
+                        } else if (risposta.inviata) {
+                            conversazione.leggi_messaggi();
+                        }
+                    },
+                    error: function() {
+                        conversazione.errore('Errore del server!');
+                    }
+                });
+            };
+            lettore.readAsDataURL(evento.target.files[0]);
         });
     },
     

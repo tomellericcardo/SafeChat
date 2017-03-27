@@ -73,11 +73,11 @@ registrati = {
     },
     
     registra_utente: function() {
+        $('#username, #password1, #password2').css('border-color', '#757575');
+        var username = $('#username').val();
+        var password1 = $('#password1').val();
+        var password2 = $('#password2').val();
         if (username.length > 0 && password1.length > 0 && password2.length > 0) {
-            $('#username, #password1, #password2').css('border-color', '#757575');
-            var username = $('#username').val();
-            var password1 = $('#password1').val();
-            var password2 = $('#password2').val();
             if (this.username_valido(username) && this.password_valida(password1, password2)) {
                 $('.caricamento').css('display', 'inline');
                 var password = SHA256(password1);

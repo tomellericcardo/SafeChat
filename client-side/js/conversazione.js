@@ -43,7 +43,9 @@ conversazione = {
     },
     
     chiave_destinatario: function() {
-        var richiesta = {username: this.partecipante};
+        var richiesta = {
+            username: this.partecipante
+        };
         $.ajax({
             url: 'chiave_pubblica',
             method: 'POST',
@@ -68,9 +70,11 @@ conversazione = {
     },
     
     leggi_messaggi: function() {
-        var richiesta = {proprietario: this.proprietario,
-                         password: this.password,
-                         partecipante: this.partecipante};
+        var richiesta = {
+            proprietario: this.proprietario,
+            password: this.password,
+            partecipante: this.partecipante
+        };
         $.ajax({
             url: 'leggi_messaggi',
             method: 'POST',
@@ -86,12 +90,19 @@ conversazione = {
                         var mittente = risposta.messaggi[i][0] == conversazione.proprietario;
                         var immagine = risposta.messaggi[i][1] == 1;
                         var testo = cryptico.decrypt(risposta.messaggi[i][2], conversazione.chiave_privata).plaintext;
-                        messaggi[i] = {mittente: mittente,
-                                       immagine: immagine,
-                                       testo: decodeURIComponent(escape(window.atob(testo)))};
+                        if (!immagine) {
+                            testo = decodeURIComponent(escape(window.atob(testo)));
+                        }
+                        messaggi[i] = {
+                            mittente: mittente,
+                            immagine: immagine,
+                            testo: testo
+                        };
                     }
                     conversazione.n_messaggi = messaggi.length;
-                    var risultato = {messaggi: messaggi};
+                    var risultato = {
+                        messaggi: messaggi
+                    };
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_messaggi').html();
                         $('#messaggi').html(Mustache.render(template, risultato));
@@ -123,11 +134,13 @@ conversazione = {
             testo = window.btoa(unescape(encodeURIComponent(testo)));
             var testo_mittente = cryptico.encrypt(testo, conversazione.chiave_pubblica).cipher;
             var testo_destinatario = cryptico.encrypt(testo, conversazione.chiave_partecipante).cipher;
-            var richiesta = {mittente: this.proprietario,
-                             password: this.password,
-                             destinatario: this.partecipante,
-                             testo_mittente: testo_mittente,
-                             testo_destinatario: testo_destinatario};
+            var richiesta = {
+                mittente: this.proprietario,
+                password: this.password,
+                destinatario: this.partecipante,
+                testo_mittente: testo_mittente,
+                testo_destinatario: testo_destinatario
+            };
             $.ajax({
                 url: 'invia_messaggio',
                 method: 'POST',
@@ -155,9 +168,11 @@ conversazione = {
     },
     
     aggiorna_messaggi: function() {
-        var richiesta = {proprietario: conversazione.proprietario,
-                         password: conversazione.password,
-                         partecipante: conversazione.partecipante};
+        var richiesta = {
+            proprietario: conversazione.proprietario,
+            password: conversazione.password,
+            partecipante: conversazione.partecipante
+        };
         $.ajax({
             url: 'n_messaggi',
             method: 'POST',
@@ -187,14 +202,16 @@ conversazione = {
         $('#immagine').change(function(evento) {
             var lettore = new FileReader();
             lettore.onload = function(e) {
-                var immagine = window.btoa(unescape(encodeURIComponent(e.target.result)));
+                var immagine = e.target.result;
                 var immagine_mittente = cryptico.encrypt(immagine, conversazione.chiave_pubblica).cipher;
                 var immagine_destinatario = cryptico.encrypt(immagine, conversazione.chiave_partecipante).cipher;
-                var richiesta = {mittente: conversazione.proprietario,
-                                 password: conversazione.password,
-                                 destinatario: conversazione.partecipante,
-                                 immagine_mittente: immagine_mittente,
-                                 immagine_destinatario: immagine_destinatario};
+                var richiesta = {
+                    mittente: conversazione.proprietario,
+                    password: conversazione.password,
+                    destinatario: conversazione.partecipante,
+                    immagine_mittente: immagine_mittente,
+                    immagine_destinatario: immagine_destinatario
+                };
                 $.ajax({
                     url: 'invia_immagine',
                     method: 'POST',

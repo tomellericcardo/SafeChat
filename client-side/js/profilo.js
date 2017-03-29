@@ -28,9 +28,11 @@ profilo = {
     
     leggi_profilo: function() {
         $('.caricamento').css('display', 'inline');
-        var richiesta = {username: utente.username,
-                         password: utente.password,
-                         utente: this.utente};
+        var richiesta = {
+            username: utente.username,
+            password: utente.password,
+            utente: this.utente
+        };
         $.ajax({
             url: 'leggi_profilo',
             method: 'POST',
@@ -44,9 +46,11 @@ profilo = {
                     var username = risposta.profilo[0];
                     var nome = risposta.profilo[1];
                     var cognome = risposta.profilo[2];
-                    risposta.profilo = {username: username,
-                                        nome: nome,
-                                        cognome: cognome};
+                    risposta.profilo = {
+                        username: username,
+                        nome: nome,
+                        cognome: cognome
+                    };
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_profilo').html();
                         $('#profilo').html(Mustache.render(template, risposta));
@@ -90,10 +94,12 @@ profilo = {
         $('#modifica_profilo').css('display', 'inline');
         var nome = $('#nome').val();
         var cognome = $('#cognome').val();
-        var richiesta = {username: utente.username,
-                         password: utente.password,
-                         nome: nome,
-                         cognome: cognome};
+        var richiesta = {
+            username: utente.username,
+            password: utente.password,
+            nome: nome,
+            cognome: cognome
+        };
         $.ajax({
             url: 'modifica_profilo',
             method: 'POST',

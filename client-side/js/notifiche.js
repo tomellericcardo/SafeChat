@@ -7,8 +7,10 @@ notifiche = {
     },
     
     leggi_notifiche: function() {
-        var richiesta = {username: utente.username,
-                         password: utente.password};
+        var richiesta = {
+            username: utente.username,
+            password: utente.password
+        };
         $.ajax({
             url: 'leggi_notifiche',
             method: 'POST',

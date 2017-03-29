@@ -13,7 +13,10 @@ registrati = {
         if (sessionStorage.length != 0) {
             var username = sessionStorage.getItem('username');
             var password = sessionStorage.getItem('password');
-            var richiesta = {username: username, password: password};
+            var richiesta = {
+                username: username,
+                password: password
+            };
             $.ajax({
                 url: 'accesso_eseguito',
                 method: 'POST',
@@ -88,7 +91,11 @@ registrati = {
                 var password = SHA256(password1);
                 var chiavi = cryptico.generateRSAKey(password, 1024);
                 var chiave_pubblica = cryptico.publicKeyString(chiavi);     
-                var richiesta = {username: username, password: password, chiave: chiave_pubblica};
+                var richiesta = {
+                    username: username,
+                    password: password,
+                    chiave: chiave_pubblica
+                };
                 $.ajax({
                     url: 'registra_utente',
                     method: 'POST',

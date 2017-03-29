@@ -27,7 +27,10 @@ accedi = {
         if (username.length > 0 && password_chiara.length > 0) {
             $('.caricamento').css('display', 'inline');
             var password = SHA256(password_chiara);
-            var richiesta = {username: username, password: password};
+            var richiesta = {
+                username: username,
+                password: password
+            };
             $.ajax({
                 url: 'connetti_utente',
                 method: 'POST',

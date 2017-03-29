@@ -21,7 +21,9 @@ scrivi = {
         var testo = $('#testo').val();
         if (testo.length > 0) {
             $('.caricamento').css('display', 'inline');
-            var richiesta = {testo: testo};
+            var richiesta = {
+                testo: testo
+            };
             $.ajax({
                 url: 'cerca_utente',
                 method: 'POST',
@@ -35,9 +37,11 @@ scrivi = {
                             var username = risposta.risultati[i][0];
                             var nome = risposta.risultati[i][1];
                             var cognome = risposta.risultati[i][2];
-                            risposta.risultati[i] = {username: username,
-                                                     nome: nome,
-                                                     cognome: cognome};
+                            risposta.risultati[i] = {
+                                username: username,
+                                nome: nome,
+                                cognome: cognome
+                            };
                         }
                         $.get('/html/templates.html', function(contenuto) {
                             var template = $(contenuto).filter('#cerca_utente').html();

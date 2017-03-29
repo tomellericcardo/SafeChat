@@ -9,8 +9,10 @@ home = {
     
     leggi_conversazioni: function() {
         $('.caricamento').css('display', 'inline');
-        var richiesta = {username: utente.username,
-                         password: utente.password};
+        var richiesta = {
+            username: utente.username,
+            password: utente.password
+        };
         $.ajax({
             url: 'leggi_conversazioni',
             method: 'POST',
@@ -24,8 +26,10 @@ home = {
                     for (var i = 0; i < risposta.conversazioni.length; i++) {
                         var partecipante = risposta.conversazioni[i][0];
                         var non_letti = risposta.conversazioni[i][1];
-                        risposta.conversazioni[i] = {partecipante: partecipante,
-                                                     non_letti: non_letti};
+                        risposta.conversazioni[i] = {
+                            partecipante: partecipante,
+                            non_letti: non_letti
+                        };
                     }
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_conversazioni').html();
@@ -53,9 +57,11 @@ home = {
     elimina_definitivo: function() {
         $('#elimina_definitivo').on('click', function() {
             var partecipante = $('#partecipante').html();
-            var richiesta = {proprietario: utente.username,
-                             password: utente.password,
-                             partecipante: partecipante};
+            var richiesta = {
+                proprietario: utente.username,
+                password: utente.password,
+               partecipante: partecipante
+           };
             $.ajax({
                 url: 'elimina_conversazione',
                 method: 'POST',

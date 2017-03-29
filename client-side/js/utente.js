@@ -5,7 +5,10 @@ utente = {
     
     accesso_eseguito: function() {
         if (this.username && this.password) {
-            var richiesta = {username: this.username, password: this.password};
+            var richiesta = {
+                username: this.username,
+                password: this.password
+            };
             $.ajax({
                 url: 'accesso_eseguito',
                 method: 'POST',

@@ -29,9 +29,11 @@
 
 #visualizza_immagine {
     display: none;
+    padding-top: 20vh;
 }
 
 #galleria_immagine {
+    width: 100%;
     padding: 0px;
 }
 

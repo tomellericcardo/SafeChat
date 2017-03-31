@@ -50,6 +50,10 @@ hr {
     margin: 0px;
 }
 
+.w3-modal-content {
+    width: 100%;
+}
+
 
 /*** HOME ***/
 

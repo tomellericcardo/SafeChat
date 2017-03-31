@@ -68,8 +68,6 @@ scrivi = {
         var mittente = utente.username;
         if (mittente != destinatario) {
             window.location.href = '/conversazione?con=' + destinatario;
-        } else {
-            errore.messaggio('Vuoi parlare da solo?');
         }
     }
     

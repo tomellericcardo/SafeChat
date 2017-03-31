@@ -8,6 +8,7 @@ conversazione = {
             this.init_testo();
             this.seleziona_immagine();
             this.invia_immagine();
+            this.chiudi_visualizza();
             setInterval(this.aggiorna_messaggi, 1000);
         }
     },

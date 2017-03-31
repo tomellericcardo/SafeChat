@@ -67,12 +67,13 @@
                 </div>
             {{/mittente}}
             {{^mittente}}
-                <div class="w3-col s9 w3-light-grey messaggio">
                     {{#immagine}}
-                        <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
+                        <div class="w3-col s9 w3-light-grey messaggio messaggio_immagine">
+                            <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
                     {{/immagine}}
                     {{^immagine}}
-                        <p class="testo">{{testo}}</p>
+                        <div class="w3-col s9 w3-light-grey messaggio">
+                            <p class="testo">{{testo}}</p>
                     {{/immagine}}
                 </div>
                 <div class="w3-col s3">&nbsp;</div>

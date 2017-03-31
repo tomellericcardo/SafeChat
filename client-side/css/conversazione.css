@@ -39,9 +39,6 @@
 
 #galleria_immagine {
     padding: 0px;
-}
-
-#galleria_immagine img {
     width: 100%;
     max-width: 100%;
 }

@@ -247,3 +247,13 @@ class SafeChat:
         ''', (nome, cognome, username))
         self.g.db.commit()
         cursore.close()
+    
+    def modifica_password(self, username, password, chiave):
+        cursore = self.g.db.cursor()
+        cursore.execute('''
+            UPDATE utente
+            SET password = ?, chiave = ?
+            WHERE username = ?
+        ''', (password, chiave, username))
+        self.g.db.commit()
+        cursore.close()

@@ -55,6 +55,10 @@ def conversazione():
 def profilo():
     return send_from_directory('../client-side/html/', 'profilo.html')
 
+@app.route('/impostazioni')
+def impostazioni():
+    return send_from_directory('../client-side/html/', 'impostazioni.html')
+
 @app.route('/info')
 def info():
     return send_from_directory('../client-side/html/', 'info.html')
@@ -198,6 +202,18 @@ def modifica_profilo():
     cognome = richiesta['cognome']
     safeChat.modifica_profilo(username, nome, cognome)
     return dumps({'modificato': True})
+
+@app.route('/modifica_password', methods = ['POST'])
+def modifica_password():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    nuova_password = richiesta['nuova_password']
+    nuova_chiave = richiesta['nuova_chiave']
+    safeChat.modifica_password(username, nuova_password, nuova_chiave)
+    return dumps({'modificata': True})
 
 
 # AVVIO DEL SERVER

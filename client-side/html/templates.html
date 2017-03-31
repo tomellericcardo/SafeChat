@@ -56,24 +56,22 @@
         <div class="w3-row-padding w3-margin-top">
             {{#mittente}}
                 <div class="w3-col s3">&nbsp;</div>
+                <div class="w3-col s9 w3-pale-green messaggio">
                     {{#immagine}}
-                        <div class="w3-col s9 w3-pale-green messaggio messaggio_immagine">
-                            <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
+                        <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
                     {{/immagine}}
                     {{^immagine}}
-                        <div class="w3-col s9 w3-pale-green messaggio">
-                            <p class="testo">{{testo}}</p>
+                        <p class="testo">{{testo}}</p>
                     {{/immagine}}
                 </div>
             {{/mittente}}
             {{^mittente}}
+                <div class="w3-col s9 w3-light-grey messaggio">
                     {{#immagine}}
-                        <div class="w3-col s9 w3-light-grey messaggio messaggio_immagine">
-                            <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
+                        <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
                     {{/immagine}}
                     {{^immagine}}
-                        <div class="w3-col s9 w3-light-grey messaggio">
-                            <p class="testo">{{testo}}</p>
+                        <p class="testo">{{testo}}</p>
                     {{/immagine}}
                 </div>
                 <div class="w3-col s3">&nbsp;</div>

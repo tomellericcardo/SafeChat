@@ -28,10 +28,6 @@
     cursor: pointer;
 }
 
-.messaggio_immagine {
-    padding: 0px;
-}
-
 #visualizza_immagine {
     display: none;
     padding-top: 20vh;

@@ -236,8 +236,8 @@ conversazione = {
     },
     
     visualizza_immagine: function(immagine) {
-        $('#immagine').attr('src', $(immagine).attr('src'));
-        $('visualizza_immagine').css('display', 'block');
+        $('#galleria_immagine').attr('src', $(immagine).attr('src'));
+        $('#visualizza_immagine').css('display', 'block');
     },
     
     chiudi_visualizza: function() {

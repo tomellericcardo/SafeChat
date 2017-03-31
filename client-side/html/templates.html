@@ -68,7 +68,7 @@
             {{^mittente}}
                 <div class="w3-col s9 w3-light-grey messaggio">
                     {{#immagine}}
-                        <img class="immagine" src="{{testo}}">
+                        <img class="immagine" src="{{testo}}" onclick="conversazione.visualizza_immagine(this)">
                     {{/immagine}}
                     {{^immagine}}
                         <p class="testo">{{testo}}</p>

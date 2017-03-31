@@ -24,6 +24,11 @@
 
 .immagine {
     max-width: 100%;
+    cursor: pointer;
+}
+
+#visualizza_immagine {
+    display: none;
 }
 
 
@@ -38,6 +43,7 @@
 
 #testo {
     height: 50px;
+    border-bottom: 0px solid;
 }
 
 #invia_messaggio, #invia_immagine {

@@ -234,6 +234,17 @@ conversazione = {
         });
     },
     
+    visualizza_immagine: function(immagine) {
+        $('#immagine').attr('src', $(immagine).attr('src'));
+        $('visualizza_immagine').css('display', 'block');
+    },
+    
+    chiudi_visualizza: function() {
+        $('#chiudi_visualizza').on('click', function() {
+            $('#visualizza_immagine').css('display', 'none');
+        });
+    },
+    
     errore: function(messaggio) {
         $('#messaggi').css('color', 'red');
         $('#messaggi').html('<div class="w3-center"><p>' + messaggio + '</p></div>');

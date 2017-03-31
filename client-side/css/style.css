@@ -62,6 +62,13 @@ hr {
 }
 
 
+/*** SCRIVI ***/
+
+#risultati {
+    margin-bottom: 50px;
+}
+
+
 /*** PROFILO ***/
 
 #modifica_profilo, #conferma_modifica {

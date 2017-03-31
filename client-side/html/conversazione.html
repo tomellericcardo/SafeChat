@@ -62,7 +62,7 @@
                     <div class="w3-col s10"><p>Profilo</p></div>
                 </div>
             </a><hr>
-            <a href="#" class="w3-hover-light-grey">
+            <a href="/impostazioni" class="w3-hover-light-grey">
                 <div class="w3-row-padding">
                     <div class="w3-col s2"><i class="material-icons w3-margin-top">settings</i></div>
                     <div class="w3-col s10"><p>Impostazioni</p></div>
@@ -125,6 +125,22 @@
             </div>
         </div>
         
+        <!-- ERRORE -->
+        <div id="errore" class="w3-modal">
+            <div class="w3-third w3-hide-small">&nbsp;</div>
+            <div class="w3-third">
+                <div class="w3-modal-content w3-card-8">
+                    <div class="w3-container w3-red">
+                        <span id="chiudi_errore" class="w3-closebtn">&times;</span>
+                        <h1 class="w3-xlarge">Errore</h1>
+                    </div>
+                    <div class="w3-container w3-padding-bottom w3-white">
+                        <p id="messaggio"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- SCRIPTS -->
         <script type="text/javascript" src="/js/jquery.js"></script>
         <script type="text/javascript" src="/js/cryptico.js"></script>
@@ -132,6 +148,7 @@
         <script type="text/javascript" src="/js/utente.js"></script>
         <script type="text/javascript" src="/js/navbar.js"></script>
         <script type="text/javascript" src="/js/conversazione.js"></script>
+        <script type="text/javascript" src="/js/errore.js"></script>
         <script type="text/javascript" src="/js/notifiche.js"></script>
         
     </body>

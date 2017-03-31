@@ -64,7 +64,7 @@ profilo = {
                 }
             },
             error: function() {
-                profilo.errore('Errore del server!');
+                errore.messaggio('Errore del server!');
             }
         });
     },
@@ -114,14 +114,9 @@ profilo = {
                 }
             },
             error: function() {
-                profilo.errore('Errore del server!');
+                errore.messaggio('Errore del server!');
             }
         });
-    },
-    
-    errore: function(messaggio) {
-        $('#profilo').css('color', 'red');
-        $('#profilo').html('<div class="w3-center"><p>' + messaggio + '</p></div>');
     }
     
 };

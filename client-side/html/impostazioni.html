@@ -61,7 +61,7 @@
                     <div class="w3-col s10"><p>Profilo</p></div>
                 </div>
             </a><hr>
-            <a href="#" class="w3-hover-light-grey">
+            <a href="/impostazioni" class="w3-hover-light-grey">
                 <div class="w3-row-padding">
                     <div class="w3-col s2"><i class="material-icons w3-margin-top">settings</i></div>
                     <div class="w3-col s10"><p>Impostazioni</p></div>
@@ -81,17 +81,12 @@
             </a>
         </nav>
         
-        <!-- MESSAGGIO -->
-        <div id="primo_elemento" class="w3-container w3-center w3-light-grey">
-            <p id="messaggio"><br></p>
-        </div>
-        
         <!-- MODIFICA PASSWORD -->
         <div id="primo_elemento" class="w3-row w3-white">
             <div class="w3-third w3-hide-small">&nbsp;</div>
             <div class="w3-third">
-                <div class="w3-container w3-center w3-white">
-                    <h1 class="w3-xlarge">Modifica password</h1>
+                <div class="w3-container w3-center w3-white"><br>
+                    <h1 class="w3-large">Modifica password</h1>
                     <input type="password" id="vecchia_password" placeholder="Vecchia password" class="w3-input">
                     <input type="password" id="nuova_password1" placeholder="Nuova password" class="w3-input">
                     <input type="password" id="nuova_password2" placeholder="Ripeti password" class="w3-input">
@@ -106,27 +101,48 @@
         <!-- CONFERMA MODIFICA -->
         <div id="conferma_modifica" class="w3-modal">
             <div class="w3-third w3-hide-small">&nbsp;</div>
-            <div class="w3-modal-content w3-third w3-card-8">
-                <div class="w3-container w3-red">
-                    <span id="chiudi_conferma" class="w3-closebtn">&times;</span>
-                    <h1 class="w3-xlarge">Conferma</h1>
+            <div class="w3-third">
+                <div class="w3-modal-content w3-card-8">
+                    <div class="w3-container w3-red">
+                        <span id="chiudi_conferma" class="w3-closebtn">&times;</span>
+                        <h1 class="w3-xlarge">Conferma</h1>
+                    </div>
+                    <div class="w3-container w3-padding-bottom w3-white">
+                        <p>
+                            Sei sicuro di voler modificare la tua password?
+                            <br><b>Tutti i tuoi messaggi e le tue conversazioni verranno eliminate!</b>
+                            <br>Dovrai eseguire nuovamente l'accesso dopo la modifica.
+                        </p>
+                        <button id="modifica_definitivo" class="w3-right w3-btn w3-blue">Sicuro</button>
+                    </div>
                 </div>
-                <div class="w3-container w3-padding-bottom w3-white">
-                    <p>
-                        Sei sicuro di voler modificare la tua password?
-                        <br>Tutti i tuoi messaggi e le tue conversazioni verranno eliminate!
-                    </p>
-                    <button id="modifica_definitivo" class="w3-right w3-btn w3-blue">Sicuro</button>
+            </div>
+        </div>
+        
+        <!-- ERRORE -->
+        <div id="errore" class="w3-modal">
+            <div class="w3-third w3-hide-small">&nbsp;</div>
+            <div class="w3-third">
+                <div class="w3-modal-content w3-card-8">
+                    <div class="w3-container w3-red">
+                        <span id="chiudi_errore" class="w3-closebtn">&times;</span>
+                        <h1 class="w3-xlarge">Errore</h1>
+                    </div>
+                    <div class="w3-container w3-padding-bottom w3-white">
+                        <p id="messaggio"></p>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- SCRIPTS -->
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/cryptico.js"></script>
         <script type="text/javascript" src="/js/mustache.js"></script>
         <script type="text/javascript" src="/js/utente.js"></script>
         <script type="text/javascript" src="/js/navbar.js"></script>
         <script type="text/javascript" src="/js/impostazioni.js"></script>
+        <script type="text/javascript" src="/js/errore.js"></script>
         <script type="text/javascript" src="/js/notifiche.js"></script>
         
     </body>

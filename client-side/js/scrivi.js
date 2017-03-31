@@ -50,17 +50,17 @@ scrivi = {
                     } else {
                         $('#testo').val('');
                         $('#testo').css('border-color', 'red');
-                        scrivi.errore('Nessuna corrispondenza trovata!');
+                        errore.messaggio('Nessuna corrispondenza trovata!');
                     }
                 },
                 error: function() {
                     $('.caricamento').css('display', 'none');
-                    scrivi.errore('Errore del server!');
+                    errore.messaggio('Errore del server!');
                 }
             });
         } else {
             $('#testo').css('border-color', 'red');
-            scrivi.errore('Inserisci uno criterio di ricerca!');
+            errore.messaggio('Inserisci uno criterio di ricerca!');
         }
     },
     
@@ -69,13 +69,8 @@ scrivi = {
         if (mittente != destinatario) {
             window.location.href = '/conversazione?con=' + destinatario;
         } else {
-            scrivi.errore('Vuoi parlare da solo?');
+            errore.messaggio('Vuoi parlare da solo?');
         }
-    },
-    
-    errore: function(messaggio) {
-        $('#messaggio').css('color', 'red');
-        $('#messaggio').html(messaggio);
     }
     
 };

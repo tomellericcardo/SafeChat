@@ -59,7 +59,7 @@ conversazione = {
                 }
             },
             error: function() {
-                conversazione.errore('Errore del server!');
+                errore.messaggio('Errore del server!');
             }
         });
     },
@@ -112,7 +112,7 @@ conversazione = {
                 }
             },
             error: function() {
-                conversazione.errore('Errore del server!');
+                errore.messaggio('Errore del server!');
             }
         });
     },
@@ -156,7 +156,7 @@ conversazione = {
                     }
                 },
                 error: function() {
-                    conversazione.errore('Errore del server!');
+                    errore.messaggio('Errore del server!');
                 }
             });
         }
@@ -188,7 +188,7 @@ conversazione = {
                 }
             },
             error: function() {
-                conversazione.errore('Errore del server!');
+                errore.messaggio('Errore del server!');
             }
         });
     },
@@ -227,7 +227,7 @@ conversazione = {
                         }
                     },
                     error: function() {
-                        conversazione.errore('Errore del server!');
+                        errore.messaggio('Errore del server!');
                     }
                 });
             };
@@ -244,11 +244,6 @@ conversazione = {
         $('#visualizza_immagine').on('click', function() {
             $('#visualizza_immagine').css('display', 'none');
         });
-    },
-    
-    errore: function(messaggio) {
-        $('#messaggi').css('color', 'red');
-        $('#messaggi').html('<div class="w3-center"><p>' + messaggio + '</p></div>');
     }
     
 };

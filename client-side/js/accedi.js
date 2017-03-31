@@ -46,23 +46,18 @@ accedi = {
                     } else {
                         $('#username, #password').val('');
                         $('#username, #password').css('border-color', 'red');
-                        accedi.errore('Credenziali non valide!');
+                        errore.messaggio('Credenziali non valide!');
                     }
                 },
                 error: function() {
                     $('.caricamento').css('display', 'none');
-                    accedi.errore('Errore del server!');
+                    errore.messaggio('Errore del server!');
                 }
             });
         } else {
             $('#username, #password').css('border-color', 'red');
-            accedi.errore('Completa i campi!');
+            errore.messaggio('Completa i campi!');
         }
-    },
-    
-    errore: function(messaggio) {
-        $('#messaggio').css('color', 'red');
-        $('#messaggio').html(messaggio);
     }
     
 };

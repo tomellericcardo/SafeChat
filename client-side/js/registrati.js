@@ -31,7 +31,7 @@ registrati = {
                     }
                 },
                 error: function() {
-                    registrati.errore('Errore del server!');
+                    errore.messaggio('Errore del server!');
                 }
             });
         }
@@ -107,7 +107,7 @@ registrati = {
                         if (risposta.username_presente) {
                             $('#username').val('');
                             $('#username').css('border-color', 'red');
-                            registrati.errore('Username gi&agrave; presente nel sistema!');
+                            errore.messaggio('Username gi&agrave; presente nel sistema!');
                         } else if (risposta.utente_registrato) {
                             sessionStorage.setItem('username', username.toLowerCase());
                             sessionStorage.setItem('password', password);
@@ -116,7 +116,7 @@ registrati = {
                     },
                     error: function() {
                         $('.caricamento').css('display', 'none');
-                        registrati.errore('Errore del server!');
+                        errore.messaggio('Errore del server!');
                     }
                 });
             }
@@ -124,11 +124,6 @@ registrati = {
             $('#username, #password1, #password2').css('border-color', 'red');
             this.errore('Completa tutti i campi!');
         }
-    },
-    
-    errore: function(messaggio) {
-        $('#messaggio').css('color', 'red');
-        $('#messaggio').html(messaggio);
     }
     
 };

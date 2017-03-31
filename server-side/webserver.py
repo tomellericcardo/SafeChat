@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, g, send_from_directory, request
-from flask_sslify import SSLify
+# from flask_sslify import SSLify
 from safeChat import SafeChat
 from json import dumps
 
@@ -9,7 +9,7 @@ from json import dumps
 # VARIABILI GLOBALI
 
 app = Flask(__name__)
-ssLify = SSLify(app)
+# ssLify = SSLify(app)
 safeChat = SafeChat(g, 'database.db', 'piper_nigrum')
 
 
@@ -17,51 +17,26 @@ safeChat = SafeChat(g, 'database.db', 'piper_nigrum')
 
 @app.before_request
 def apri_connessione():
-    safeChat.apri_connessione()
+    safeChat.safeBase.apri_connessione()
 
 @app.teardown_request
 def chiudi_connessione(exception):
-    safeChat.chiudi_connessione()
+    safeChat.safeBase.chiudi_connessione()
 
 
 # INVIO FILES
+
+@app.route('/')
+def home():
+    return send_from_directory('../client-side/html/', 'home.html')
 
 @app.route('/<nome_cartella>/<nome_file>')
 def invia_file(nome_cartella, nome_file):
     return send_from_directory('../client-side/' + nome_cartella + '/', nome_file)
 
-@app.route('/')
-@app.route('/accedi')
-def accedi():
-    return send_from_directory('../client-side/html/', 'accedi.html')
-
-@app.route('/registrati')
-def registrati():
-    return send_from_directory('../client-side/html/', 'registrati.html')
-
-@app.route('/home')
-def home():
-    return send_from_directory('../client-side/html/', 'home.html')
-
-@app.route('/scrivi')
-def scrivi():
-    return send_from_directory('../client-side/html/', 'scrivi.html')
-
-@app.route('/conversazione')
-def conversazione():
-    return send_from_directory('../client-side/html/', 'conversazione.html')
-
-@app.route('/profilo')
-def profilo():
-    return send_from_directory('../client-side/html/', 'profilo.html')
-
-@app.route('/impostazioni')
-def impostazioni():
-    return send_from_directory('../client-side/html/', 'impostazioni.html')
-
-@app.route('/info')
-def info():
-    return send_from_directory('../client-side/html/', 'info.html')
+@app.route('/<nome_pagina>')
+def invia_pagina(nome_pagina):
+    return send_from_directory('../client-side/html/', nome_pagina + '.html')
 
 
 # ALTRI CONTESTI
@@ -219,4 +194,4 @@ def modifica_password():
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    app.run(threaded = True)
+    app.run(threaded = True, debug = True)

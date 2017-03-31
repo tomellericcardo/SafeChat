@@ -26,20 +26,26 @@ impostazioni = {
         if (vecchia_password.length > 0 && nuova_password1.length > 0 && nuova_password2.length > 0) {
             if (nuova_password1.length >= 8) {
                 if (nuova_password1 == nuova_password2) {
-                    $('#conferma_modifica').css('display', 'block');
+                    if (nuova_password1 != vecchia_password) {
+                        $('#conferma_modifica').css('display', 'block');
+                    } else {
+                        $('#nuova_password1, #nuova_password2').css('border-color', 'red');
+                        $('#nuova_password1, #nuova_password2').val('');
+                        errore.messaggio('La nuova password deve essere diversa da quella vecchia!');
+                    }
                 } else {
                     $('#nuova_password1, #nuova_password2').css('border-color', 'red');
                     $('#nuova_password1, #nuova_password2').val('');
-                    impostazioni.errore('Le due password non corrispondono!');
+                    errore.messaggio('Le due password non corrispondono!');
                 }
             } else {
                 $('#nuova_password1, #nuova_password2').css('border-color', 'red');
                 $('#nuova_password1, #nuova_password2').val('');
-                impostazioni.errore('La password deve essere lunga almeno 8 caratteri!');
+                errore.messaggio('La password deve essere lunga almeno 8 caratteri!');
             }
         } else {
             $('#vecchia_password, #nuova_password1, #nuova_password2').css('border-color', 'red');
-            impostazioni.errore('Completa tutti i campi!');
+            errore.messaggio('Completa tutti i campi!');
         }
     },
     
@@ -66,14 +72,15 @@ impostazioni = {
                 data: JSON.stringify(richiesta),
                 success: function(risposta) {
                     $('.caricamento').css('display', 'none');
-                    if (risposta.modificata) {
-                        $('#messaggio').css('color', 'green');
-                        $('#messaggio').html('Password modificata!');
+                    if (risposta.utente_non_valido) {
+                        errore.messaggio('Vecchia password non corretta!');
+                    } else if (risposta.modificata) {
+                        utente.disconnetti_utente();
                     }
                 },
                 error: function() {
                     $('.caricamento').css('display', 'none');
-                    impostazioni.errore('Errore del server!');
+                    errore.messaggio('Errore del server!');
                 }
             });
         });
@@ -84,11 +91,6 @@ impostazioni = {
             $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
             $('#conferma_modifica').css('display', 'none');
         });
-    },
-    
-    errore: function(messaggio) {
-        $('#messaggio').css('color', 'red');
-        $('#messaggio').html(messaggio);
     }
     
 };

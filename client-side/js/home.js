@@ -38,7 +38,7 @@ home = {
                 }
             },
             error: function() {
-                home.errore('Errore del server!');
+                errore.messaggio('Errore del server!');
             }
         });
     },
@@ -78,15 +78,10 @@ home = {
                 },
                 error: function() {
                     $('#elimina_conversazione').css('display', 'none');
-                    home.errore('Errore del server!');
+                    errore.messaggio('Errore del server!');
                 }
             });
         });
-    },
-    
-    errore: function(messaggio) {
-        $('#conversazioni').css('color', 'red');
-        $('#conversazioni').html('<div class="w3-center"><p>' + messaggio + '</p></div>');
     }
     
 };

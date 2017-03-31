@@ -23,8 +23,7 @@
 }
 
 .immagine {
-    width: 100%;
-    padding: 0px;
+    max-width: 100%;
     cursor: pointer;
 }
 

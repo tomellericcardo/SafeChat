@@ -23,8 +23,13 @@
 }
 
 .immagine {
-    max-width: 100%;
+    width: 100%;
+    padding: 0px;
     cursor: pointer;
+}
+
+.messaggio_immagine {
+    padding: 0px;
 }
 
 #visualizza_immagine {
@@ -33,8 +38,12 @@
 }
 
 #galleria_immagine {
-    width: 100%;
     padding: 0px;
+}
+
+#galleria_immagine img {
+    width: 100%;
+    max-width: 100%;
 }
 
 

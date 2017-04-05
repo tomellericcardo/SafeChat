@@ -121,4 +121,5 @@ profilo = {
     
 };
 
+
 $(document).ready(profilo.init());

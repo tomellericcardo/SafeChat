@@ -2,7 +2,7 @@
     "name": "SafeChat",
     "short_name": "SafeChat",
     "description": "A simple and safe chat application",
-    "start_url": "/",
+    "start_url": "/home",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "#4CAF50",

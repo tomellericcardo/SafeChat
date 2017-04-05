@@ -27,8 +27,8 @@ def chiudi_connessione(exception):
 # INVIO FILES
 
 @app.route('/')
-def home():
-    return send_from_directory('../client-side/html/', 'home.html')
+def accedi():
+    return send_from_directory('../client-side/html/', 'accedi.html')
 
 @app.route('/<nome_pagina>')
 def invia_pagina(nome_pagina):

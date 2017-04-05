@@ -62,4 +62,5 @@ accedi = {
     
 };
 
+
 $(document).ready(accedi.init());

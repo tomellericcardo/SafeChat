@@ -60,4 +60,5 @@ notifiche = {
     
 };
 
+
 $(document).ready(notifiche.init());

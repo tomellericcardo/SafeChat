@@ -32,4 +32,5 @@ navbar = {
     
 };
 
+
 $(document).ready(navbar.init());

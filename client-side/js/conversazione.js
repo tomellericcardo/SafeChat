@@ -241,11 +241,12 @@ conversazione = {
     },
     
     chiudi_visualizza: function() {
-        $('#chiudi_visualizza').on('click', function() {
+        $('#visualizza_immagine').on('click', function() {
             $('#visualizza_immagine').css('display', 'none');
         });
     }
     
 };
+
 
 $(document).ready(conversazione.init());

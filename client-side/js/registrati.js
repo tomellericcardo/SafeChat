@@ -128,4 +128,5 @@ registrati = {
     
 };
 
+
 $(document).ready(registrati.init());

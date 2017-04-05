@@ -157,4 +157,5 @@ impostazioni = {
     
 };
 
+
 $(document).ready(impostazioni.init());

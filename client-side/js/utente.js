@@ -34,4 +34,5 @@ utente = {
     
 };
 
+
 $(document).ready(utente.accesso_eseguito());

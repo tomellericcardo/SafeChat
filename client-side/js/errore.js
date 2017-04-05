@@ -13,4 +13,5 @@ errore = {
     
 };
 
+
 $(document).ready(errore.chiudi_errore());

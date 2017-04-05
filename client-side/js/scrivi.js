@@ -16,7 +16,6 @@ scrivi = {
     },
     
     cerca_utente: function() {
-        $('#messaggio').html('<br>');
         $('#testo').css('border-color', '#757575');
         var testo = $('#testo').val();
         if (testo.length > 0) {
@@ -60,7 +59,7 @@ scrivi = {
             });
         } else {
             $('#testo').css('border-color', 'red');
-            errore.messaggio('Inserisci uno criterio di ricerca!');
+            errore.messaggio('Inserisci un criterio di ricerca!');
         }
     },
     
@@ -72,5 +71,6 @@ scrivi = {
     }
     
 };
+
 
 $(document).ready(scrivi.init());

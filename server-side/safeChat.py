@@ -171,3 +171,17 @@ class SafeChat:
             DELETE FROM messaggio
             WHERE proprietario = ?
         ''', (username,))
+    
+    def elimina_account(self, username):
+        self.safeBase.scrivi('''
+            DELETE FROM utente
+            WHERE username = ?
+        ''', (username,))
+        self.safeBase.scrivi('''
+            DELETE FROM profilo
+            WHERE username = ?
+        ''', (username,))
+        self.safeBase.scrivi('''
+            DELETE FROM messaggio
+            WHERE proprietario = ? OR partecipante = ?
+        ''', (username, username))

@@ -3,7 +3,10 @@ impostazioni = {
     init: function() {
         this.richiesta_modifica();
         this.conferma_modifica();
-        this.chiudi_conferma();
+        this.chiudi_modifica();
+        this.richiesta_elimina();
+        this.conferma_elimina();
+        this.chiudi_elimina();
     },
     
     richiesta_modifica: function() {
@@ -18,7 +21,6 @@ impostazioni = {
     },
     
     modifica_password: function() {
-        $('#messaggio').html('<br>');
         $('#vecchia_password, #nuova_password1, #nuova_password2').css('border-color', '#757575');
         var vecchia_password = $('#vecchia_password').val();
         var nuova_password1 = $('#nuova_password1').val();
@@ -52,7 +54,7 @@ impostazioni = {
     conferma_modifica: function() {
         $('#modifica_definitivo').on('click', function() {
             $('#conferma_modifica').css('display', 'none');
-            $('.caricamento').css('display', 'inline');
+            $('#caricamento_modifica').css('display', 'inline');
             var password = SHA256($('#vecchia_password').val());
             var nuova_password = SHA256($('#nuova_password1').val());
             $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
@@ -71,7 +73,7 @@ impostazioni = {
                 dataType: 'json',
                 data: JSON.stringify(richiesta),
                 success: function(risposta) {
-                    $('.caricamento').css('display', 'none');
+                    $('#caricamento_modifica').css('display', 'none');
                     if (risposta.utente_non_valido) {
                         errore.messaggio('Vecchia password non corretta!');
                     } else if (risposta.modificata) {
@@ -79,17 +81,77 @@ impostazioni = {
                     }
                 },
                 error: function() {
-                    $('.caricamento').css('display', 'none');
+                    $('#caricamento_modifica').css('display', 'none');
                     errore.messaggio('Errore del server!');
                 }
             });
         });
     },
     
-    chiudi_conferma: function() {
-        $('#chiudi_conferma').on('click', function() {
+    chiudi_modifica: function() {
+        $('#chiudi_modifica').on('click', function() {
             $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
             $('#conferma_modifica').css('display', 'none');
+        });
+    },
+    
+    richiesta_elimina: function() {
+        $('#elimina_account').on('click', function() {
+            impostazioni.elimina_account();
+        });
+        $('#password').on('keyup', function(e) {
+            if (e.keyCode == 13) {
+                impostazioni.elimina_account();
+            }
+        });
+    },
+    
+    elimina_account: function() {
+        $('#password').css('border-color', '#757575');
+        var password = $('#password').val();
+        if (password.length > 0) {
+            $('#conferma_elimina').css('display', 'block');
+        } else {
+            $('#password').css('border-color', 'red');
+            errore.messaggio('Inserisci la tua password!');
+        }
+    },
+    
+    conferma_elimina: function() {
+        $('#elimina_definitivo').on('click', function() {
+            $('#conferma_elimina').css('display', 'none');
+            $('#caricamento_elimina').css('display', 'inline');
+            var password = $('#password').val();
+            var richiesta = {
+                username: utente.username,
+                password: password
+            };
+            $.ajax({
+                url: 'elimina_account',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(richiesta),
+                success: function(risposta) {
+                    $('#caricamento_elimina').css('display', 'none');
+                    if (risposta.utente_non_valido) {
+                        errore.messaggio('Vecchia password non corretta!');
+                    } else if (risposta.eliminato) {
+                        utente.disconnetti_utente();
+                    }
+                },
+                error: function() {
+                    $('#caricamento_elimina').css('display', 'none');
+                    errore.messaggio('Errore del server!');
+                }
+            });
+        });
+    },
+    
+    chiudi_elimina: function() {
+        $('#chiudi_elimina').on('click', function() {
+            $('#password').val('');
+            $('#conferma_elimina').css('display', 'none');
         });
     }
     

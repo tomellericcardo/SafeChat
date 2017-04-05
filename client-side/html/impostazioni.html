@@ -91,7 +91,7 @@
                     <input type="password" id="nuova_password1" placeholder="Nuova password" class="w3-input">
                     <input type="password" id="nuova_password2" placeholder="Ripeti password" class="w3-input">
                     <div class="w3-margin w3-right">
-                        <span class="caricamento"><i class="material-icons w3-spin w3-text-grey">refresh</i></span>
+                        <span id="caricamento_modifica" class="caricamento"><i class="material-icons w3-spin w3-text-grey">refresh</i></span>
                         <button id="modifica_password" class="w3-btn w3-blue">Modifica</button>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
             <div class="w3-third">
                 <div class="w3-modal-content w3-card-8">
                     <div class="w3-container w3-red">
-                        <span id="chiudi_conferma" class="w3-closebtn">&times;</span>
+                        <span id="chiudi_modifica" class="w3-closebtn">&times;</span>
                         <h1 class="w3-xlarge">Conferma</h1>
                     </div>
                     <div class="w3-container w3-padding-bottom w3-white">
@@ -114,6 +114,41 @@
                             <br>Dovrai eseguire nuovamente l'accesso dopo la modifica.
                         </p>
                         <button id="modifica_definitivo" class="w3-right w3-btn w3-blue">Sicuro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ELIMINA ACCOUNT -->
+        <div class="w3-row w3-white">
+            <div class="w3-third w3-hide-small">&nbsp;</div>
+            <div class="w3-third">
+                <div class="w3-container w3-center w3-white"><br>
+                    <h1 class="w3-large">Elimina account</h1>
+                    <input type="password" id="password" placeholder="Password" class="w3-input">
+                    <div class="w3-margin w3-right">
+                        <span id="caricamento_elimina" class="caricamento"><i class="material-icons w3-spin w3-text-grey">refresh</i></span>
+                        <button id="elimina_account" class="w3-btn w3-blue">Elimina</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CONFERMA ELIMINA -->
+        <div id="conferma_elimina" class="w3-modal">
+            <div class="w3-third w3-hide-small">&nbsp;</div>
+            <div class="w3-third">
+                <div class="w3-modal-content w3-card-8">
+                    <div class="w3-container w3-red">
+                        <span id="chiudi_elimina" class="w3-closebtn">&times;</span>
+                        <h1 class="w3-xlarge">Conferma</h1>
+                    </div>
+                    <div class="w3-container w3-padding-bottom w3-white">
+                        <p>
+                            Sei sicuro di voler eliminare il tuo account?
+                            <br><b>Tutti i tuoi messaggi, le tue conversazioni e i tuoi dati verranno eliminati!</b>
+                        </p>
+                        <button id="elimina_definitivo" class="w3-right w3-btn w3-blue">Sicuro</button>
                     </div>
                 </div>
             </div>

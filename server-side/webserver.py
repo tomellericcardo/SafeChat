@@ -30,16 +30,16 @@ def chiudi_connessione(exception):
 def home():
     return send_from_directory('../client-side/html/', 'home.html')
 
-@app.route('/<nome_cartella>/<nome_file>')
-def invia_file(nome_cartella, nome_file):
-    return send_from_directory('../client-side/' + nome_cartella + '/', nome_file)
-
 @app.route('/<nome_pagina>')
 def invia_pagina(nome_pagina):
     return send_from_directory('../client-side/html/', nome_pagina + '.html')
 
+@app.route('/<nome_cartella>/<nome_file>')
+def invia_file(nome_cartella, nome_file):
+    return send_from_directory('../client-side/' + nome_cartella + '/', nome_file)
 
-# ALTRI CONTESTI
+
+# CONTESTI
 
 @app.route('/accesso_eseguito', methods = ['POST'])
 @app.route('/connetti_utente', methods = ['POST'])
@@ -189,6 +189,16 @@ def modifica_password():
     nuova_chiave = richiesta['nuova_chiave']
     safeChat.modifica_password(username, nuova_password, nuova_chiave)
     return dumps({'modificata': True})
+
+@app.route('/elimina_account', methods = ['POST'])
+def elimina_account():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    safeChat.elimina_account(username)
+    return dumps({'eliminato': True})
 
 
 # AVVIO DEL SERVER

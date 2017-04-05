@@ -241,7 +241,7 @@ conversazione = {
     },
     
     chiudi_visualizza: function() {
-        $('#visualizza_immagine').on('click', function() {
+        $('#chiudi_visualizza').on('click', function() {
             $('#visualizza_immagine').css('display', 'none');
         });
     }

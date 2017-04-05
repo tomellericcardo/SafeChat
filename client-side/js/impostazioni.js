@@ -121,7 +121,7 @@ impostazioni = {
         $('#elimina_definitivo').on('click', function() {
             $('#conferma_elimina').css('display', 'none');
             $('#caricamento_elimina').css('display', 'inline');
-            var password = $('#password').val();
+            var password = SHA256($('#password').val());
             var richiesta = {
                 username: utente.username,
                 password: password

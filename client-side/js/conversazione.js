@@ -7,7 +7,7 @@ conversazione = {
             this.richiesta_invio();
             this.init_testo();
             this.seleziona_immagine();
-            this.invia_immagine();
+            this.leggi_immagine();
             this.chiudi_visualizza();
             setInterval(this.aggiorna_messaggi, 1000);
         }
@@ -199,37 +199,68 @@ conversazione = {
         });
     },
     
-    invia_immagine: function() {
+    invia_immagine: function(immagine) {
+        var immagine_mittente = cryptico.encrypt(immagine, conversazione.chiave_pubblica).cipher;
+        var immagine_destinatario = cryptico.encrypt(immagine, conversazione.chiave_partecipante).cipher;
+        var richiesta = {
+            mittente: conversazione.proprietario,
+            password: conversazione.password,
+            destinatario: conversazione.partecipante,
+            immagine_mittente: immagine_mittente,
+            immagine_destinatario: immagine_destinatario
+        };
+        $.ajax({
+            url: 'invia_immagine',
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(richiesta),
+            success: function(risposta) {
+                if (risposta.utente_non_valido) {
+                    utente.disconnetti_utente();
+                } else if (risposta.inviata) {
+                    conversazione.leggi_messaggi();
+                }
+            },
+            error: function() {
+                errore.messaggio('Errore del server!');
+            }
+        });
+    },
+    
+    ridimensiona_invia: function(sorgente, larghezza_massima, altezza_massima) {
+        var immagine = document.createElement('img');
+        var canvas = document.createElement('canvas');
+        immagine.onload = function() {
+            var contesto = canvas.getContext('2d');
+            contesto.drawImage(immagine, 0, 0);
+            var larghezza = immagine.width;
+            var altezza = immagine.height;
+            if (larghezza > altezza) {
+                if (larghezza > larghezza_massima) {
+                    altezza *= larghezza_massima / larghezza;
+                    larghezza = larghezza_massima;
+                }
+            } else {
+                if (altezza > altezza_massima) {
+                    larghezza *= altezza_massima / altezza;
+                    altezza = altezza_massima;
+                }
+            }
+            canvas.width = larghezza;
+            canvas.height = altezza;
+            var contesto = canvas.getContext('2d');
+            contesto.drawImage(immagine, 0, 0, larghezza, altezza);
+            conversazione.invia_immagine(canvas.toDataURL('image/png'));
+        };
+        immagine.src = sorgente;
+    },
+    
+    leggi_immagine: function() {
         $('#immagine').change(function(evento) {
             var lettore = new FileReader();
             lettore.onload = function(e) {
-                var immagine = e.target.result;
-                var immagine_mittente = cryptico.encrypt(immagine, conversazione.chiave_pubblica).cipher;
-                var immagine_destinatario = cryptico.encrypt(immagine, conversazione.chiave_partecipante).cipher;
-                var richiesta = {
-                    mittente: conversazione.proprietario,
-                    password: conversazione.password,
-                    destinatario: conversazione.partecipante,
-                    immagine_mittente: immagine_mittente,
-                    immagine_destinatario: immagine_destinatario
-                };
-                $.ajax({
-                    url: 'invia_immagine',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    data: JSON.stringify(richiesta),
-                    success: function(risposta) {
-                        if (risposta.utente_non_valido) {
-                            utente.disconnetti_utente();
-                        } else if (risposta.inviata) {
-                            conversazione.leggi_messaggi();
-                        }
-                    },
-                    error: function() {
-                        errore.messaggio('Errore del server!');
-                    }
-                });
+                conversazione.ridimensiona_invia(e.target.result, 300, 500);
             };
             lettore.readAsDataURL(evento.target.files[0]);
         });

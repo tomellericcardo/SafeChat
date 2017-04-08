@@ -72,25 +72,25 @@ profilo = {
     modifica_profilo: function() {
         $('#modifica_profilo').on('click', function() {
             $('#modifica_profilo').css('display', 'none');
-            $('#conferma_modifica').css('display', 'inline');
+            $('#conferma_modifiche').css('display', 'inline');
             $('#nome, #cognome').prop('disabled', false);
         });
     },
     
     richiesta_modifica: function() {
-        $('#conferma_modifica').on('click', function() {
-            profilo.conferma_modifica();
+        $('#conferma_modifiche').on('click', function() {
+            profilo.conferma_modifiche();
         });
         $('#nome, #cognome').on('keyup', function(e) {
             if (e.keyCode == 13) {
-                profilo.conferma_modifica();
+                profilo.conferma_modifiche();
             }
         });
     },
     
-    conferma_modifica: function() {
+    conferma_modifiche: function() {
         $('#nome, #cognome').prop('disabled', true);
-        $('#conferma_modifica').css('display', 'none');
+        $('#conferma_modifiche').css('display', 'none');
         $('#modifica_profilo').css('display', 'inline');
         var nome = $('#nome').val();
         var cognome = $('#cognome').val();

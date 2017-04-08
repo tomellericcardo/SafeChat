@@ -49,14 +49,16 @@ class SafeChat:
         ''', (username, password_criptata, chiave, sale))
         self.safeBase.scrivi('''
             INSERT INTO profilo
-            VALUES (?, '', '')
+            VALUES (?, '', '', '')
         ''', (username,))
     
     def leggi_conversazioni(self, username):
         risultato = self.safeBase.leggi_righe('''
-            SELECT partecipante,
+            SELECT partecipante, foto,
             SUM(CASE letto WHEN 0 THEN 1 ELSE 0 END)
-            FROM messaggio
+            FROM messaggio m
+            INNER JOIN profilo p
+            ON (m.partecipante == p.username)
             WHERE proprietario = ? 
             GROUP BY partecipante
         ''', (username,))
@@ -79,7 +81,7 @@ class SafeChat:
     
     def cerca_utente(self, testo):
         risultato = self.safeBase.leggi_righe('''
-            SELECT username, nome, cognome
+            SELECT foto, username, nome, cognome
             FROM profilo
             WHERE LOWER(username || nome || cognome)
             REGEXP ?
@@ -146,7 +148,7 @@ class SafeChat:
     
     def leggi_profilo(self, username):
         risultato = self.safeBase.leggi_riga('''
-            SELECT username, nome, cognome
+            SELECT foto, username, nome, cognome
             FROM profilo
             WHERE username = ?
         ''', (username,))
@@ -158,6 +160,13 @@ class SafeChat:
             SET nome = ?, cognome = ?
             WHERE username = ?
         ''', (nome, cognome, username))
+    
+    def modifica_foto(self, username, foto):
+        self.safeBase.scrivi('''
+            UPDATE profilo
+            SET foto = ?
+            WHERE username = ?
+        ''', (foto, username))
     
     def modifica_password(self, username, password, chiave):
         sale = self.genera_sale()

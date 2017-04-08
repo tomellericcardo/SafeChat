@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, g, send_from_directory, request
-from flask_sslify import SSLify
+# from flask_sslify import SSLify
 from safeChat import SafeChat
 from json import dumps
 
@@ -9,7 +9,7 @@ from json import dumps
 # VARIABILI GLOBALI
 
 app = Flask(__name__)
-ssLify = SSLify(app)
+# ssLify = SSLify(app)
 safeChat = SafeChat(g, 'database.db', 'piper_nigrum')
 
 
@@ -178,6 +178,17 @@ def modifica_profilo():
     safeChat.modifica_profilo(username, nome, cognome)
     return dumps({'modificato': True})
 
+@app.route('/modifica_foto', methods = ['POST'])
+def modifica_foto():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    foto = richiesta['foto']
+    safeChat.modifica_foto(username, foto)
+    return dumps({'modificata': True})
+
 @app.route('/modifica_password', methods = ['POST'])
 def modifica_password():
     richiesta = request.get_json(force = True)
@@ -204,4 +215,4 @@ def elimina_account():
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    app.run(threaded = True)
+    app.run(threaded = True, debug = True)

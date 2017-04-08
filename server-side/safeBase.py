@@ -28,7 +28,8 @@ class SafeBase:
             CREATE TABLE IF NOT EXISTS profilo (
                 username TEXT PRIMARY KEY,
                 nome TEXT,
-                cognome TEXT
+                cognome TEXT,
+                foto TEXT
             )
         ''')
         database.commit()

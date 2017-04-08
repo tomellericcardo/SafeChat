@@ -3,10 +3,15 @@
 <!-- LEGGI CONVERSAZIONI -->
 <script type="text/html" id="leggi_conversazioni">
     {{#conversazioni}}
-        <div class="w3-row-padding w3-hover-light-grey">
+        <div class="w3-row-padding w3-padding-8 w3-hover-light-grey">
             <a href="/profilo?di={{partecipante}}" class="conversazione">
                 <div class="w3-col s2 w3-center w3-text-blue">
-                    <i class="material-icons w3-margin-top">person</i>
+                    {{#foto}}
+                        <img src="{{foto}}" id="foto_profilo">
+                    {{/foto}}
+                    {{^foto}}
+                        <i class="material-icons w3-margin-top">person</i>
+                    {{/foto}}
                 </div>
             </a>
             <a href="/conversazione?con={{partecipante}}" class="conversazione">
@@ -36,10 +41,18 @@
 <script type="text/html" id="cerca_utente">
     {{#risultati}}
         <a href="#" onclick="scrivi.nuova_conversazione('{{username}}')" class="w3-hover-light-grey">
-            <div class="w3-row-padding">
-                <div class="w3-col s10"><p><b>{{username}}</b>
+            <div class="w3-row">
+                <div class="w3-col s2">
+                    {{#foto}}
+                        <img src="{{foto}}" id="foto_profilo" class="w3-margin-top">
+                    {{/foto}}
+                    {{^foto}}
+                        <i class="material-icons w3-margin-top w3-margin-left">person</i>
+                    {{/foto}}
+                </div>
+                <div class="w3-col s8"><p><b>{{username}}</b>
                                         <br>{{nome}} {{cognome}}</p></div>
-                <div class="w3-col s2"><i class="material-icons w3-margin-top">send</i></div>
+                <div class="w3-col s1"><i class="material-icons w3-margin-top">send</i></div>
             </div>
         </a><hr>
     {{/risultati}}
@@ -91,8 +104,13 @@
 <script type="text/html" id="leggi_profilo">
     {{#profilo}}
         <div class="w3-row-padding w3-padding-32">
-            <div id="icona_profilo" class="w3-col s3">
-                <i class="material-icons w3-jumbo w3-text-blue">person</i>
+            <div id="modifica_foto" class="w3-col s3">
+                {{#foto}}
+                    <img src="{{foto}}" id="foto_profilo">
+                {{/foto}}
+                {{^foto}}
+                    <i class="material-icons w3-jumbo w3-text-blue">person</i>
+                {{/foto}}
             </div>
             <div class="w3-col s9">
                 <input type="text" id="username" value="{{username}}" class="w3-input" disabled>

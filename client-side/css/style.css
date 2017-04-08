@@ -88,6 +88,6 @@ hr {
 
 /*** PROFILO ***/
 
-#modifica_profilo, #conferma_modifiche {
+#modifica_profilo, #conferma_modifiche, #immagine {
     display: none;
 }

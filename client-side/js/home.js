@@ -25,9 +25,11 @@ home = {
                 } else if (risposta.conversazioni) {
                     for (var i = 0; i < risposta.conversazioni.length; i++) {
                         var partecipante = risposta.conversazioni[i][0];
-                        var non_letti = risposta.conversazioni[i][1];
+                        var foto = risposta.conversazioni[i][1];
+                        var non_letti = risposta.conversazioni[i][2];
                         risposta.conversazioni[i] = {
                             partecipante: partecipante,
+                            foto: foto,
                             non_letti: non_letti
                         };
                     }

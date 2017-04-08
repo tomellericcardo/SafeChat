@@ -33,10 +33,12 @@ scrivi = {
                     $('.caricamento').css('display', 'none');
                     if (risposta.risultati) {
                         for (var i = 0; i < risposta.risultati.length; i++) {
-                            var username = risposta.risultati[i][0];
-                            var nome = risposta.risultati[i][1];
-                            var cognome = risposta.risultati[i][2];
+                            var foto = risposta.risultati[i][0];
+                            var username = risposta.risultati[i][1];
+                            var nome = risposta.risultati[i][2];
+                            var cognome = risposta.risultati[i][3];
                             risposta.risultati[i] = {
+                                foto: foto,
                                 username: username,
                                 nome: nome,
                                 cognome: cognome

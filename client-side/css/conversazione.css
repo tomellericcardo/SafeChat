@@ -9,8 +9,8 @@
 /*** MESSAGGI ***/
 
 #messaggi {
-    padding-top: 50px;
-    padding-bottom: 65px;
+    padding-top: 65px;
+    padding-bottom: 95px;
 }
 
 .messaggio {
@@ -35,6 +35,22 @@
     padding: 0px;
     width: 100%;
     max-width: 100%;
+}
+
+
+/*** CARICAMENTO ***/
+
+#caricamento {
+    display: none;
+    position: fixed;
+    bottom: 50px;
+    width: 100%;
+    font-size: 12px;
+    box-shadow: 0 -4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#caricamento i {
+    font-size: 12px;
 }
 
 

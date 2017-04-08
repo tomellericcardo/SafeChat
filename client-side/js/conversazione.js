@@ -3,7 +3,7 @@ conversazione = {
     init: function() {
         this.operazioni_iniziali();
         if (this.partecipante) {
-            this.leggi_messaggi();
+            this.carica_messaggi();
             this.richiesta_invio();
             this.init_testo();
             this.seleziona_immagine();
@@ -70,6 +70,20 @@ conversazione = {
         });
     },
     
+    carica_messaggi: function() {
+        if (sessionStorage.getItem(this.partecipante)) {
+            var risultato = JSON.parse(sessionStorage.getItem(this.partecipante));
+            this.n_messaggi = risultato.messaggi.length;
+            $.get('/html/templates.html', function(contenuto) {
+                var template = $(contenuto).filter('#leggi_messaggi').html();
+                $('#messaggi').html(Mustache.render(template, risultato));
+                $('html, body').animate({scrollTop: $(document).height()}, 'slow');
+            });
+        } else {
+            this.leggi_messaggi();
+        }
+    },
+    
     leggi_messaggi: function() {
         var richiesta = {
             proprietario: this.proprietario,
@@ -90,7 +104,10 @@ conversazione = {
                     for (var i = 0; i < risposta.messaggi.length; i++) {
                         var mittente = risposta.messaggi[i][0] == conversazione.proprietario;
                         var immagine = risposta.messaggi[i][1] == 1;
-                        var testo = cryptico.decrypt(risposta.messaggi[i][2], conversazione.chiave_privata).plaintext;
+                        var testo = cryptico.decrypt(
+                                risposta.messaggi[i][2],
+                                conversazione.chiave_privata
+                        ).plaintext;
                         if (!immagine) {
                             testo = decodeURIComponent(escape(window.atob(testo)));
                         }
@@ -104,11 +121,12 @@ conversazione = {
                     var risultato = {
                         messaggi: messaggi
                     };
+                    sessionStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_messaggi').html();
                         $('#messaggi').html(Mustache.render(template, risultato));
+                        $('html, body').animate({scrollTop: $(document).height()}, 'slow');
                     });
-                    $('html, body').animate({scrollTop: $(document).height()}, 'slow');
                 }
             },
             error: function() {
@@ -220,6 +238,7 @@ conversazione = {
                     utente.disconnetti_utente();
                 } else if (risposta.inviata) {
                     conversazione.leggi_messaggi();
+                    $('#caricamento').css('display', 'none');
                 }
             },
             error: function() {
@@ -258,6 +277,7 @@ conversazione = {
     
     leggi_immagine: function() {
         $('#immagine').change(function(evento) {
+            $('#caricamento').css('display', 'block');
             var lettore = new FileReader();
             lettore.onload = function(e) {
                 conversazione.ridimensiona_invia(e.target.result, 300, 500);

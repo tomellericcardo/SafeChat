@@ -1,4 +1,14 @@
 
+/*** SCRIVI ***/
+
+#scrivi {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    font-size: 5px;
+}
+
+
 /*** ELIMINA CONVERSAZIONE ***/
 
 #elimina_conversazione {

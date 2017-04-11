@@ -157,29 +157,34 @@ profilo = {
         });
     },
     
-    ridimensiona_invia: function(sorgente, larghezza_massima, altezza_massima) {
+    ridimensiona_invia: function(sorgente, dimensione_massima) {
         var immagine = document.createElement('img');
         var canvas = document.createElement('canvas');
         immagine.onload = function() {
-            var contesto = canvas.getContext('2d');
-            contesto.drawImage(immagine, 0, 0);
-            var larghezza = immagine.width;
-            var altezza = immagine.height;
-            if (larghezza > altezza) {
-                if (larghezza > larghezza_massima) {
-                    altezza *= larghezza_massima / larghezza;
-                    larghezza = larghezza_massima;
+            var larghezza_immagine = immagine.width;
+            var altezza_immagine = immagine.height;
+            var dimensione_canvas = dimensione_massima;
+            var dimensione_taglio = 0;
+            if (larghezza_immagine >= altezza_immagine) {
+                if (altezza_immagine < dimensione_massima) {
+                    dimensione_canvas = altezza_immagine;
                 }
-            } else {
-                if (altezza > altezza_massima) {
-                    larghezza *= altezza_massima / altezza;
-                    altezza = altezza_massima;
+                dimensione_taglio = altezza_immagine;
+            } else if (altezza_immagine > larghezza_immagine) {
+                if (larghezza_immagine < dimensione_massima) {
+                    dimensione_canvas = larghezza_immagine;
                 }
+                dimensione_taglio = larghezza_immagine;
             }
-            canvas.width = larghezza;
-            canvas.height = altezza;
+            canvas.width = dimensione_canvas;
+            canvas.height = dimensione_canvas;
             var contesto = canvas.getContext('2d');
-            contesto.drawImage(immagine, 0, 0, larghezza, altezza);
+            contesto.drawImage(immagine, 0, 0, dimensione_taglio, dimensione_taglio, 0, 0, dimensione_canvas, dimensione_canvas);
+            contesto.globalCompositeOperation = 'destination-in';
+            contesto.beginPath();
+            contesto.arc(dimensione_canvas / 2, dimensione_canvas / 2, dimensione_canvas / 2, 0, Math.PI * 2);
+            contesto.closePath();
+            contesto.fill();
             profilo.invia_immagine(canvas.toDataURL('image/png'));
         };
         immagine.src = sorgente;
@@ -189,7 +194,7 @@ profilo = {
         $('#immagine').change(function(evento) {
             var lettore = new FileReader();
             lettore.onload = function(e) {
-                profilo.ridimensiona_invia(e.target.result, 250, 250);
+                profilo.ridimensiona_invia(e.target.result, 250);
             };
             lettore.readAsDataURL(evento.target.files[0]);
         });

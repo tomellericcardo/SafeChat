@@ -1,10 +1,17 @@
 home = {
     
     init: function() {
+        this.scrivi_nuovo();
         this.leggi_conversazioni();
         this.chiudi_elimina();
         this.elimina_definitivo();
         setInterval(this.leggi_conversazioni, 1000);
+    },
+    
+    scrivi_nuovo: function() {
+        $('#nuovo').on('click', function() {
+            window.location.href = '/scrivi';
+        });
     },
     
     leggi_conversazioni: function() {

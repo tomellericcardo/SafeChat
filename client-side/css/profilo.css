@@ -1,6 +1,10 @@
 
 /*** FOTO PROFILO ***/
 
+#foto_profilo {
+    cursor: pointer;
+}
+
 #visualizza_foto {
     padding-top: 20vh;
 }

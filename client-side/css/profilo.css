@@ -1,0 +1,19 @@
+
+/*** FOTO PROFILO ***/
+
+#visualizza_foto {
+    padding-top: 20vh;
+}
+
+#galleria_foto {
+    padding: 0px;
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/*** MODIFICA PROFILO ***/
+
+#modifica_profilo, #conferma_modifiche, #immagine {
+    display: none;
+}

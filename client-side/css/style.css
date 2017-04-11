@@ -47,7 +47,7 @@ input:focus {
     display: none;
 }
 
-#vuoto {
+.vuoto {
     height: 80vh;
 }
 
@@ -61,33 +61,4 @@ hr {
 
 #errore {
     padding-top: 30vh;
-}
-
-#conferma_modifica, #conferma_elimina {
-    padding-top: 20vh;
-}
-
-
-/*** HOME ***/
-
-#elimina_conversazione {
-    padding-top: 30vh;
-}
-
-#cestino {
-    cursor: pointer;
-}
-
-
-/*** SCRIVI ***/
-
-#risultati {
-    margin-bottom: 50px;
-}
-
-
-/*** PROFILO ***/
-
-#modifica_profilo, #conferma_modifiche, #immagine {
-    display: none;
 }

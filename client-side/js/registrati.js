@@ -52,12 +52,12 @@ registrati = {
         if (!(username.length >= 4 && username.length <= 16)) {
             $('#username').val('');
             $('#username').css('border-color', 'red');
-            this.errore('L\'username deve avere dai 4 ai 16 caratteri!');
+            errore.messaggio('L\'username deve avere dai 4 ai 16 caratteri!');
             return false;
         } else if (!(username.match(/^[a-z0-9]*$/gi))) {
             $('#username').val('');
             $('#username').css('border-color', 'red');
-            this.errore('L\'username deve avere solo caratteri alfanumerici!');
+            errore.messaggio('L\'username deve avere solo caratteri alfanumerici!');
             return false;
         } else {
             return true;
@@ -68,12 +68,12 @@ registrati = {
         if (!(password1.length >= 8)) {
             $('#password1, #password2').val('');
             $('#password1, #password2').css('border-color', 'red');
-            this.errore('La password deve essere lunga almeno 8 caratteri!');
+            errore.messaggio('La password deve essere lunga almeno 8 caratteri!');
             return false;
         } else if (password1 != password2) {
             $('#password1, #password2').val('');
             $('#password1, #password2').css('border-color', 'red');
-            this.errore('Le due password non corrispondono!');
+            errore.messaggio('Le due password non corrispondono!');
             return false;
         } else {
             return true;
@@ -89,7 +89,7 @@ registrati = {
             if (this.username_valido(username) && this.password_valida(password1, password2)) {
                 $('.caricamento').css('display', 'inline');
                 var password = SHA256(password1);
-                var chiavi = cryptico.generateRSAKey(password, 1024);
+                var chiavi = cryptico.generateRSAKey(password, 512);
                 var chiave_pubblica = cryptico.publicKeyString(chiavi);     
                 var richiesta = {
                     username: username,

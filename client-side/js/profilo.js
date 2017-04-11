@@ -63,6 +63,9 @@ profilo = {
                             profilo.modifica_profilo()
                             profilo.richiesta_modifica();
                             profilo.modifica_foto();
+                        } else {
+                            profilo.visualizza_foto();
+                            profilo.chiudi_visualizza();
                         }
                     });
                 }
@@ -186,11 +189,24 @@ profilo = {
         $('#immagine').change(function(evento) {
             var lettore = new FileReader();
             lettore.onload = function(e) {
-                profilo.ridimensiona_invia(e.target.result, 50, 50);
+                profilo.ridimensiona_invia(e.target.result, 250, 250);
             };
             lettore.readAsDataURL(evento.target.files[0]);
         });
     },
+    
+    visualizza_foto: function() {
+        $('#foto_profilo').on('click', function() {
+            $('#galleria_foto').attr('src', $('#foto_profilo').attr('src'));
+            $('#visualizza_foto').css('display', 'block');
+        });
+    },
+    
+    chiudi_visualizza: function() {
+        $('#visualizza_foto').on('click', function() {
+            $('#visualizza_foto').css('display', 'none');
+        });
+    }
     
 };
 

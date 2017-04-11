@@ -32,7 +32,7 @@ conversazione = {
         if (this.proprietario == this.partecipante || !this.partecipante) {
             window.location.href = '/home';
         } else {
-            this.chiave_privata = cryptico.generateRSAKey(this.password, 1024);
+            this.chiave_privata = cryptico.generateRSAKey(this.password, 512);
             this.chiave_pubblica = cryptico.publicKeyString(this.chiave_privata);
             this.chiave_destinatario();
             $('#partecipante').html(this.partecipante);
@@ -147,7 +147,7 @@ conversazione = {
         });
     },
     
-    invia_messaggio: function(testo) {
+    invia_messaggio: function() {
         var testo = $('#testo').val();
         $('#testo').val('');
         if (testo.length > 0) {

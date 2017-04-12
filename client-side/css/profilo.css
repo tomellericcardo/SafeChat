@@ -18,6 +18,18 @@
 
 /*** MODIFICA PROFILO ***/
 
-#modifica_profilo, #conferma_modifiche, #immagine {
+#modifica_profilo, #conferma_modifiche {
+    display: none;
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 60px;
+    height: 60px;
+    padding-top: 18px;
+    padding-left: 18px;
+    cursor: pointer;
+}
+
+#immagine {
     display: none;
 }

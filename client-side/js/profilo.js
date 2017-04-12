@@ -59,7 +59,7 @@ profilo = {
                         $('#profilo').html(Mustache.render(template, risposta));
                     }).then(function() {
                         if (profilo.utente == utente.username) {
-                            $('#modifica_profilo').css('display', 'inline')
+                            $('#modifica_profilo').css('display', 'block')
                             profilo.modifica_profilo()
                             profilo.richiesta_modifica();
                             profilo.modifica_foto();
@@ -79,7 +79,7 @@ profilo = {
     modifica_profilo: function() {
         $('#modifica_profilo').on('click', function() {
             $('#modifica_profilo').css('display', 'none');
-            $('#conferma_modifiche').css('display', 'inline');
+            $('#conferma_modifiche').css('display', 'block');
             $('#nome, #cognome').prop('disabled', false);
         });
     },
@@ -98,7 +98,7 @@ profilo = {
     conferma_modifiche: function() {
         $('#nome, #cognome').prop('disabled', true);
         $('#conferma_modifiche').css('display', 'none');
-        $('#modifica_profilo').css('display', 'inline');
+        $('#modifica_profilo').css('display', 'block');
         var nome = $('#nome').val();
         var cognome = $('#cognome').val();
         var richiesta = {
@@ -180,11 +180,6 @@ profilo = {
             canvas.height = dimensione_canvas;
             var contesto = canvas.getContext('2d');
             contesto.drawImage(immagine, 0, 0, dimensione_taglio, dimensione_taglio, 0, 0, dimensione_canvas, dimensione_canvas);
-            contesto.globalCompositeOperation = 'destination-in';
-            contesto.beginPath();
-            contesto.arc(dimensione_canvas / 2, dimensione_canvas / 2, dimensione_canvas / 2, 0, Math.PI * 2);
-            contesto.closePath();
-            contesto.fill();
             profilo.invia_immagine(canvas.toDataURL('image/png'));
         };
         immagine.src = sorgente;

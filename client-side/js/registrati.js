@@ -64,7 +64,7 @@ registrati = {
         }
     },
     
-    password_valida: function(password1, password2) {
+    password_valida: function(password1, password2, username) {
         if (!(password1.length >= 8)) {
             $('#password1, #password2').val('');
             $('#password1, #password2').css('border-color', 'red');
@@ -74,6 +74,11 @@ registrati = {
             $('#password1, #password2').val('');
             $('#password1, #password2').css('border-color', 'red');
             errore.messaggio('Le due password non corrispondono!');
+            return false;
+        } else if (password1.toLowerCase() == username.toLowerCase()) {
+            $('#password1, #password2').val('');
+            $('#password1, #password2').css('border-color', 'red');
+            errore.messaggio('La password non pu&ograve; corrispondere allo username!');
             return false;
         } else {
             return true;
@@ -86,7 +91,7 @@ registrati = {
         var password1 = $('#password1').val();
         var password2 = $('#password2').val();
         if (username.length > 0 && password1.length > 0 && password2.length > 0) {
-            if (this.username_valido(username) && this.password_valida(password1, password2)) {
+            if (this.username_valido(username) && this.password_valida(password1, password2, username)) {
                 $('.caricamento').css('display', 'inline');
                 var password = SHA256(password1);
                 var chiavi = cryptico.generateRSAKey(password, 512);
@@ -122,7 +127,7 @@ registrati = {
             }
         } else {
             $('#username, #password1, #password2').css('border-color', 'red');
-            this.errore('Completa tutti i campi!');
+            errore.messaggio('Completa tutti i campi!');
         }
     }
     

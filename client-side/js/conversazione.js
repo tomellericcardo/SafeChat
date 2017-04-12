@@ -126,7 +126,6 @@ conversazione = {
                         var template = $(contenuto).filter('#leggi_messaggi').html();
                         $('#messaggi').html(Mustache.render(template, risultato));
                         $('html, body').animate({scrollTop: $(document).height()}, 'slow');
-                        $('#caricamento').css('display', 'none');
                     });
                 }
             },
@@ -239,6 +238,7 @@ conversazione = {
                     utente.disconnetti_utente();
                 } else if (risposta.inviata) {
                     conversazione.leggi_messaggi();
+                    $('#caricamento').css('display', 'none');
                 }
             },
             error: function() {

@@ -41,7 +41,8 @@ class SafeBase:
                 immagine INT DEFAULT 0,
                 testo TEXT NOT NULL,
                 data_ora DATETIME DEFAULT CURRENT_TIMESTAMP,
-                letto INT DEFAULT 0
+                letto INT DEFAULT 0,
+                ultimo INT DEFAULT 1
             )
         ''')
         database.commit()

@@ -60,8 +60,8 @@ class SafeChat:
             INNER JOIN profilo p
             ON (m.partecipante == p.username)
             WHERE proprietario = ?
-            GROUP BY partecipante
             ORDER BY data_ora DESC LIMIT 1
+            GROUP BY partecipante
         ''', (username,))
         return risultato
     

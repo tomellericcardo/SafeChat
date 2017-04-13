@@ -27,7 +27,11 @@
     cursor: pointer;
 }
 
-#visualizza_immagine, #conferma_immagine {
+#visualizza_immagine {
+    padding-top: 12vh;
+}
+
+#conferma_immagine {
     padding-top: 20vh;
 }
 

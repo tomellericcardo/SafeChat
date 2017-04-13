@@ -114,6 +114,30 @@
         </div>
         <input type="file" id="immagine" accept="image/*">
         
+        <!-- IMMAGINE IN CHIARO -->
+        <div id="conferma_immagine" class="w3-modal">
+            <div class="w3-third w3-hide-small">&nbsp;</div>
+            <div class="w3-third">
+                <div class="w3-modal-content w3-card-8">
+                    <div class="w3-container w3-blue">
+                        <span id="chiudi_conferma" class="w3-closebtn">&times;</span>
+                        <h1 class="w3-xlarge">Conferma</h1>
+                    </div>
+                    <div class="w3-container w3-padding-bottom w3-white">
+                        <p>
+                            <b>Inviare l'immagine in chiaro?</b>
+                            <br>&Egrave; consigliabile inviare l'immagine in chiaro per migliorare le performance.
+                            <br>Tuttavia &egrave; possibile cifrarle (il procedimento sar&agrave; pi&ugrave; lento).
+                        </p>
+                        <input type="checkbox" id="in_chiaro" class="w3-check" checked>
+                        <label>Invia in chiaro</label>
+                        <button id="conferma_invio" class="w3-right w3-btn w3-indigo">Invia</button>
+                        <span id="valore_immagine"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- CARICAMENTO -->
         <div id="caricamento" class="w3-light-grey">
             <div class="w3-third w3-hide-small">&nbsp;</div>

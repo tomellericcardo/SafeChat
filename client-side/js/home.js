@@ -1,6 +1,7 @@
 home = {
     
     init: function() {
+        this.chiave_privata = cryptico.generateRSAKey(utente.password, 512);
         this.scrivi();
         this.leggi_conversazioni();
         this.chiudi_elimina();
@@ -33,10 +34,25 @@ home = {
                     for (var i = 0; i < risposta.conversazioni.length; i++) {
                         var partecipante = risposta.conversazioni[i][0];
                         var foto = risposta.conversazioni[i][1];
-                        var non_letti = risposta.conversazioni[i][2];
+                        var testo = risposta.conversazioni[i][2];
+                        var immagine = risposta.conversazioni[i][3] == 1;
+                        var non_letti = risposta.conversazioni[i][4];
+                        if (immagine) {
+                            testo = '<i id="icona_immagine" class="material-icons">photo_camera</i> Immagine';
+                        } else {
+                            testo = cryptico.decrypt(
+                                        testo,
+                                        home.chiave_privata
+                            ).plaintext;
+                            testo = decodeURIComponent(escape(window.atob(testo)));
+                            if (testo.length > 20) {
+                                testo = testo.substring(0, 18) + '...';
+                            }
+                        }
                         risposta.conversazioni[i] = {
                             partecipante: partecipante,
                             foto: foto,
+                            testo: testo,
                             non_letti: non_letti
                         };
                     }

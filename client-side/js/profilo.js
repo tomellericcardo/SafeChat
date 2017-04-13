@@ -58,6 +58,7 @@ profilo = {
                         var template = $(contenuto).filter('#leggi_profilo').html();
                         $('#profilo').html(Mustache.render(template, risposta));
                         $('#caricamento').css('display', 'none');
+                        $('#modifica_profilo, #conferma_modifiche').css('bottom', '25px');
                     }).then(function() {
                         if (profilo.utente == utente.username) {
                             $('#modifica_profilo').css('display', 'block')
@@ -188,9 +189,10 @@ profilo = {
     
     leggi_immagine: function() {
         $('#immagine').change(function(evento) {
-            $('#caricamento').css('display', 'block');
             var lettore = new FileReader();
             lettore.onload = function(e) {
+                $('#caricamento').css('display', 'block');
+                $('#modifica_profilo, #conferma_modifiche').css('bottom', '70px');
                 profilo.ridimensiona_invia(e.target.result, 250);
             };
             lettore.readAsDataURL(evento.target.files[0]);

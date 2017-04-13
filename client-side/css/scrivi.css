@@ -4,3 +4,7 @@
 #risultati {
     margin-bottom: 50px;
 }
+
+#foto_profilo {
+    max-height: 50px;
+}

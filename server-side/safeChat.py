@@ -54,13 +54,14 @@ class SafeChat:
     
     def leggi_conversazioni(self, username):
         risultato = self.safeBase.leggi_righe('''
-            SELECT partecipante, foto,
+            SELECT partecipante, foto, testo, immagine,
             SUM(CASE letto WHEN 0 THEN 1 ELSE 0 END)
             FROM messaggio m
             INNER JOIN profilo p
             ON (m.partecipante == p.username)
-            WHERE proprietario = ? 
+            WHERE proprietario = ?
             GROUP BY partecipante
+            ORDER BY data_ora DESC LIMIT 1
         ''', (username,))
         return risultato
     

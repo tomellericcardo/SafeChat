@@ -1,15 +1,15 @@
 
-/*** SCRIVI ***/
+/*** FOTO PROFILO ***/
 
-#scrivi {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    width: 60px;
-    height: 60px;
-    padding-top: 18px;
-    padding-left: 18px;
-    cursor: pointer;
+#foto_profilo {
+    max-height: 50px;
+}
+
+
+/*** ICONA IMMAGINE ***/
+
+#icona_immagine {
+    font-size: 15px;
 }
 
 
@@ -20,5 +20,19 @@
 }
 
 #cestino {
+    cursor: pointer;
+}
+
+
+/*** SCRIVI ***/
+
+#scrivi {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 60px;
+    height: 60px;
+    padding-top: 18px;
+    padding-left: 18px;
     cursor: pointer;
 }

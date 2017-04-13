@@ -27,8 +27,12 @@
     cursor: pointer;
 }
 
-#visualizza_immagine {
+#visualizza_immagine, #conferma_immagine {
     padding-top: 20vh;
+}
+
+#valore_immagine {
+    display: none;
 }
 
 #galleria_immagine {

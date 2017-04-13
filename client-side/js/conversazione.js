@@ -8,6 +8,7 @@ conversazione = {
             this.init_testo();
             this.seleziona_immagine();
             this.leggi_immagine();
+            this.conferma_immagine();
             this.chiudi_visualizza();
             setInterval(this.aggiorna_messaggi, 1000);
         }
@@ -104,10 +105,13 @@ conversazione = {
                     for (var i = 0; i < risposta.messaggi.length; i++) {
                         var mittente = risposta.messaggi[i][0] == conversazione.proprietario;
                         var immagine = risposta.messaggi[i][1] == 1;
-                        var testo = cryptico.decrypt(
+                        var testo = risposta.messaggi[i][2];
+                        if (!(testo.match(/^data:image/g))) {
+                            testo = cryptico.decrypt(
                                 risposta.messaggi[i][2],
                                 conversazione.chiave_privata
-                        ).plaintext;
+                            ).plaintext;
+                        }
                         if (!immagine) {
                             testo = decodeURIComponent(escape(window.atob(testo)));
                         }
@@ -217,9 +221,13 @@ conversazione = {
         });
     },
     
-    invia_immagine: function(immagine) {
-        var immagine_mittente = cryptico.encrypt(immagine, conversazione.chiave_pubblica).cipher;
-        var immagine_destinatario = cryptico.encrypt(immagine, conversazione.chiave_partecipante).cipher;
+    invia_immagine: function(immagine, in_chiaro) {
+        var immagine_mittente = immagine;
+        var immagine_destinatario = immagine;
+        if (!in_chiaro) {
+            immagine_mittente = cryptico.encrypt(immagine, conversazione.chiave_pubblica).cipher;
+            immagine_destinatario = cryptico.encrypt(immagine, conversazione.chiave_partecipante).cipher;
+        }
         var richiesta = {
             mittente: conversazione.proprietario,
             password: conversazione.password,
@@ -247,7 +255,7 @@ conversazione = {
         });
     },
     
-    ridimensiona_invia: function(sorgente, larghezza_massima, altezza_massima) {
+    ridimensiona_invia: function(sorgente, larghezza_massima, altezza_massima, in_chiaro) {
         var immagine = document.createElement('img');
         var canvas = document.createElement('canvas');
         immagine.onload = function() {
@@ -270,17 +278,33 @@ conversazione = {
             canvas.height = altezza;
             var contesto = canvas.getContext('2d');
             contesto.drawImage(immagine, 0, 0, larghezza, altezza);
-            conversazione.invia_immagine(canvas.toDataURL('image/png'));
+            conversazione.invia_immagine(canvas.toDataURL('image/png'), in_chiaro);
         };
         immagine.src = sorgente;
     },
     
+    conferma_immagine: function() {
+        $('#conferma_invio').on('click', function() {
+            $('#caricamento').css('display', 'block');
+            $('#conferma_immagine').css('display', 'none');
+            var valore_immagine = $('#valore_immagine').html();
+            var in_chiaro = $('#in_chiaro').prop('checked');
+            conversazione.ridimensiona_invia(valore_immagine, 300, 500, in_chiaro);
+        });
+    },
+    
+    chiudi_conferma: function() {
+        $('#chiudi_conferma').on('click', function() {
+            $('#conferma_immagine').css('display', 'none');
+        });
+    },
+    
     leggi_immagine: function() {
         $('#immagine').change(function(evento) {
-            $('#caricamento').css('display', 'block');
             var lettore = new FileReader();
             lettore.onload = function(e) {
-                conversazione.ridimensiona_invia(e.target.result, 300, 500);
+                $('#valore_immagine').html(e.target.result);
+                $('#conferma_immagine').css('display', 'block');
             };
             lettore.readAsDataURL(evento.target.files[0]);
         });

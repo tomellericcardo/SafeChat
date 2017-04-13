@@ -5,9 +5,9 @@
     {{#conversazioni}}
         <div class="w3-row-padding w3-padding-8 w3-hover-light-grey">
             <a href="/profilo?di={{partecipante}}" class="conversazione">
-                <div class="w3-col s2 m3 l1 w3-center w3-text-blue">
+                <div class="w3-col s2 m3 l2 w3-center w3-text-blue">
                     {{#foto}}
-                        <img src="{{foto}}" id="foto_profilo" class="w3-circle">
+                        <img src="{{foto}}" id="foto_profilo" class="w3-margin-top w3-circle">
                     {{/foto}}
                     {{^foto}}
                         <i class="material-icons w3-margin-top">person</i>
@@ -15,7 +15,12 @@
                 </div>
             </a>
             <a href="/conversazione?con={{partecipante}}" class="conversazione">
-                <div class="w3-col s6 m5 l7"><p>{{partecipante}}</p></div>
+                <div class="w3-col s6 m5 l6">
+                    <p>
+                        <b>{{partecipante}}</b>
+                        <br>{{{testo}}}
+                    </p>
+                </div>
             </a>
             <div class="w3-col s2 m2 l2">
                 &nbsp;
@@ -42,7 +47,7 @@
     {{#risultati}}
         <a href="#" onclick="scrivi.nuova_conversazione('{{username}}')" class="w3-hover-light-grey">
             <div class="w3-row">
-                <div class="w3-col s2 m3 l1">
+                <div class="w3-col s2 m3 l2">
                     {{#foto}}
                         <img src="{{foto}}" id="foto_profilo" class="w3-margin-top w3-margin-bottom w3-circle">
                     {{/foto}}
@@ -50,7 +55,7 @@
                         <i class="material-icons w3-margin-top w3-margin-left">person</i>
                     {{/foto}}
                 </div>
-                <div class="w3-col s9 m8 l10"><p><b>{{username}}</b>
+                <div class="w3-col s9 m8 l9"><p><b>{{username}}</b>
                                         <br>{{nome}} {{cognome}}</p></div>
                 <div class="w3-col s1 m1 l1"><i class="material-icons w3-margin-top">send</i></div>
             </div>

@@ -207,7 +207,7 @@ profilo = {
     },
     
     chiudi_visualizza: function() {
-        $('#visualizza_foto').on('click', function() {
+        $('#sfondo_visualizza').on('click', function() {
             $('#visualizza_foto').css('display', 'none');
         });
     }

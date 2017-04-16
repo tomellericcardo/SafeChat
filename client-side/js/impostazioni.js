@@ -89,7 +89,7 @@ impostazioni = {
     },
     
     chiudi_modifica: function() {
-        $('#chiudi_modifica').on('click', function() {
+        $('#chiudi_modifica, #sfondo_modifica').on('click', function() {
             $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
             $('#conferma_modifica').css('display', 'none');
         });
@@ -149,7 +149,7 @@ impostazioni = {
     },
     
     chiudi_elimina: function() {
-        $('#chiudi_elimina').on('click', function() {
+        $('#chiudi_elimina, #sfondo_elimina').on('click', function() {
             $('#password').val('');
             $('#conferma_elimina').css('display', 'none');
         });

@@ -6,7 +6,7 @@ errore = {
     },
     
     chiudi_errore: function() {
-        $('#chiudi_errore').on('click', function() {
+        $('#chiudi_errore, #sfondo_errore').on('click', function() {
             $('#errore').css('display', 'none');
         });
     }

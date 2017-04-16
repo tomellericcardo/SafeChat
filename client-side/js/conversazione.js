@@ -9,6 +9,7 @@ conversazione = {
             this.seleziona_immagine();
             this.leggi_immagine();
             this.conferma_immagine();
+            this.chiudi_conferma();
             this.chiudi_visualizza();
             setInterval(this.aggiorna_messaggi, 1000);
         }
@@ -294,7 +295,7 @@ conversazione = {
     },
     
     chiudi_conferma: function() {
-        $('#chiudi_conferma').on('click', function() {
+        $('#chiudi_conferma, #sfondo_conferma').on('click', function() {
             $('#conferma_immagine').css('display', 'none');
         });
     },
@@ -316,7 +317,7 @@ conversazione = {
     },
     
     chiudi_visualizza: function() {
-        $('#visualizza_immagine').on('click', function() {
+        $('#sfondo_visualizza').on('click', function() {
             $('#visualizza_immagine').css('display', 'none');
         });
     }

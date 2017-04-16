@@ -41,9 +41,30 @@ class SafeBase:
                 immagine INT DEFAULT 0,
                 testo TEXT NOT NULL,
                 data_ora DATETIME DEFAULT CURRENT_TIMESTAMP,
-                letto INT DEFAULT 0,
-                ultimo INT DEFAULT 1
+                letto INT DEFAULT 0
             )
+        ''')
+        database.commit()
+        cursore.execute('''
+            CREATE VIEW IF NOT EXISTS ultimo_messaggio AS
+            SELECT m.proprietario, m.mittente, m.partecipante, m.testo, m.immagine, m.letto
+            FROM messaggio m
+            INNER JOIN (
+                SELECT proprietario, partecipante, MAX(data_ora) AS data_ora
+                FROM messaggio
+                GROUP BY proprietario, partecipante
+            ) u
+            ON u.proprietario = m.proprietario
+            AND u.partecipante = m.partecipante
+            AND u.data_ora = m.data_ora
+        ''')
+        database.commit()
+        cursore.execute('''
+            CREATE VIEW IF NOT EXISTS non_letti AS
+            SELECT proprietario, partecipante,
+            SUM(CASE letto WHEN 0 THEN 1 ELSE 0 END) AS non_letti
+            FROM messaggio
+            GROUP BY proprietario, partecipante
         ''')
         database.commit()
         cursore.close()

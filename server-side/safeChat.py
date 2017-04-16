@@ -54,14 +54,14 @@ class SafeChat:
     
     def leggi_conversazioni(self, username):
         risultato = self.safeBase.leggi_righe('''
-            SELECT m.partecipante, p.foto, m.testo, m.immagine,
-            SUM(CASE m.letto WHEN 0 THEN 1 ELSE 0 END)
-            FROM messaggio m
+            SELECT u.partecipante, p.foto, u.letto, u.mittente, u.immagine, u.testo, n.non_letti
+            FROM ultimo_messaggio u
             INNER JOIN profilo p
-            ON (m.partecipante == p.username)
-            WHERE m.proprietario = ?
-            AND m.ultimo = 1
-            GROUP BY m.partecipante
+            ON u.partecipante = p.username
+            INNER JOIN non_letti n
+            ON u.proprietario = n.proprietario
+            AND u.partecipante = n.partecipante
+            WHERE u.proprietario = ?
         ''', (username,))
         return risultato
     
@@ -113,21 +113,9 @@ class SafeChat:
     
     def invia_messaggio(self, mittente, destinatario, testo_mittente, testo_destinatario):
         self.safeBase.scrivi('''
-            UPDATE messaggio
-            SET ultimo = 0
-            WHERE proprietario = ?
-            AND partecipante = ?
-        ''', (mittente, destinatario))
-        self.safeBase.scrivi('''
             INSERT INTO messaggio (proprietario, partecipante, mittente, testo, letto)
             VALUES (?, ?, ?, ?, 1)
         ''', (mittente, destinatario, mittente, testo_mittente))
-        self.safeBase.scrivi('''
-            UPDATE messaggio
-            SET ultimo = 0
-            WHERE proprietario = ?
-            AND partecipante = ?
-        ''', (destinatario, mittente))
         self.safeBase.scrivi('''
             INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
             VALUES (?, ?, ?, ?)
@@ -135,21 +123,9 @@ class SafeChat:
     
     def invia_immagine(self, mittente, destinatario, immagine_mittente, immagine_destinatario):
         self.safeBase.scrivi('''
-            UPDATE messaggio
-            SET ultimo = 0
-            WHERE proprietario = ?
-            AND partecipante = ?
-        ''', (mittente, destinatario))
-        self.safeBase.scrivi('''
             INSERT INTO messaggio (proprietario, partecipante, mittente, immagine, testo, letto)
             VALUES (?, ?, ?, 1, ?, 1)
         ''', (mittente, destinatario, mittente, immagine_mittente))
-        self.safeBase.scrivi('''
-            UPDATE messaggio
-            SET ultimo = 0
-            WHERE proprietario = ?
-            AND partecipante = ?
-        ''', (destinatario, mittente))
         self.safeBase.scrivi('''
             INSERT INTO messaggio (proprietario, partecipante, mittente, immagine, testo)
             VALUES (?, ?, ?, 1, ?)

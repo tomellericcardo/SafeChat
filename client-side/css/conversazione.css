@@ -81,6 +81,10 @@
     padding-top: 14px;
 }
 
+#invia_messaggio i, #invia_immagine i {
+    vertical-align: initial;
+}
+
 #immagine {
     display: none;
 }

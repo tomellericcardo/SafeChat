@@ -5,6 +5,10 @@ p, h1, button {
     font-family: 'Roboto', sans-serif;
 }
 
+i {
+    vertical-align: middle;
+}
+
 
 /*** LINKS ***/
 
@@ -57,6 +61,15 @@ hr {
 
 .w3-modal-content {
     width: 100%;
+}
+
+.sfondo_modal {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 
 #errore {

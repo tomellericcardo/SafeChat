@@ -34,9 +34,11 @@ home = {
                     for (var i = 0; i < risposta.conversazioni.length; i++) {
                         var partecipante = risposta.conversazioni[i][0];
                         var foto = risposta.conversazioni[i][1];
-                        var testo = risposta.conversazioni[i][2];
-                        var immagine = risposta.conversazioni[i][3] == 1;
-                        var non_letti = risposta.conversazioni[i][4];
+                        var letto = risposta.conversazioni[i][2] == 1;
+                        var mittente = risposta.conversazioni[i][3] == utente.username;
+                        var immagine = risposta.conversazioni[i][4] == 1;
+                        var testo = risposta.conversazioni[i][5];
+                        var non_letti = risposta.conversazioni[i][6];
                         if (immagine) {
                             testo = '<i id="icona_immagine" class="material-icons">photo_camera</i> Immagine';
                         } else {
@@ -48,6 +50,11 @@ home = {
                             if (testo.length > 20) {
                                 testo = testo.substring(0, 18) + '...';
                             }
+                        }
+                        if (mittente) {
+                            testo = 'Tu: ' + testo;
+                        } else if (!letto) {
+                            testo = '<b>' + testo + '</b>';
                         }
                         risposta.conversazioni[i] = {
                             partecipante: partecipante,
@@ -74,7 +81,7 @@ home = {
     },
     
     chiudi_elimina: function() {
-        $('#chiudi_elimina').on('click', function() {
+        $('#chiudi_elimina, #sfondo_elimina').on('click', function() {
             $('#elimina_conversazione').css('display', 'none');
         });
     },

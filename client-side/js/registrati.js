@@ -6,35 +6,8 @@ registrati = {
     },
     
     disconnetti_utente: function() {
+        localStorage.clear();
         sessionStorage.clear();
-    },
-    
-    accesso_eseguito: function() {
-        if (sessionStorage.length != 0) {
-            var username = sessionStorage.getItem('username');
-            var password = sessionStorage.getItem('password');
-            var richiesta = {
-                username: username,
-                password: password
-            };
-            $.ajax({
-                url: 'accesso_eseguito',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(richiesta),
-                success: function(risposta) {
-                    if (risposta.utente_valido) {
-                        window.location.href = '/home';
-                    } else {
-                        sessionStorage.clear();
-                    }
-                },
-                error: function() {
-                    errore.messaggio('Errore del server!');
-                }
-            });
-        }
     },
     
     richiesta_registrazione: function() {

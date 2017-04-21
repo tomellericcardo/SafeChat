@@ -73,8 +73,17 @@ conversazione = {
     },
     
     carica_messaggi: function() {
-        if (sessionStorage.getItem(this.partecipante)) {
-            var risultato = JSON.parse(sessionStorage.getItem(this.partecipante));
+        if (utente.ricordami) {
+            var presente = localStorage.getItem(this.partecipante);
+        } else {
+            var presente = sessionStorage.getItem(this.partecipante);
+        }
+        if (presente) {
+            if (utente.ricordami) {
+                var risultato = JSON.parse(localStorage.getItem(this.partecipante));
+            } else {
+                var risultato = JSON.parse(sessionStorage.getItem(this.partecipante));
+            }
             this.n_messaggi = risultato.messaggi.length;
             $.get('/html/templates.html', function(contenuto) {
                 var template = $(contenuto).filter('#leggi_messaggi').html();
@@ -126,7 +135,11 @@ conversazione = {
                     var risultato = {
                         messaggi: messaggi
                     };
-                    sessionStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
+                    if (utente.ricordami) {
+                        localStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
+                    } else {
+                        sessionStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
+                    }
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_messaggi').html();
                         $('#messaggi').html(Mustache.render(template, risultato));

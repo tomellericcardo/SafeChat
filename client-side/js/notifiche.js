@@ -2,6 +2,9 @@ notifiche = {
     
     init: function() {
         this.n_notifiche = sessionStorage.getItem('n_notifiche');
+        if (utente.ricordami) {
+            this.n_notifiche = localStorage.getItem('n_notifiche');
+        }
         this.leggi_notifiche();
         setInterval(this.leggi_notifiche, 1000);
     },
@@ -22,7 +25,11 @@ notifiche = {
                     utente.disconnetti_utente();
                 } else if (risposta.n_notifiche != notifiche.n_notifiche) {
                     notifiche.n_notifiche = risposta.n_notifiche;
-                    sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
+                    if (utente.ricordami) {
+                        localStorage.setItem('n_notifiche', notifiche.n_notifiche);}
+                    else {
+                        sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
+                    }
                     if (notifiche.n_notifiche != 0) {
                         $('#notifiche').css('display', 'block');
                         if (notifiche.n_notifiche == 1) {

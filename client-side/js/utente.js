@@ -1,7 +1,21 @@
 utente = {
     
-    username: sessionStorage.getItem('username'),
-    password: sessionStorage.getItem('password'),
+    init: function() {
+        this.leggi_utente();
+        this.accesso_eseguito();
+    },
+    
+    leggi_utente: function() {
+        if (localStorage.getItem('ricordami') == 'attivo') {
+            this.ricordami = true;
+            this.username = localStorage.getItem('username');
+            this.password = localStorage.getItem('password');
+        } else {
+            this.ricordami = false;
+            this.username = sessionStorage.getItem('username');
+            this.password = sessionStorage.getItem('password');
+        }
+    },
     
     accesso_eseguito: function() {
         if (this.username && this.password) {
@@ -17,6 +31,7 @@ utente = {
                 data: JSON.stringify(richiesta),
                 success: function(risposta) {
                     if (!risposta.utente_valido) {
+                        localStorage.clear();
                         sessionStorage.clear();
                         window.location.href = '/accedi';
                     }
@@ -28,6 +43,7 @@ utente = {
     },
     
     disconnetti_utente : function() {
+        localStorage.clear();
         sessionStorage.clear();
         window.location.href = '/accedi';
     }
@@ -35,4 +51,4 @@ utente = {
 };
 
 
-$(document).ready(utente.accesso_eseguito());
+$(document).ready(utente.init());

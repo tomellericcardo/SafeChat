@@ -43,9 +43,17 @@
                 <h1 class="w3-large">Accedi al tuo account</h1>
                 <input type="text" id="username" placeholder="Username" class="w3-input" autofocus>
                 <input type="password" id="password" placeholder="Password" class="w3-input">
-                <div class="w3-margin w3-right">
-                    <span class="caricamento"><i class="material-icons w3-spin w3-text-grey">refresh</i></span>
-                    <button id="connetti_utente" class="w3-btn w3-blue">Accedi</button>
+                <div class="w3-row w3-margin-top">
+                    <div class="w3-col s6 w3-left-align">
+                        <input type="checkbox" id="ricordami" name="ricordami" class="w3-check">
+                        <label for="ricordami">Ricordami</label>
+                    </div>
+                    <div class="w3-col s2 w3-right-align">
+                        &nbsp; <span class="caricamento"><i class="material-icons w3-spin w3-text-grey">refresh</i></span>
+                    </div>
+                    <div class="w3-col s4 w3-right-align">
+                        <button id="connetti_utente" class="w3-btn w3-blue">Accedi</button>
+                    </div>
                 </div>
             </div>
         </div>

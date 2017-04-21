@@ -43,8 +43,8 @@ home = {
                             testo = '<i id="icona_immagine" class="material-icons">photo_camera</i> Immagine';
                         } else {
                             testo = cryptico.decrypt(
-                                        testo,
-                                        home.chiave_privata
+                                testo,
+                                home.chiave_privata
                             ).plaintext;
                             testo = decodeURIComponent(escape(window.atob(testo)));
                             if (testo.length > 20) {

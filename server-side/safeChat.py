@@ -49,7 +49,7 @@ class SafeChat:
         ''', (username, password_criptata, chiave, sale))
         self.safeBase.scrivi('''
             INSERT INTO profilo
-            VALUES (?, '', '', '')
+            VALUES (?, '', '', '', '')
         ''', (username,))
     
     def leggi_conversazioni(self, username):
@@ -99,7 +99,7 @@ class SafeChat:
     
     def leggi_messaggi(self, proprietario, partecipante):
         risultato = self.safeBase.leggi_righe('''
-            SELECT mittente, immagine, testo
+            SELECT mittente, immagine, testo, DATETIME(data_ora, '+2 hours')
             FROM messaggio
             WHERE proprietario = ? AND partecipante = ?
             ORDER BY data_ora ASC
@@ -149,18 +149,18 @@ class SafeChat:
     
     def leggi_profilo(self, username):
         risultato = self.safeBase.leggi_riga('''
-            SELECT foto, username, nome, cognome
+            SELECT foto, username, nome, cognome, stato
             FROM profilo
             WHERE username = ?
         ''', (username,))
         return risultato
     
-    def modifica_profilo(self, username, nome, cognome):
+    def modifica_profilo(self, username, nome, cognome, stato):
         self.safeBase.scrivi('''
             UPDATE profilo
-            SET nome = ?, cognome = ?
+            SET nome = ?, cognome = ?, stato = ?
             WHERE username = ?
-        ''', (nome, cognome, username))
+        ''', (nome, cognome, stato, username))
     
     def modifica_foto(self, username, foto):
         self.safeBase.scrivi('''

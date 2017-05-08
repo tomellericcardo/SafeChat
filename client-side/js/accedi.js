@@ -1,13 +1,7 @@
 accedi = {
     
     init: function() {
-        this.disconnetti_utente();
         this.richiesta_accesso();
-    },
-    
-    disconnetti_utente: function() {
-        localStorage.clear();
-        sessionStorage.clear();
     },
     
     richiesta_accesso: function() {
@@ -42,6 +36,8 @@ accedi = {
                 success: function(risposta) {
                     $('.caricamento').css('display', 'none');
                     if (risposta.utente_valido) {
+                        localStorage.clear();
+                        sessionStorage.clear();
                         if (ricordami) {
                             localStorage.setItem('ricordami', 'attivo');
                             localStorage.setItem('username', username.toLowerCase());

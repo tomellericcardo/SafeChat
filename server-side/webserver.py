@@ -175,7 +175,8 @@ def modifica_profilo():
         return dumps({'utente_non_valido': True})
     nome = richiesta['nome']
     cognome = richiesta['cognome']
-    safeChat.modifica_profilo(username, nome, cognome)
+    stato = richiesta['stato']
+    safeChat.modifica_profilo(username, nome, cognome, stato)
     return dumps({'modificato': True})
 
 @app.route('/modifica_foto', methods = ['POST'])

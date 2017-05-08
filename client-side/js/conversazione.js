@@ -96,6 +96,8 @@ conversazione = {
     },
     
     leggi_messaggi: function() {
+        $('#messaggio_caricamento').html('Download messaggi...');
+        $('#caricamento').css('display', 'block');
         var richiesta = {
             proprietario: this.proprietario,
             password: this.password,
@@ -116,6 +118,7 @@ conversazione = {
                         var mittente = risposta.messaggi[i][0] == conversazione.proprietario;
                         var immagine = risposta.messaggi[i][1] == 1;
                         var testo = risposta.messaggi[i][2];
+                        var data_ora = conversazione.formatta_data(risposta.messaggi[i][3]);
                         if (!(testo.match(/^data:image/g))) {
                             testo = cryptico.decrypt(
                                 risposta.messaggi[i][2],
@@ -128,7 +131,8 @@ conversazione = {
                         messaggi[i] = {
                             mittente: mittente,
                             immagine: immagine,
-                            testo: testo
+                            testo: testo,
+                            data_ora: data_ora
                         };
                     }
                     conversazione.n_messaggi = messaggi.length;
@@ -140,6 +144,7 @@ conversazione = {
                     } else {
                         sessionStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
                     }
+                    $('#caricamento').css('display', 'none');
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_messaggi').html();
                         $('#messaggi').html(Mustache.render(template, risultato));
@@ -151,6 +156,15 @@ conversazione = {
                 errore.messaggio('Errore del server!');
             }
         });
+    },
+    
+    formatta_data: function(data_ora) {
+        data_ora = data_ora.split(' ');
+        var data = data_ora[0].split('-');
+        var ora = data_ora[1].split(':');
+        data = data[2] + '/' + data[1] + '/' + data[0];
+        ora = ora[0] + ':' + ora[1];
+        return data + ' alle ' + ora;
     },
     
     richiesta_invio: function() {
@@ -299,6 +313,7 @@ conversazione = {
     
     conferma_immagine: function() {
         $('#conferma_invio').on('click', function() {
+            $('#messaggio_caricamento').html('Invio immagine...');
             $('#caricamento').css('display', 'block');
             $('#conferma_immagine').css('display', 'none');
             var valore_immagine = $('#valore_immagine').html();

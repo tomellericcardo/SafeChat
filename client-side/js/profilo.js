@@ -48,17 +48,19 @@ profilo = {
                     var username = risposta.profilo[1];
                     var nome = risposta.profilo[2];
                     var cognome = risposta.profilo[3];
+                    var stato = risposta.profilo[4];
                     risposta.profilo = {
                         foto: foto,
                         username: username,
                         nome: nome,
-                        cognome: cognome
+                        cognome: cognome,
+                        stato: stato
                     };
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_profilo').html();
                         $('#profilo').html(Mustache.render(template, risposta));
                         $('#caricamento').css('display', 'none');
-                        $('#modifica_profilo, #conferma_modifiche').css('bottom', '25px');
+                        $('#modifica_profilo, #conferma_modifiche').css('bottom', '20px');
                     }).then(function() {
                         if (profilo.utente == utente.username) {
                             $('#modifica_profilo').css('display', 'block')
@@ -82,7 +84,7 @@ profilo = {
         $('#modifica_profilo').on('click', function() {
             $('#modifica_profilo').css('display', 'none');
             $('#conferma_modifiche').css('display', 'block');
-            $('#nome, #cognome').prop('disabled', false);
+            $('#nome, #cognome, #stato').prop('disabled', false);
         });
     },
     
@@ -98,16 +100,18 @@ profilo = {
     },
     
     conferma_modifiche: function() {
-        $('#nome, #cognome').prop('disabled', true);
+        $('#nome, #cognome, #stato').prop('disabled', true);
         $('#conferma_modifiche').css('display', 'none');
         $('#modifica_profilo').css('display', 'block');
         var nome = $('#nome').val();
         var cognome = $('#cognome').val();
+        var stato = $('#stato').val();
         var richiesta = {
             username: utente.username,
             password: utente.password,
             nome: nome,
-            cognome: cognome
+            cognome: cognome,
+            stato: stato
         };
         $.ajax({
             url: 'modifica_profilo',
@@ -192,7 +196,7 @@ profilo = {
             var lettore = new FileReader();
             lettore.onload = function(e) {
                 $('#caricamento').css('display', 'block');
-                $('#modifica_profilo, #conferma_modifiche').css('bottom', '70px');
+                $('#modifica_profilo, #conferma_modifiche').css('bottom', '65px');
                 profilo.ridimensiona_invia(e.target.result, 250);
             };
             lettore.readAsDataURL(evento.target.files[0]);

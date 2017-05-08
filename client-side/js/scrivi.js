@@ -8,7 +8,7 @@ scrivi = {
         $('#cerca_utente').on('click', function() {
             scrivi.cerca_utente();
         });
-        $('#testo').on('keyup', function(e) {
+        $('#username, #nome, #cognome').on('keyup', function(e) {
             if (e.keyCode == 13) {
                 scrivi.cerca_utente();
             }
@@ -17,7 +17,13 @@ scrivi = {
     
     cerca_utente: function() {
         $('#testo').css('border-color', '#757575');
-        var testo = $('#testo').val();
+        var username = $('#username').val();
+        var nome = $('#nome').val();
+        var cognome = $('#cognome').val();
+        if ((username.length > 0) && (nome.length == 0) && (cognome.length > 0)) {
+            nome = '.*';
+        }
+        var testo = username + nome + cognome;
         if (testo.length > 0) {
             $('.caricamento').css('display', 'inline');
             var richiesta = {

@@ -29,6 +29,7 @@ class SafeBase:
                 username TEXT PRIMARY KEY,
                 nome TEXT,
                 cognome TEXT,
+                stato TEXT,
                 foto TEXT
             )
         ''')

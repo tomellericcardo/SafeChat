@@ -1,20 +1,14 @@
 registrati = {
     
     init: function() {
-        this.disconnetti_utente();
         this.richiesta_registrazione();
-    },
-    
-    disconnetti_utente: function() {
-        localStorage.clear();
-        sessionStorage.clear();
     },
     
     richiesta_registrazione: function() {
         $('#registra_utente').on('click', function() {
             registrati.registra_utente();
         });
-        $('#username, #password1, #password2').on('keyup', function(e) {
+        $('#username, #password, #password2').on('keyup', function(e) {
             if (e.keyCode == 13) {
                 registrati.registra_utente();
             }
@@ -39,18 +33,18 @@ registrati = {
     
     password_valida: function(password1, password2, username) {
         if (!(password1.length >= 8)) {
-            $('#password1, #password2').val('');
-            $('#password1, #password2').css('border-color', 'red');
+            $('#password, #password2').val('');
+            $('#password, #password2').css('border-color', 'red');
             errore.messaggio('La password deve essere lunga almeno 8 caratteri!');
             return false;
         } else if (password1 != password2) {
-            $('#password1, #password2').val('');
-            $('#password1, #password2').css('border-color', 'red');
+            $('#password, #password2').val('');
+            $('#password, #password2').css('border-color', 'red');
             errore.messaggio('Le due password non corrispondono!');
             return false;
         } else if (password1.toLowerCase() == username.toLowerCase()) {
-            $('#password1, #password2').val('');
-            $('#password1, #password2').css('border-color', 'red');
+            $('#password, #password2').val('');
+            $('#password, #password2').css('border-color', 'red');
             errore.messaggio('La password non pu&ograve; corrispondere allo username!');
             return false;
         } else {
@@ -59,9 +53,9 @@ registrati = {
     },
     
     registra_utente: function() {
-        $('#username, #password1, #password2').css('border-color', '#757575');
+        $('#username, #password, #password2').css('border-color', '#757575');
         var username = $('#username').val();
-        var password1 = $('#password1').val();
+        var password1 = $('#password').val();
         var password2 = $('#password2').val();
         if (username.length > 0 && password1.length > 0 && password2.length > 0) {
             if (this.username_valido(username) && this.password_valida(password1, password2, username)) {
@@ -87,6 +81,8 @@ registrati = {
                             $('#username').css('border-color', 'red');
                             errore.messaggio('Username gi&agrave; presente nel sistema!');
                         } else if (risposta.utente_registrato) {
+                            localStorage.clear();
+                            sessionStorage.clear();
                             sessionStorage.setItem('username', username.toLowerCase());
                             sessionStorage.setItem('password', password);
                             window.location.href = '/home';
@@ -99,7 +95,7 @@ registrati = {
                 });
             }
         } else {
-            $('#username, #password1, #password2').css('border-color', 'red');
+            $('#username, #password, #password2').css('border-color', 'red');
             errore.messaggio('Completa tutti i campi!');
         }
     }

@@ -5,6 +5,7 @@ notifiche = {
         if (utente.ricordami) {
             this.n_notifiche = localStorage.getItem('n_notifiche');
         }
+        navigator.serviceWorker.register('/js/sw.js');
         this.leggi_notifiche();
         setInterval(this.leggi_notifiche, 1000);
     },
@@ -49,6 +50,22 @@ notifiche = {
     },
     
     notifica: function(testo_notifica) {
+        Notification.requestPermission(function(result) {
+            if (result === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification('SafeChat', {
+                        body: testo_notifica,
+                        icon: '/img/icona128.png',
+                        tag: 'sf'
+                    });
+                });
+                var notifica = new Notification('SafeChat', {
+                    body: testo_notifica,
+                    icon: '/img/icona128.png'
+                });
+            }
+        });
+        /*
         var opzioni = {
             body: testo_notifica,
             icon: '/img/icona128.png',
@@ -63,6 +80,7 @@ notifiche = {
                 }
             });
         }
+        */
     }
     
 };

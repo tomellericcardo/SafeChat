@@ -18,11 +18,5 @@
             "sizes": "192x192",
             "type": "image/png"
         }
-    ],
-    "permissions": [
-        "background"
-    ],
-    "background": {
-        "scripts": ["/js/jquery.js", "/js/notifiche.js"]
-    }
+    ]
 }

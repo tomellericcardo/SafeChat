@@ -38,6 +38,10 @@ def invia_pagina(nome_pagina):
 def invia_file(nome_cartella, nome_file):
     return send_from_directory('../client-side/' + nome_cartella + '/', nome_file)
 
+@app.route('/sw.js')
+def invia_sw():
+    return send_from_directory('../client-side/js/', 'sw.js')
+
 
 # CONTESTI
 

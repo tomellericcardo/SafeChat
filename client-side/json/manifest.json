@@ -20,6 +20,9 @@
         }
     ],
     "permissions": [
-        "notifications"
-    ]
+        "background"
+    ],
+    "background": {
+        "scripts": ["/js/jquery.js", "/js/notifiche.js"]
+    }
 }

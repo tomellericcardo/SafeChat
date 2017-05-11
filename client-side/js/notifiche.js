@@ -1,19 +1,30 @@
 notifiche = {
     
     init: function() {
-        this.n_notifiche = sessionStorage.getItem('n_notifiche');
-        if (utente.ricordami) {
-            this.n_notifiche = localStorage.getItem('n_notifiche');
-        }
-        navigator.serviceWorker.register('/js/sw.js');
+        navigator.serviceWorker.register('/sw.js');
+        this.leggi_utente();
         this.leggi_notifiche();
         setInterval(this.leggi_notifiche, 1000);
     },
     
+    leggi_utente: function() {
+        if (localStorage.getItem('ricordami') == 'attivo') {
+            this.ricordami = true;
+            this.username = localStorage.getItem('username');
+            this.password = localStorage.getItem('password');
+            this.n_notifiche = localStorage.getItem('n_notifiche');
+        } else {
+            this.ricordami = false;
+            this.username = sessionStorage.getItem('username');
+            this.password = sessionStorage.getItem('password');
+            this.n_notifiche = sessionStorage.getItem('n_notifiche');
+        }
+    },
+    
     leggi_notifiche: function() {
         var richiesta = {
-            username: utente.username,
-            password: utente.password
+            username: notifiche.username,
+            password: notifiche.password
         };
         $.ajax({
             url: 'leggi_notifiche',
@@ -22,11 +33,9 @@ notifiche = {
             dataType: 'json',
             data: JSON.stringify(richiesta),
             success: function(risposta) {
-                if (risposta.utente_non_valido) {
-                    utente.disconnetti_utente();
-                } else if (risposta.n_notifiche != notifiche.n_notifiche) {
+                if (risposta.n_notifiche != notifiche.n_notifiche) {
                     notifiche.n_notifiche = risposta.n_notifiche;
-                    if (utente.ricordami) {
+                    if (notifiche.ricordami) {
                         localStorage.setItem('n_notifiche', notifiche.n_notifiche);}
                     else {
                         sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
@@ -56,31 +65,12 @@ notifiche = {
                     registration.showNotification('SafeChat', {
                         body: testo_notifica,
                         icon: '/img/icona128.png',
+                        vibrate: [200, 100, 200],
                         tag: 'sf'
                     });
                 });
-                var notifica = new Notification('SafeChat', {
-                    body: testo_notifica,
-                    icon: '/img/icona128.png'
-                });
             }
         });
-        /*
-        var opzioni = {
-            body: testo_notifica,
-            icon: '/img/icona128.png',
-            vibrate: [200, 200]
-        };
-        if (Notification.permission == 'granted') {
-            var notifica = new Notification('SafeChat', opzioni);
-        } else if (Notification.permission != 'denied') {
-            Notification.requestPermission(function (permission) {
-                if (permission == 'granted') {
-                    var notifica = new Notification('SafeChat', opzioni);
-                }
-            });
-        }
-        */
     }
     
 };

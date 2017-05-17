@@ -49,6 +49,7 @@ input:focus {
 
 input::placeholder {
     opacity: 1;
+    color: #989898;
 }
 
 .caricamento {

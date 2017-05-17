@@ -228,8 +228,8 @@ def elimina_account():
     safeChat.elimina_account(username)
     return dumps({'eliminato': True})
 
-@app.route('/elimina_account', methods = ['POST'])
-def elimina_account():
+@app.route('/elimina_account_utente', methods = ['POST'])
+def elimina_account_utente():
     richiesta = request.get_json(force = True)
     password_admin = richiesta['password_admin']
     if not safeChat.utente_valido('admin', password_admin):

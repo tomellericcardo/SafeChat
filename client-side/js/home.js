@@ -6,7 +6,7 @@ home = {
         this.leggi_conversazioni();
         this.chiudi_elimina();
         this.elimina_definitivo();
-        setInterval(this.leggi_conversazioni, 1000);
+        setInterval(this.leggi_conversazioni, 5000);
     },
     
     scrivi: function() {

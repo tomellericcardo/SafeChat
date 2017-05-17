@@ -11,7 +11,7 @@ conversazione = {
             this.conferma_immagine();
             this.chiudi_conferma();
             this.chiudi_visualizza();
-            setInterval(this.aggiorna_messaggi, 1000);
+            setInterval(this.aggiorna_messaggi, 5000);
         }
     },
     

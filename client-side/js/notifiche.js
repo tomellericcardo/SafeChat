@@ -4,7 +4,7 @@ notifiche = {
         navigator.serviceWorker.register('/sw.js');
         this.leggi_utente();
         this.leggi_notifiche();
-        setInterval(this.leggi_notifiche, 1000);
+        setInterval(this.leggi_notifiche, 5000);
     },
     
     leggi_utente: function() {

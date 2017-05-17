@@ -47,6 +47,10 @@ input:focus {
     outline: none;
 }
 
+input::placeholder {
+    opacity: 1;
+}
+
 .caricamento {
     display: none;
 }

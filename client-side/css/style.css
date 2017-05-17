@@ -28,7 +28,7 @@ a:hover, a:active {
 }
 
 
-/*** IMAGES ***/
+/*** IMMAGINI ***/
 
 img {
     max-width: 90%;
@@ -36,12 +36,15 @@ img {
 }
 
 
-/*** OTHERS **/
+/*** OMBRA **/
 
 .ombra {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     margin-bottom: 10px;
 }
+
+
+/*** INPUTS ***/
 
 input:focus {
     outline: none;
@@ -52,17 +55,33 @@ input::placeholder {
     color: #989898;
 }
 
+
+/*** BOTTONI ***/
+
+.w3-btn {
+    border-radius: 4px
+}
+
+
+/*** CARICAMENTO ***/
+
 .caricamento {
     display: none;
 }
 
+
+/*** SPAZIATORI ***/
+
 .vuoto {
-    height: 80vh;
+    height: 70vh;
 }
 
 hr {
     margin: 0px;
 }
+
+
+/*** MODALS ***/
 
 .w3-modal-content {
     width: 100%;

@@ -25,6 +25,10 @@ profilo = {
         } else {
             this.utente = parametro;
         }
+        if (this.utente != utente.username) {
+            $('#utente').html(this.utente);
+            $('title').html(this.utente + ' - SafeChat');
+        }
     },
     
     leggi_profilo: function() {

@@ -2,17 +2,15 @@ conversazione = {
     
     init: function() {
         this.operazioni_iniziali();
-        if (this.partecipante) {
-            this.carica_messaggi();
-            this.richiesta_invio();
-            this.init_testo();
-            this.seleziona_immagine();
-            this.leggi_immagine();
-            this.conferma_immagine();
-            this.chiudi_conferma();
-            this.chiudi_visualizza();
-            setInterval(this.aggiorna_messaggi, 5000);
-        }
+        this.carica_messaggi();
+        this.richiesta_invio();
+        this.init_testo();
+        this.seleziona_immagine();
+        this.leggi_immagine();
+        this.conferma_immagine();
+        this.chiudi_conferma();
+        this.chiudi_visualizza();
+        setInterval(this.aggiorna_messaggi, 2000);
     },
     
     leggi_parametro: function(parametro) {
@@ -73,23 +71,15 @@ conversazione = {
     },
     
     carica_messaggi: function() {
-        if (utente.ricordami) {
-            var presente = localStorage.getItem(this.partecipante);
-        } else {
-            var presente = sessionStorage.getItem(this.partecipante);
-        }
-        if (presente) {
-            if (utente.ricordami) {
-                var risultato = JSON.parse(localStorage.getItem(this.partecipante));
-            } else {
-                var risultato = JSON.parse(sessionStorage.getItem(this.partecipante));
-            }
+        if (sessionStorage.getItem(this.partecipante)) {
+            var risultato = JSON.parse(sessionStorage.getItem(this.partecipante));
             this.n_messaggi = risultato.messaggi.length;
             $.get('/html/templates.html', function(contenuto) {
                 var template = $(contenuto).filter('#leggi_messaggi').html();
                 $('#messaggi').html(Mustache.render(template, risultato));
                 $('html, body').animate({scrollTop: $(document).height()}, 'slow');
             });
+            this.aggiorna_messaggi();
         } else {
             this.leggi_messaggi();
         }
@@ -139,11 +129,7 @@ conversazione = {
                     var risultato = {
                         messaggi: messaggi
                     };
-                    if (utente.ricordami) {
-                        localStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
-                    } else {
-                        sessionStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
-                    }
+                    sessionStorage.setItem(conversazione.partecipante, JSON.stringify(risultato));
                     $('#caricamento').css('display', 'none');
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_messaggi').html();

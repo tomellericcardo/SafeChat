@@ -6,15 +6,8 @@ utente = {
     },
     
     leggi_utente: function() {
-        if (localStorage.getItem('ricordami') == 'attivo') {
-            this.ricordami = true;
-            this.username = localStorage.getItem('username');
-            this.password = localStorage.getItem('password');
-        } else {
-            this.ricordami = false;
-            this.username = sessionStorage.getItem('username');
-            this.password = sessionStorage.getItem('password');
-        }
+        this.username = sessionStorage.getItem('username');
+        this.password = sessionStorage.getItem('password');
     },
     
     accesso_eseguito: function() {
@@ -31,7 +24,6 @@ utente = {
                 data: JSON.stringify(richiesta),
                 success: function(risposta) {
                     if (!risposta.utente_valido) {
-                        localStorage.clear();
                         sessionStorage.clear();
                         window.location.href = '/accedi';
                     }
@@ -43,7 +35,6 @@ utente = {
     },
     
     disconnetti_utente : function() {
-        localStorage.clear();
         sessionStorage.clear();
         window.location.href = '/accedi';
     }

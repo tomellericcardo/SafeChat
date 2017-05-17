@@ -2,6 +2,7 @@ navbar = {
     
     init: function() {
         this.init_menu();
+        this.dashboard();
         this.disconnetti_utente();
         this.init_notifiche();
     },
@@ -16,6 +17,12 @@ navbar = {
                 $('#chiudi_menu').css('display', 'none');
             }
         });
+    },
+    
+    dashboard: function() {
+        if (utente.username == 'admin') {
+            $('#dashboard').css('display', 'block');
+        }
     },
     
     disconnetti_utente : function() {

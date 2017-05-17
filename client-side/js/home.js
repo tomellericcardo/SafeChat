@@ -1,12 +1,16 @@
 home = {
     
     init: function() {
-        this.chiave_privata = cryptico.generateRSAKey(utente.password, 512);
+        this.leggi_chiave();
         this.scrivi();
         this.leggi_conversazioni();
         this.chiudi_elimina();
         this.elimina_definitivo();
-        setInterval(this.leggi_conversazioni, 5000);
+        setInterval(this.aggiorna_conversazioni, 2000);
+    },
+    
+    leggi_chiave: function() {
+        this.chiave_privata = cryptico.generateRSAKey(utente.password, 512);
     },
     
     scrivi: function() {
@@ -31,6 +35,7 @@ home = {
                 if (risposta.utente_non_valido) {
                     utente.disconnetti_utente();
                 } else if (risposta.conversazioni) {
+                    var n_non_letti = 0;
                     for (var i = 0; i < risposta.conversazioni.length; i++) {
                         var partecipante = risposta.conversazioni[i][0];
                         var foto = risposta.conversazioni[i][1];
@@ -38,7 +43,8 @@ home = {
                         var mittente = risposta.conversazioni[i][3] == utente.username;
                         var immagine = risposta.conversazioni[i][4] == 1;
                         var testo = risposta.conversazioni[i][5];
-                        var non_letti = risposta.conversazioni[i][6];
+                        var data_ora = home.formatta_data(risposta.conversazioni[i][6]);
+                        var non_letti = risposta.conversazioni[i][7];
                         if (immagine) {
                             testo = '<i id="icona_immagine" class="material-icons">photo_camera</i> Immagine';
                         } else {
@@ -60,9 +66,14 @@ home = {
                             partecipante: partecipante,
                             foto: foto,
                             testo: testo,
+                            data_ora: data_ora,
                             non_letti: non_letti
                         };
+                        n_non_letti += non_letti;
                     }
+                    home.etichetta = risposta.etichetta;
+                    home.non_letti = n_non_letti;
+                    sessionStorage.setItem('conversazioni', JSON.stringify(risposta));
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_conversazioni').html();
                         $('#conversazioni').html(Mustache.render(template, risposta));
@@ -73,6 +84,43 @@ home = {
                 errore.messaggio('Errore del server!');
             }
         });
+    },
+    
+    formatta_data: function(data_ora) {
+        data_ora = data_ora.split(' ');
+        var data = data_ora[0].split('-');
+        var ora = data_ora[1].split(':');
+        data = data[2] + '/' + data[1] + '/' + data[0];
+        ora = ora[0] + ':' + ora[1];
+        return data + ' alle ' + ora;
+    },
+    
+    aggiorna_conversazioni: function() {
+        if (home.non_letti != notifiche.n_notifiche) {
+            home.leggi_conversazioni();
+        } else {
+            var richiesta = {
+                username: utente.username,
+                password: utente.password
+            };
+            $.ajax({
+                url: 'leggi_etichetta',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(richiesta),
+                success: function(risposta) {
+                    if (risposta.utente_non_valido) {
+                        utente.disconnetti_utente();
+                    } else if (risposta.etichetta != home.etichetta) {
+                        home.leggi_conversazioni();
+                    }
+                },
+                error: function() {
+                    errore.messaggio('Errore del server!');
+                }
+            });
+        }
     },
     
     elimina_conversazione: function(partecipante) {

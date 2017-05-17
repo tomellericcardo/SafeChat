@@ -79,6 +79,7 @@
 #invia_messaggio, #invia_immagine {
     width: 100%;
     padding-top: 14px;
+    border-radius: 0px;
 }
 
 #invia_messaggio i, #invia_immagine i {

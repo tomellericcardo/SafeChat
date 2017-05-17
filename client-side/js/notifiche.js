@@ -4,21 +4,13 @@ notifiche = {
         navigator.serviceWorker.register('/sw.js');
         this.leggi_utente();
         this.leggi_notifiche();
-        setInterval(this.leggi_notifiche, 5000);
+        setInterval(this.leggi_notifiche, 2000);
     },
     
     leggi_utente: function() {
-        if (localStorage.getItem('ricordami') == 'attivo') {
-            this.ricordami = true;
-            this.username = localStorage.getItem('username');
-            this.password = localStorage.getItem('password');
-            this.n_notifiche = localStorage.getItem('n_notifiche');
-        } else {
-            this.ricordami = false;
-            this.username = sessionStorage.getItem('username');
-            this.password = sessionStorage.getItem('password');
-            this.n_notifiche = sessionStorage.getItem('n_notifiche');
-        }
+        this.username = sessionStorage.getItem('username');
+        this.password = sessionStorage.getItem('password');
+        this.n_notifiche = sessionStorage.getItem('n_notifiche');
     },
     
     leggi_notifiche: function() {
@@ -35,11 +27,7 @@ notifiche = {
             success: function(risposta) {
                 if (risposta.n_notifiche != notifiche.n_notifiche) {
                     notifiche.n_notifiche = risposta.n_notifiche;
-                    if (notifiche.ricordami) {
-                        localStorage.setItem('n_notifiche', notifiche.n_notifiche);}
-                    else {
-                        sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
-                    }
+                    sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
                     if (notifiche.n_notifiche != 0) {
                         $('#notifiche').css('display', 'block');
                         if (notifiche.n_notifiche == 1) {

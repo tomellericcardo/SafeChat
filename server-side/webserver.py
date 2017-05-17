@@ -83,7 +83,16 @@ def leggi_conversazioni():
     password = richiesta['password']
     if not safeChat.utente_valido(username, password):
         return dumps({'utente_non_valido': True})
-    return dumps({'conversazioni': safeChat.leggi_conversazioni(username)})
+    return dumps(safeChat.leggi_conversazioni(username))
+
+@app.route('/leggi_etichetta', methods = ['POST'])
+def leggi_etichetta():
+    richiesta = request.get_json(force = True)
+    username = richiesta['username'].lower()
+    password = richiesta['password']
+    if not safeChat.utente_valido(username, password):
+        return dumps({'utente_non_valido': True})
+    return dumps({'etichetta': safeChat.leggi_etichetta(username)})
 
 @app.route('/elimina_conversazione', methods = ['POST'])
 def elimina_conversazione():
@@ -95,15 +104,6 @@ def elimina_conversazione():
     partecipante = richiesta['partecipante'].lower()
     safeChat.elimina_conversazione(proprietario, partecipante)
     return dumps({'success': True})
-
-@app.route('/n_conversazioni', methods = ['POST'])
-def n_conversazioni():
-    richiesta = request.get_json(force = True)
-    username = richiesta['username'].lower()
-    password = richiesta['password']
-    if not safeChat.utente_valido(username, password):
-        return dumps({'utente_non_valido': True})
-    return dumps({'n_conversazioni': safeChat.n_conversazioni(username)})
 
 @app.route('/leggi_messaggi', methods = ['POST'])
 def leggi_messaggi():

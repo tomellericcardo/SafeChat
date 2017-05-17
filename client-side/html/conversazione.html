@@ -67,6 +67,12 @@
                     <div class="w3-col s10"><p>Impostazioni</p></div>
                 </div>
             </a><hr>
+            <a href="/dashboard" id="dashboard" class="w3-hover-light-grey">
+                <div class="w3-row-padding">
+                    <div class="w3-col s2"><i class="material-icons w3-margin-top">dashboard</i></div>
+                    <div class="w3-col s10"><p>Dashboard</p></div>
+                </div>
+            </a><hr>
             <a href="#" id="disconnetti_utente" class="w3-hover-light-grey">
                 <div class="w3-row-padding">
                     <div class="w3-col s2"><i class="material-icons w3-margin-top">exit_to_app</i></div>
@@ -85,8 +91,15 @@
         <div class="w3-row w3-padding-16 w3-white">
             <div class="w3-third w3-hide-small">&nbsp;</div>
             <div id="messaggi" class="w3-third">
-                <div class="w3-center caricamento">
-                    <p><i class="material-icons w3-spin w3-text-grey">refresh</i></p>
+                <div class="w3-display-container vuoto">
+                    <div class="w3-display-middle w3-center">
+                        <div class="caricamento">
+                            <p class="w3-text-grey">
+                                <i class="material-icons w3-spin">refresh</i>
+                                <br>Caricamento messaggi
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,7 +110,7 @@
             <div class="w3-third">
                 <div class="w3-row w3-light-grey">
                     <div class="w3-col s2 m3 l2">
-                        <button id="invia_immagine" class="w3-btn w3-white w3-text-green">
+                        <button id="invia_immagine" class="w3-button w3-white w3-text-green">
                             <i class="material-icons">photo_camera</i>
                         </button>
                     </div>
@@ -105,7 +118,7 @@
                         <input type="text" id="testo" placeholder="Messaggio" class="w3-input" autofocus>
                     </div>
                     <div class="w3-col s2 m3 l2">
-                        <button id="invia_messaggio" class="w3-btn w3-white w3-text-green">
+                        <button id="invia_messaggio" class="w3-button w3-white w3-text-green">
                             <i class="material-icons">send</i>
                         </button>
                     </div>

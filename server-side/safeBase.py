@@ -48,7 +48,7 @@ class SafeBase:
         database.commit()
         cursore.execute('''
             CREATE VIEW IF NOT EXISTS ultimo_messaggio AS
-            SELECT m.proprietario, m.mittente, m.partecipante, m.testo, m.immagine, m.letto
+            SELECT m.proprietario, m.mittente, m.partecipante, m.testo, m.immagine, m.data_ora, m.letto
             FROM messaggio m
             INNER JOIN (
                 SELECT proprietario, partecipante, MAX(data_ora) AS data_ora

@@ -81,7 +81,6 @@ registrati = {
                             $('#username').css('border-color', 'red');
                             errore.messaggio('Username gi&agrave; presente nel sistema!');
                         } else if (risposta.utente_registrato) {
-                            localStorage.clear();
                             sessionStorage.clear();
                             sessionStorage.setItem('username', username.toLowerCase());
                             sessionStorage.setItem('password', password);

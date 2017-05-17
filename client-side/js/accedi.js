@@ -19,7 +19,6 @@ accedi = {
         $('#username, #password').css('border-color', '#757575');
         var username = $('#username').val();
         var password_chiara = $('#password').val();
-        var ricordami = $('#ricordami').prop('checked');
         if (username.length > 0 && password_chiara.length > 0) {
             $('.caricamento').css('display', 'inline');
             var password = SHA256(password_chiara);
@@ -36,18 +35,10 @@ accedi = {
                 success: function(risposta) {
                     $('.caricamento').css('display', 'none');
                     if (risposta.utente_valido) {
-                        localStorage.clear();
                         sessionStorage.clear();
-                        if (ricordami) {
-                            localStorage.setItem('ricordami', 'attivo');
-                            localStorage.setItem('username', username.toLowerCase());
-                            localStorage.setItem('password', password);
-                            window.location.href = '/home';
-                        } else {
-                            sessionStorage.setItem('username', username.toLowerCase());
-                            sessionStorage.setItem('password', password);
-                            window.location.href = '/home';
-                        }
+                        sessionStorage.setItem('username', username.toLowerCase());
+                        sessionStorage.setItem('password', password);
+                        window.location.href = '/home';
                     } else {
                         $('#username, #password').val('');
                         $('#username, #password').css('border-color', 'red');

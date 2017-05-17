@@ -46,3 +46,10 @@
 #primo_elemento {
     padding-top: 54px;
 }
+
+
+/*** DAHBOARD ***/
+
+#dashboard {
+    display: none;
+}

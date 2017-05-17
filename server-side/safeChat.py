@@ -53,8 +53,8 @@ class SafeChat:
         ''', (username,))
     
     def leggi_conversazioni(self, username):
-        risultato = self.safeBase.leggi_righe('''
-            SELECT u.partecipante, p.foto, u.letto, u.mittente, u.immagine, u.testo, n.non_letti
+        conversazioni = self.safeBase.leggi_righe('''
+            SELECT u.partecipante, p.foto, u.letto, u.mittente, u.immagine, u.testo, u.data_ora, n.non_letti
             FROM ultimo_messaggio u
             INNER JOIN profilo p
             ON u.partecipante = p.username
@@ -62,7 +62,19 @@ class SafeChat:
             ON u.proprietario = n.proprietario
             AND u.partecipante = n.partecipante
             WHERE u.proprietario = ?
+            ORDER BY u.data_ora DESC
         ''', (username,))
+        risultato = {'conversazioni': conversazioni, 'etichetta': self.leggi_etichetta(username)}
+        return risultato
+    
+    def leggi_etichetta(self, username):
+        risultato = self.safeBase.leggi_dato('''
+            SELECT MAX(data_ora)
+            FROM ultimo_messaggio
+            WHERE proprietario = ?
+        ''', (username,))
+        if not risultato:
+            return '0'
         return risultato
     
     def elimina_conversazione(self, proprietario, partecipante):
@@ -70,15 +82,6 @@ class SafeChat:
             DELETE FROM messaggio
             WHERE proprietario = ? AND partecipante = ?
         ''', (proprietario, partecipante))
-    
-    def n_conversazioni(self, username):
-        risultato = self.safeBase.leggi_righe('''
-            SELECT COUNT(partecipante)
-            FROM messaggio
-            WHERE proprietario = ? 
-            GROUP BY partecipante
-        ''', (username,))
-        return risultato
     
     def cerca_utente(self, testo):
         risultato = self.safeBase.leggi_righe('''

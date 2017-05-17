@@ -1,8 +1,8 @@
 notifiche = {
     
     init: function() {
+        navigator.serviceWorker.register('/sw.js');
         this.leggi_utente();
-        this.registra_sw();
         this.leggi_notifiche();
         setInterval(this.leggi_notifiche, 1000);
     },
@@ -19,26 +19,6 @@ notifiche = {
             this.password = sessionStorage.getItem('password');
             this.n_notifiche = sessionStorage.getItem('n_notifiche');
         }
-    },
-    
-    registra_sw: function() {
-        navigator.serviceWorker.register('/sw.js');
-        /*
-        var richiesta = {
-            username: notifiche.username,
-            password: notifiche.password
-        };
-        Notification.requestPermission(function(result) {
-            if (result === 'granted') {
-                navigator.serviceWorker.ready.then(function(registration) {
-                    registration.periodicSync.register({
-                        tag: JSON.stringify(richiesta),
-                        minPeriod: 1000
-                    });
-                });
-            }
-        });
-        */
     },
     
     leggi_notifiche: function() {

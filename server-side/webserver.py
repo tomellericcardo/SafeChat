@@ -206,6 +206,18 @@ def modifica_password():
     safeChat.modifica_password(username, nuova_password, nuova_chiave)
     return dumps({'modificata': True})
 
+@app.route('/modifica_password_utente', methods = ['POST'])
+def modifica_password_utente():
+    richiesta = request.get_json(force = True)
+    password_admin = richiesta['password_admin']
+    if not safeChat.utente_valido('admin', password_admin):
+        return dumps({'utente_non_valido': True})
+    username = richiesta['username'].lower()
+    nuova_password = richiesta['nuova_password']
+    nuova_chiave = richiesta['nuova_chiave']
+    safeChat.modifica_password(username, nuova_password, nuova_chiave)
+    return dumps({'modificata': True})
+
 @app.route('/elimina_account', methods = ['POST'])
 def elimina_account():
     richiesta = request.get_json(force = True)
@@ -213,6 +225,16 @@ def elimina_account():
     password = richiesta['password']
     if not safeChat.utente_valido(username, password):
         return dumps({'utente_non_valido': True})
+    safeChat.elimina_account(username)
+    return dumps({'eliminato': True})
+
+@app.route('/elimina_account', methods = ['POST'])
+def elimina_account():
+    richiesta = request.get_json(force = True)
+    password_admin = richiesta['password_admin']
+    if not safeChat.utente_valido('admin', password_admin):
+        return dumps({'utente_non_valido': True})
+    username = richiesta['username'].lower()
     safeChat.elimina_account(username)
     return dumps({'eliminato': True})
 

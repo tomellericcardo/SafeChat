@@ -1,7 +1,7 @@
-impostazioni = {
+dashboard = {
     
     init: function() {
-        this.dashboard();
+        this.buttafuori();
         this.richiesta_modifica();
         this.conferma_modifica();
         this.chiudi_modifica();
@@ -10,53 +10,46 @@ impostazioni = {
         this.chiudi_elimina();
     },
     
-    dashboard: function() {
-        if (utente.username == 'admin') {
-            $('#dashboard').css('display', 'block');
-            $('#dashboard').on('click', function() {
-                window.location.href = '/dashboard';
-            });
+    buttafuori: function() {
+        if (utente.username != 'admin') {
+            window.location.href = '/home';
         }
     },
     
     richiesta_modifica: function() {
         $('#modifica_password').on('click', function() {
-            impostazioni.modifica_password();
+            dashboard.modifica_password();
         });
-        $('#vecchia_password, #nuova_password1, #nuova_password2').on('keyup', function(e) {
+        $('#password_admin, #username, #password_utente, #password_utente2').on('keyup', function(e) {
             if (e.keyCode == 13) {
-                impostazioni.modifica_password();
+                dashboard.modifica_password();
             }
         });
     },
     
     modifica_password: function() {
-        $('#vecchia_password, #nuova_password1, #nuova_password2').css('border-color', '#757575');
-        var vecchia_password = $('#vecchia_password').val();
-        var nuova_password1 = $('#nuova_password1').val();
-        var nuova_password2 = $('#nuova_password2').val();
-        if (vecchia_password.length > 0 && nuova_password1.length > 0 && nuova_password2.length > 0) {
-            if (nuova_password1.length >= 8) {
-                if (nuova_password1 == nuova_password2) {
-                    if (nuova_password1 != vecchia_password) {
-                        $('#conferma_modifica').css('display', 'block');
-                    } else {
-                        $('#nuova_password1, #nuova_password2').css('border-color', 'red');
-                        $('#nuova_password1, #nuova_password2').val('');
-                        errore.messaggio('La nuova password deve essere diversa da quella vecchia!');
-                    }
+        $('#password_admin, #username, #password_utente, #password_utente2').css('border-color', '#757575');
+        var password_admin = $('#password_admin').val();
+        var username = $('#username').val();
+        var password_utente = $('#password_utente').val();
+        var password_utente2 = $('#password_utente2').val();
+        if (password_admin.length > 0 && username.length > 0 && password_utente.length > 0 && password_utente2.length > 0) {
+            if (password_utente.length >= 8) {
+                if (password_utente == password_utente2) {
+                    $('#nome_utente').html(username);
+                    $('#conferma_modifica').css('display', 'block');
                 } else {
-                    $('#nuova_password1, #nuova_password2').css('border-color', 'red');
-                    $('#nuova_password1, #nuova_password2').val('');
+                    $('#password_utente, #password_utente2').css('border-color', 'red');
+                    $('#password_utente, #password_utente2').val('');
                     errore.messaggio('Le due password non corrispondono!');
                 }
             } else {
-                $('#nuova_password1, #nuova_password2').css('border-color', 'red');
-                $('#nuova_password1, #nuova_password2').val('');
+                $('#password_utente, #password_utente2').css('border-color', 'red');
+                $('#password_utente, #password_utente2').val('');
                 errore.messaggio('La password deve essere lunga almeno 8 caratteri!');
             }
         } else {
-            $('#vecchia_password, #nuova_password1, #nuova_password2').css('border-color', 'red');
+            $('#password_admin, #username, #password_utente, #password_utente2').css('border-color', 'red');
             errore.messaggio('Completa tutti i campi!');
         }
     },
@@ -65,19 +58,20 @@ impostazioni = {
         $('#modifica_definitivo').on('click', function() {
             $('#conferma_modifica').css('display', 'none');
             $('#caricamento_modifica').css('display', 'inline');
-            var password = SHA256($('#vecchia_password').val());
-            var nuova_password = SHA256($('#nuova_password1').val());
-            $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
-            var chiavi = cryptico.generateRSAKey(nuova_password, 1024);
+            var password_admin = SHA256($('#password_admin').val());
+            var username = $('#username').val();
+            var password_utente = SHA256($('#password_utente').val());
+            $('#password_admin, #username, #password_utente, #password_utente2').val('');
+            var chiavi = cryptico.generateRSAKey(password_utente, 1024);
             var nuova_chiave = cryptico.publicKeyString(chiavi); 
             var richiesta = {
-                username: utente.username,
-                password: password,
-                nuova_password: nuova_password,
+                password_admin: password_admin,
+                username: username,
+                nuova_password: password_utente,
                 nuova_chiave: nuova_chiave
             };
             $.ajax({
-                url: 'modifica_password',
+                url: 'modifica_password_utente',
                 method: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
@@ -85,9 +79,9 @@ impostazioni = {
                 success: function(risposta) {
                     $('#caricamento_modifica').css('display', 'none');
                     if (risposta.utente_non_valido) {
-                        errore.messaggio('Vecchia password non corretta!');
+                        errore.messaggio('Password amministratore non corretta!');
                     } else if (risposta.modificata) {
-                        utente.disconnetti_utente();
+                        errore.successo('Password di <b>' + username + '</b> modificata con successo!');
                     }
                 },
                 error: function() {
@@ -100,30 +94,31 @@ impostazioni = {
     
     chiudi_modifica: function() {
         $('#chiudi_modifica, #sfondo_modifica').on('click', function() {
-            $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
+            $('#password_admin, #username, #password_utente, #password_utente2').val('');
             $('#conferma_modifica').css('display', 'none');
         });
     },
     
     richiesta_elimina: function() {
         $('#elimina_account').on('click', function() {
-            impostazioni.elimina_account();
+            dashboard.elimina_account();
         });
-        $('#password').on('keyup', function(e) {
+        $('#password_admin2, #username2').on('keyup', function(e) {
             if (e.keyCode == 13) {
-                impostazioni.elimina_account();
+                dashboard.elimina_account();
             }
         });
     },
     
     elimina_account: function() {
-        $('#password').css('border-color', '#757575');
-        var password = $('#password').val();
-        if (password.length > 0) {
+        $('#password_admin2, #username2').css('border-color', '#757575');
+        var password_admin = $('#password_admin2').val();
+        var username = $('#username2').val();
+        if (password_admin.length > 0 && username.length > 0) {
             $('#conferma_elimina').css('display', 'block');
         } else {
-            $('#password').css('border-color', 'red');
-            errore.messaggio('Inserisci la tua password!');
+            $('#password_admin2, #username2').css('border-color', 'red');
+            errore.messaggio('Completa tutti i campi!');
         }
     },
     
@@ -131,13 +126,15 @@ impostazioni = {
         $('#elimina_definitivo').on('click', function() {
             $('#conferma_elimina').css('display', 'none');
             $('#caricamento_elimina').css('display', 'inline');
-            var password = SHA256($('#password').val());
+            var password_admin = SHA256($('#password_admin2').val());
+            var username = $('#username2').val();
+            $('#password_admin2, #username2').val('');
             var richiesta = {
-                username: utente.username,
-                password: password
+                password_admin: password_admin,
+                username: username
             };
             $.ajax({
-                url: 'elimina_account',
+                url: 'elimina_account_utente',
                 method: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
@@ -145,9 +142,9 @@ impostazioni = {
                 success: function(risposta) {
                     $('#caricamento_elimina').css('display', 'none');
                     if (risposta.utente_non_valido) {
-                        errore.messaggio('Vecchia password non corretta!');
+                        errore.messaggio('Password amministratore non corretta!');
                     } else if (risposta.eliminato) {
-                        utente.disconnetti_utente();
+                        errore.successo('Utente <b>' + username + '</b> eliminato con successo!');
                     }
                 },
                 error: function() {
@@ -160,7 +157,7 @@ impostazioni = {
     
     chiudi_elimina: function() {
         $('#chiudi_elimina, #sfondo_elimina').on('click', function() {
-            $('#password').val('');
+            $('#password_admin2, #username2').val('');
             $('#conferma_elimina').css('display', 'none');
         });
     }
@@ -168,4 +165,4 @@ impostazioni = {
 };
 
 
-$(document).ready(impostazioni.init());
+$(document).ready(dashboard.init());

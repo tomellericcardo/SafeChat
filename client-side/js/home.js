@@ -92,7 +92,7 @@ home = {
             var richiesta = {
                 proprietario: utente.username,
                 password: utente.password,
-               partecipante: partecipante
+                partecipante: partecipante
            };
             $.ajax({
                 url: 'elimina_conversazione',
@@ -105,6 +105,7 @@ home = {
                         utente.disconnetti_utente();
                     } else {
                         $('#elimina_conversazione').css('display', 'none');
+                        errore.successo('Conversazione con <b>' + partecipante + '</b> eliminata con successo!');
                         home.leggi_conversazioni();
                     }
                 },

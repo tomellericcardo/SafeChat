@@ -1,13 +1,13 @@
 dashboard = {
     
     init: function() {
-        this.buttafuori();
-        this.richiesta_modifica();
-        this.conferma_modifica();
-        this.chiudi_modifica();
-        this.richiesta_elimina();
-        this.conferma_elimina();
-        this.chiudi_elimina();
+        dashboard.buttafuori();
+        dashboard.init_richiesta_modifica();
+        dashboard.init_conferma_modifica();
+        dashboard.init_chiudi_modifica();
+        dashboard.init_richiesta_elimina();
+        dashboard.init_conferma_elimina();
+        dashboard.init_chiudi_elimina();
     },
     
     buttafuori: function() {
@@ -16,7 +16,7 @@ dashboard = {
         }
     },
     
-    richiesta_modifica: function() {
+    init_richiesta_modifica: function() {
         $('#modifica_password').on('click', function() {
             dashboard.modifica_password();
         });
@@ -54,7 +54,7 @@ dashboard = {
         }
     },
     
-    conferma_modifica: function() {
+    init_conferma_modifica: function() {
         $('#modifica_definitivo').on('click', function() {
             $('#conferma_modifica').css('display', 'none');
             $('#caricamento_modifica').css('display', 'inline');
@@ -81,7 +81,7 @@ dashboard = {
                     if (risposta.utente_non_valido) {
                         errore.messaggio('Password amministratore non corretta!');
                     } else if (risposta.modificata) {
-                        errore.successo('Password di <b>' + username + '</b> modificata con successo!');
+                        successo.messaggio('Password di <b>' + username + '</b> modificata con successo!');
                     }
                 },
                 error: function() {
@@ -92,14 +92,14 @@ dashboard = {
         });
     },
     
-    chiudi_modifica: function() {
+    init_chiudi_modifica: function() {
         $('#chiudi_modifica, #sfondo_modifica').on('click', function() {
             $('#password_admin, #username, #password_utente, #password_utente2').val('');
             $('#conferma_modifica').css('display', 'none');
         });
     },
     
-    richiesta_elimina: function() {
+    init_richiesta_elimina: function() {
         $('#elimina_account').on('click', function() {
             dashboard.elimina_account();
         });
@@ -115,6 +115,7 @@ dashboard = {
         var password_admin = $('#password_admin2').val();
         var username = $('#username2').val();
         if (password_admin.length > 0 && username.length > 0) {
+            $('#nome_utente2').html(username);
             $('#conferma_elimina').css('display', 'block');
         } else {
             $('#password_admin2, #username2').css('border-color', 'red');
@@ -122,7 +123,7 @@ dashboard = {
         }
     },
     
-    conferma_elimina: function() {
+    init_conferma_elimina: function() {
         $('#elimina_definitivo').on('click', function() {
             $('#conferma_elimina').css('display', 'none');
             $('#caricamento_elimina').css('display', 'inline');
@@ -144,7 +145,7 @@ dashboard = {
                     if (risposta.utente_non_valido) {
                         errore.messaggio('Password amministratore non corretta!');
                     } else if (risposta.eliminato) {
-                        errore.successo('Utente <b>' + username + '</b> eliminato con successo!');
+                        successo.messaggio('Utente <b>' + username + '</b> eliminato con successo!');
                     }
                 },
                 error: function() {
@@ -155,13 +156,13 @@ dashboard = {
         });
     },
     
-    chiudi_elimina: function() {
+    init_chiudi_elimina: function() {
         $('#chiudi_elimina, #sfondo_elimina').on('click', function() {
             $('#password_admin2, #username2').val('');
             $('#conferma_elimina').css('display', 'none');
         });
     }
-    
+
 };
 
 

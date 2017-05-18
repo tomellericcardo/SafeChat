@@ -1,10 +1,6 @@
 registrati = {
     
-    init: function() {
-        this.richiesta_registrazione();
-    },
-    
-    richiesta_registrazione: function() {
+    init_richiesta_registrazione: function() {
         $('#registra_utente').on('click', function() {
             registrati.registra_utente();
         });
@@ -15,50 +11,13 @@ registrati = {
         });
     },
     
-    username_valido: function(username) {
-        if (!(username.length >= 4 && username.length <= 16)) {
-            $('#username').val('');
-            $('#username').css('border-color', 'red');
-            errore.messaggio('L\'username deve avere dai 4 ai 16 caratteri!');
-            return false;
-        } else if (!(username.match(/^[a-z0-9]*$/gi))) {
-            $('#username').val('');
-            $('#username').css('border-color', 'red');
-            errore.messaggio('L\'username deve avere solo caratteri alfanumerici!');
-            return false;
-        } else {
-            return true;
-        }
-    },
-    
-    password_valida: function(password1, password2, username) {
-        if (!(password1.length >= 8)) {
-            $('#password, #password2').val('');
-            $('#password, #password2').css('border-color', 'red');
-            errore.messaggio('La password deve essere lunga almeno 8 caratteri!');
-            return false;
-        } else if (password1 != password2) {
-            $('#password, #password2').val('');
-            $('#password, #password2').css('border-color', 'red');
-            errore.messaggio('Le due password non corrispondono!');
-            return false;
-        } else if (password1.toLowerCase() == username.toLowerCase()) {
-            $('#password, #password2').val('');
-            $('#password, #password2').css('border-color', 'red');
-            errore.messaggio('La password non pu&ograve; corrispondere allo username!');
-            return false;
-        } else {
-            return true;
-        }
-    },
-    
     registra_utente: function() {
         $('#username, #password, #password2').css('border-color', '#757575');
         var username = $('#username').val();
         var password1 = $('#password').val();
         var password2 = $('#password2').val();
         if (username.length > 0 && password1.length > 0 && password2.length > 0) {
-            if (this.username_valido(username) && this.password_valida(password1, password2, username)) {
+            if (registrati.username_valido(username) && registrati.password_valida(password1, password2, username)) {
                 $('.caricamento').css('display', 'inline');
                 var password = SHA256(password1);
                 var chiavi = cryptico.generateRSAKey(password, 512);
@@ -97,9 +56,46 @@ registrati = {
             $('#username, #password, #password2').css('border-color', 'red');
             errore.messaggio('Completa tutti i campi!');
         }
+    },
+    
+    username_valido: function(username) {
+        if (!(username.length >= 4 && username.length <= 16)) {
+            $('#username').val('');
+            $('#username').css('border-color', 'red');
+            errore.messaggio('L\'username deve avere dai 4 ai 16 caratteri!');
+            return false;
+        } else if (!(username.match(/^[a-z0-9]*$/gi))) {
+            $('#username').val('');
+            $('#username').css('border-color', 'red');
+            errore.messaggio('L\'username deve avere solo caratteri alfanumerici!');
+            return false;
+        } else {
+            return true;
+        }
+    },
+    
+    password_valida: function(password1, password2, username) {
+        if (!(password1.length >= 8)) {
+            $('#password, #password2').val('');
+            $('#password, #password2').css('border-color', 'red');
+            errore.messaggio('La password deve essere lunga almeno 8 caratteri!');
+            return false;
+        } else if (password1 != password2) {
+            $('#password, #password2').val('');
+            $('#password, #password2').css('border-color', 'red');
+            errore.messaggio('Le due password non corrispondono!');
+            return false;
+        } else if (password1.toLowerCase() == username.toLowerCase()) {
+            $('#password, #password2').val('');
+            $('#password, #password2').css('border-color', 'red');
+            errore.messaggio('La password non pu&ograve; corrispondere allo username!');
+            return false;
+        } else {
+            return true;
+        }
     }
     
 };
 
 
-$(document).ready(registrati.init());
+$(document).ready(registrati.init_richiesta_registrazione());

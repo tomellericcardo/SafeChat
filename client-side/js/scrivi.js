@@ -1,10 +1,6 @@
 scrivi = {
     
-    init: function() {
-        this.richiesta_ricerca();
-    },
-    
-    richiesta_ricerca: function() {
+    init_richiesta_ricerca: function() {
         $('#cerca_utente').on('click', function() {
             scrivi.cerca_utente();
         });
@@ -26,30 +22,16 @@ scrivi = {
         var testo = username + nome + cognome;
         if (testo.length > 0) {
             $('.caricamento').css('display', 'inline');
-            var richiesta = {
-                testo: testo
-            };
             $.ajax({
                 url: 'cerca_utente',
                 method: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
-                data: JSON.stringify(richiesta),
+                data: JSON.stringify({testo: testo}),
                 success: function(risposta) {
                     $('.caricamento').css('display', 'none');
                     if (risposta.risultati) {
-                        for (var i = 0; i < risposta.risultati.length; i++) {
-                            var foto = risposta.risultati[i][0];
-                            var username = risposta.risultati[i][1];
-                            var nome = risposta.risultati[i][2];
-                            var cognome = risposta.risultati[i][3];
-                            risposta.risultati[i] = {
-                                foto: foto,
-                                username: username,
-                                nome: nome,
-                                cognome: cognome
-                            };
-                        }
+                        risposta = scrivi.formatta_risultati(risposta);
                         $.get('/html/templates.html', function(contenuto) {
                             var template = $(contenuto).filter('#cerca_utente').html();
                             $('#risultati').html(Mustache.render(template, risposta));
@@ -71,6 +53,25 @@ scrivi = {
         }
     },
     
+    formatta_risultati: function(risposta) {
+        var risultati = risposta.risultati;
+        var foto, username, nome, cognome;
+        for (var i = 0; i < risultati.length; i++) {
+            foto = risultati[i][0];
+            username = risultati[i][1];
+            nome = risultati[i][2];
+            cognome = risultati[i][3];
+            risultati[i] = {
+                foto: foto,
+                username: username,
+                nome: nome,
+                cognome: cognome
+            };
+        }
+        risposta.risultati = risultati;
+        return risposta;
+    },
+    
     nuova_conversazione: function(destinatario) {
         var mittente = utente.username;
         if (mittente != destinatario) {
@@ -81,4 +82,4 @@ scrivi = {
 };
 
 
-$(document).ready(scrivi.init());
+$(document).ready(scrivi.init_richiesta_ricerca());

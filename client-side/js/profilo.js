@@ -1,9 +1,20 @@
 profilo = {
     
     init: function() {
-        this.leggi_utente();
-        this.leggi_profilo();
-        this.leggi_immagine();
+        profilo.leggi_utente();
+        profilo.leggi_profilo();
+        profilo.init_leggi_immagine();
+    },
+    
+    leggi_utente: function() {
+        var parametro = profilo.leggi_parametro('di');
+        if (!parametro) {
+            profilo.utente = utente.username;
+        } else {
+            profilo.utente = parametro;
+        }
+        $('#utente').html(profilo.utente);
+        $('title').html(profilo.utente + ' - SafeChat');
     },
     
     leggi_parametro: function(parametro) {
@@ -18,25 +29,12 @@ profilo = {
         }
     },
     
-    leggi_utente: function() {
-        var parametro = this.leggi_parametro('di');
-        if (!parametro) {
-            this.utente = utente.username;
-        } else {
-            this.utente = parametro;
-        }
-        if (this.utente != utente.username) {
-            $('#utente').html(this.utente);
-            $('title').html(this.utente + ' - SafeChat');
-        }
-    },
-    
     leggi_profilo: function() {
         $('.caricamento').css('display', 'inline');
         var richiesta = {
             username: utente.username,
             password: utente.password,
-            utente: this.utente
+            utente: profilo.utente
         };
         $.ajax({
             url: 'leggi_profilo',
@@ -48,18 +46,7 @@ profilo = {
                 if (risposta.utente_non_valido) {
                     utente.disconnetti_utente();
                 } else if (risposta.profilo) {
-                    var foto = risposta.profilo[0];
-                    var username = risposta.profilo[1];
-                    var nome = risposta.profilo[2];
-                    var cognome = risposta.profilo[3];
-                    var stato = risposta.profilo[4];
-                    risposta.profilo = {
-                        foto: foto,
-                        username: username,
-                        nome: nome,
-                        cognome: cognome,
-                        stato: stato
-                    };
+                    risposta = profilo.formatta_profilo(risposta);
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_profilo').html();
                         $('#profilo').html(Mustache.render(template, risposta));
@@ -68,12 +55,12 @@ profilo = {
                     }).then(function() {
                         if (profilo.utente == utente.username) {
                             $('#modifica_profilo').css('display', 'block')
-                            profilo.modifica_profilo()
-                            profilo.richiesta_modifica();
-                            profilo.modifica_foto();
+                            profilo.init_modifica_profilo()
+                            profilo.init_richiesta_modifica();
+                            profilo.init_modifica_foto();
                         } else {
-                            profilo.visualizza_foto();
-                            profilo.chiudi_visualizza();
+                            profilo.init_visualizza_foto();
+                            profilo.init_chiudi_visualizza();
                         }
                     });
                 }
@@ -84,7 +71,24 @@ profilo = {
         });
     },
     
-    modifica_profilo: function() {
+    formatta_profilo: function(risposta) {
+        var profilo = risposta.profilo;
+        var foto = profilo[0];
+        var username = profilo[1];
+        var nome = profilo[2];
+        var cognome = profilo[3];
+        var stato = profilo[4];
+        risposta.profilo = {
+            foto: foto,
+            username: username,
+            nome: nome,
+            cognome: cognome,
+            stato: stato
+        };
+        return risposta;
+    },
+    
+    init_modifica_profilo: function() {
         $('#modifica_profilo').on('click', function() {
             $('#modifica_profilo').css('display', 'none');
             $('#conferma_modifiche').css('display', 'block');
@@ -92,7 +96,7 @@ profilo = {
         });
     },
     
-    richiesta_modifica: function() {
+    init_richiesta_modifica: function() {
         $('#conferma_modifiche').on('click', function() {
             profilo.conferma_modifiche();
         });
@@ -136,34 +140,21 @@ profilo = {
         });
     },
     
-    modifica_foto: function() {
+    init_modifica_foto: function() {
         $('#modifica_foto').on('click', function() {
             $('#immagine').click();
         });
     },
     
-    invia_immagine: function(immagine) {
-        var richiesta = {
-            username: utente.username,
-            password: utente.password,
-            foto: immagine
-        };
-        $.ajax({
-            url: 'modifica_foto',
-            method: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(richiesta),
-            success: function(risposta) {
-                if (risposta.utente_non_valido) {
-                    utente.disconnetti_utente();
-                } else if (risposta.modificata) {
-                    profilo.leggi_profilo();
-                }
-            },
-            error: function() {
-                errore.messaggio('Errore del server!');
-            }
+    init_leggi_immagine: function() {
+        $('#immagine').change(function(evento) {
+            var lettore = new FileReader();
+            lettore.onload = function(e) {
+                $('#caricamento').css('display', 'block');
+                $('#modifica_profilo, #conferma_modifiche').css('bottom', '65px');
+                profilo.ridimensiona_invia(e.target.result, 250);
+            };
+            lettore.readAsDataURL(evento.target.files[0]);
         });
     },
     
@@ -195,26 +186,39 @@ profilo = {
         immagine.src = sorgente;
     },
     
-    leggi_immagine: function() {
-        $('#immagine').change(function(evento) {
-            var lettore = new FileReader();
-            lettore.onload = function(e) {
-                $('#caricamento').css('display', 'block');
-                $('#modifica_profilo, #conferma_modifiche').css('bottom', '65px');
-                profilo.ridimensiona_invia(e.target.result, 250);
-            };
-            lettore.readAsDataURL(evento.target.files[0]);
+    invia_immagine: function(immagine) {
+        var richiesta = {
+            username: utente.username,
+            password: utente.password,
+            foto: immagine
+        };
+        $.ajax({
+            url: 'modifica_foto',
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(richiesta),
+            success: function(risposta) {
+                if (risposta.utente_non_valido) {
+                    utente.disconnetti_utente();
+                } else if (risposta.modificata) {
+                    profilo.leggi_profilo();
+                }
+            },
+            error: function() {
+                errore.messaggio('Errore del server!');
+            }
         });
     },
     
-    visualizza_foto: function() {
+    init_visualizza_foto: function() {
         $('#foto_profilo').on('click', function() {
             $('#galleria_foto').attr('src', $('#foto_profilo').attr('src'));
             $('#visualizza_foto').css('display', 'block');
         });
     },
     
-    chiudi_visualizza: function() {
+    init_chiudi_visualizza: function() {
         $('#sfondo_visualizza').on('click', function() {
             $('#visualizza_foto').css('display', 'none');
         });

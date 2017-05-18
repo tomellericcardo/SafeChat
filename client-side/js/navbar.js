@@ -1,10 +1,10 @@
 navbar = {
     
     init: function() {
-        this.init_menu();
-        this.dashboard();
-        this.disconnetti_utente();
-        this.init_notifiche();
+        navbar.init_menu();
+        navbar.mostra_dashboard();
+        navbar.init_disconnetti_utente();
+        navbar.init_notifiche();
     },
     
     init_menu: function() {
@@ -19,13 +19,13 @@ navbar = {
         });
     },
     
-    dashboard: function() {
+    mostra_dashboard: function() {
         if (utente.username == 'admin') {
             $('#dashboard').css('display', 'block');
         }
     },
     
-    disconnetti_utente : function() {
+    init_disconnetti_utente : function() {
         $('#disconnetti_utente').on('click', function() {
             utente.disconnetti_utente();
         });

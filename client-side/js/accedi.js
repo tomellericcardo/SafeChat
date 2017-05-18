@@ -1,10 +1,6 @@
 accedi = {
     
-    init: function() {
-        this.richiesta_accesso();
-    },
-    
-    richiesta_accesso: function() {
+    init_richiesta_accesso: function() {
         $('#connetti_utente').on('click', function() {
             accedi.connetti_utente();
         });
@@ -59,4 +55,4 @@ accedi = {
 };
 
 
-$(document).ready(accedi.init());
+$(document).ready(accedi.init_richiesta_accesso());

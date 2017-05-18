@@ -59,7 +59,7 @@ input::placeholder {
 /*** BOTTONI ***/
 
 .w3-btn {
-    border-radius: 4px
+    border-radius: 3px
 }
 
 
@@ -96,6 +96,6 @@ hr {
     cursor: pointer;
 }
 
-#errore {
+#errore, #successo {
     padding-top: 30vh;
 }

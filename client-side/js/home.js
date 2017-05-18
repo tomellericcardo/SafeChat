@@ -1,25 +1,26 @@
 home = {
     
     init: function() {
-        this.leggi_chiave();
-        this.scrivi();
-        this.leggi_conversazioni();
-        this.chiudi_elimina();
-        this.elimina_definitivo();
-        setInterval(this.aggiorna_conversazioni, 2000);
+        home.leggi_chiave();
+        home.init_scrivi();
+        home.leggi_conversazioni();
+        home.init_chiudi_elimina();
+        home.init_elimina_definitivo();
+        setInterval(home.aggiorna_conversazioni, 2000);
     },
     
     leggi_chiave: function() {
-        this.chiave_privata = cryptico.generateRSAKey(utente.password, 512);
+        home.chiave_privata = cryptico.generateRSAKey(utente.password, 512);
     },
     
-    scrivi: function() {
+    init_scrivi: function() {
         $('#scrivi').on('click', function() {
             window.location.href = '/scrivi';
         });
     },
     
     leggi_conversazioni: function() {
+        home.n_notifiche = notifiche.n_notifiche;
         $('.caricamento').css('display', 'inline');
         var richiesta = {
             username: utente.username,
@@ -35,45 +36,8 @@ home = {
                 if (risposta.utente_non_valido) {
                     utente.disconnetti_utente();
                 } else if (risposta.conversazioni) {
-                    var n_non_letti = 0;
-                    for (var i = 0; i < risposta.conversazioni.length; i++) {
-                        var partecipante = risposta.conversazioni[i][0];
-                        var foto = risposta.conversazioni[i][1];
-                        var letto = risposta.conversazioni[i][2] == 1;
-                        var mittente = risposta.conversazioni[i][3] == utente.username;
-                        var immagine = risposta.conversazioni[i][4] == 1;
-                        var testo = risposta.conversazioni[i][5];
-                        var data_ora = home.formatta_data(risposta.conversazioni[i][6]);
-                        var non_letti = risposta.conversazioni[i][7];
-                        if (immagine) {
-                            testo = '<i id="icona_immagine" class="material-icons">photo_camera</i> Immagine';
-                        } else {
-                            testo = cryptico.decrypt(
-                                testo,
-                                home.chiave_privata
-                            ).plaintext;
-                            testo = decodeURIComponent(escape(window.atob(testo)));
-                            if (testo.length > 20) {
-                                testo = testo.substring(0, 18) + '...';
-                            }
-                        }
-                        if (mittente) {
-                            testo = 'Tu: ' + testo;
-                        } else if (!letto) {
-                            testo = '<b>' + testo + '</b>';
-                        }
-                        risposta.conversazioni[i] = {
-                            partecipante: partecipante,
-                            foto: foto,
-                            testo: testo,
-                            data_ora: data_ora,
-                            non_letti: non_letti
-                        };
-                        n_non_letti += non_letti;
-                    }
-                    home.etichetta = risposta.etichetta;
-                    home.non_letti = n_non_letti;
-                    sessionStorage.setItem('conversazioni', JSON.stringify(risposta));
+                    risposta = home.elabora_conversazioni(risposta);
+                    sessionStorage.setItem('nuovi', '0');
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_conversazioni').html();
                         $('#conversazioni').html(Mustache.render(template, risposta));
@@ -86,6 +50,30 @@ home = {
         });
     },
     
+    elabora_conversazioni: function(risposta) {
+        var conversazioni = risposta.conversazioni;
+        var partecipante, foto, letto, mittente, immagine, testo, data_ora, non_letti;
+        for (var i = 0; i < conversazioni.length; i++) {
+            partecipante = conversazioni[i][0];
+            foto = conversazioni[i][1];
+            letto = conversazioni[i][2] == 1;
+            mittente = conversazioni[i][3] == utente.username;
+            immagine = conversazioni[i][4] == 1;
+            testo = home.formatta_testo(immagine, conversazioni[i][5], mittente, letto);
+            data_ora = home.formatta_data(conversazioni[i][6]);
+            non_letti = conversazioni[i][7];
+            conversazioni[i] = {
+                partecipante: partecipante,
+                foto: foto,
+                testo: testo,
+                data_ora: data_ora,
+                non_letti: non_letti
+            };
+        }
+        risposta.conversazioni = conversazioni;
+        return risposta;
+    },
+    
     formatta_data: function(data_ora) {
         data_ora = data_ora.split(' ');
         var data = data_ora[0].split('-');
@@ -95,32 +83,22 @@ home = {
         return data + ' alle ' + ora;
     },
     
-    aggiorna_conversazioni: function() {
-        if (home.non_letti != notifiche.n_notifiche) {
-            home.leggi_conversazioni();
+    formatta_testo: function(immagine, testo, mittente, letto) {
+        if (immagine) {
+            testo = '<i id="icona_immagine" class="material-icons">photo_camera</i> Immagine';
         } else {
-            var richiesta = {
-                username: utente.username,
-                password: utente.password
-            };
-            $.ajax({
-                url: 'leggi_etichetta',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(richiesta),
-                success: function(risposta) {
-                    if (risposta.utente_non_valido) {
-                        utente.disconnetti_utente();
-                    } else if (risposta.etichetta != home.etichetta) {
-                        home.leggi_conversazioni();
-                    }
-                },
-                error: function() {
-                    errore.messaggio('Errore del server!');
-                }
-            });
+            testo = cryptico.decrypt(testo, home.chiave_privata).plaintext;
+            testo = decodeURIComponent(escape(window.atob(testo)));
+            if (testo.length > 20) {
+                testo = testo.substring(0, 18) + '...';
+            }
         }
+        if (mittente) {
+            testo = 'Tu: ' + testo;
+        } else if (!letto) {
+            testo = '<b>' + testo + '</b>';
+        }
+        return testo;
     },
     
     elimina_conversazione: function(partecipante) {
@@ -128,13 +106,13 @@ home = {
         $('#elimina_conversazione').css('display', 'block');
     },
     
-    chiudi_elimina: function() {
+    init_chiudi_elimina: function() {
         $('#chiudi_elimina, #sfondo_elimina').on('click', function() {
             $('#elimina_conversazione').css('display', 'none');
         });
     },
     
-    elimina_definitivo: function() {
+    init_elimina_definitivo: function() {
         $('#elimina_definitivo').on('click', function() {
             var partecipante = $('#partecipante').html();
             var richiesta = {
@@ -153,7 +131,6 @@ home = {
                         utente.disconnetti_utente();
                     } else {
                         $('#elimina_conversazione').css('display', 'none');
-                        errore.successo('Conversazione con <b>' + partecipante + '</b> eliminata con successo!');
                         home.leggi_conversazioni();
                     }
                 },
@@ -163,8 +140,15 @@ home = {
                 }
             });
         });
-    }
+    },
     
+    aggiorna_conversazioni: function() {
+        var nuovi = sessionStorage.getItem('nuovi') == '1';
+        if (home.n_notifiche != notifiche.n_notifiche || nuovi) {
+            home.leggi_conversazioni();
+        }
+    }
+
 };
 
 

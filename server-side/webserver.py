@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, g, send_from_directory, request
-from flask_sslify import SSLify
+# from flask_sslify import SSLify
 from safeChat import SafeChat
 from json import dumps
 
@@ -9,7 +9,7 @@ from json import dumps
 # VARIABILI GLOBALI
 
 app = Flask(__name__)
-ssLify = SSLify(app)
+# ssLify = SSLify(app)
 safeChat = SafeChat(g, 'database.db', 'piper_nigrum')
 
 
@@ -27,6 +27,7 @@ def chiudi_connessione(exception):
 # INVIO FILES
 
 @app.route('/')
+@app.route('/accedi')
 def accedi():
     return send_from_directory('../client-side/html/', 'accedi.html')
 
@@ -83,16 +84,7 @@ def leggi_conversazioni():
     password = richiesta['password']
     if not safeChat.utente_valido(username, password):
         return dumps({'utente_non_valido': True})
-    return dumps(safeChat.leggi_conversazioni(username))
-
-@app.route('/leggi_etichetta', methods = ['POST'])
-def leggi_etichetta():
-    richiesta = request.get_json(force = True)
-    username = richiesta['username'].lower()
-    password = richiesta['password']
-    if not safeChat.utente_valido(username, password):
-        return dumps({'utente_non_valido': True})
-    return dumps({'etichetta': safeChat.leggi_etichetta(username)})
+    return dumps({'conversazioni': safeChat.leggi_conversazioni(username)})
 
 @app.route('/elimina_conversazione', methods = ['POST'])
 def elimina_conversazione():
@@ -242,4 +234,4 @@ def elimina_account_utente():
 # AVVIO DEL SERVER
 
 if __name__ == '__main__':
-    app.run(threaded = True)
+    app.run(threaded = True, debug = True, port = 80)

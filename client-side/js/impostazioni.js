@@ -1,25 +1,15 @@
 impostazioni = {
     
     init: function() {
-        this.dashboard();
-        this.richiesta_modifica();
-        this.conferma_modifica();
-        this.chiudi_modifica();
-        this.richiesta_elimina();
-        this.conferma_elimina();
-        this.chiudi_elimina();
+        impostazioni.init_richiesta_modifica();
+        impostazioni.init_conferma_modifica();
+        impostazioni.init_chiudi_modifica();
+        impostazioni.init_richiesta_elimina();
+        impostazioni.init_conferma_elimina();
+        impostazioni.init_chiudi_elimina();
     },
     
-    dashboard: function() {
-        if (utente.username == 'admin') {
-            $('#dashboard').css('display', 'block');
-            $('#dashboard').on('click', function() {
-                window.location.href = '/dashboard';
-            });
-        }
-    },
-    
-    richiesta_modifica: function() {
+    init_richiesta_modifica: function() {
         $('#modifica_password').on('click', function() {
             impostazioni.modifica_password();
         });
@@ -61,7 +51,7 @@ impostazioni = {
         }
     },
     
-    conferma_modifica: function() {
+    init_conferma_modifica: function() {
         $('#modifica_definitivo').on('click', function() {
             $('#conferma_modifica').css('display', 'none');
             $('#caricamento_modifica').css('display', 'inline');
@@ -98,14 +88,14 @@ impostazioni = {
         });
     },
     
-    chiudi_modifica: function() {
+    init_chiudi_modifica: function() {
         $('#chiudi_modifica, #sfondo_modifica').on('click', function() {
             $('#vecchia_password, #nuova_password1, #nuova_password2').val('');
             $('#conferma_modifica').css('display', 'none');
         });
     },
     
-    richiesta_elimina: function() {
+    init_richiesta_elimina: function() {
         $('#elimina_account').on('click', function() {
             impostazioni.elimina_account();
         });
@@ -127,7 +117,7 @@ impostazioni = {
         }
     },
     
-    conferma_elimina: function() {
+    init_conferma_elimina: function() {
         $('#elimina_definitivo').on('click', function() {
             $('#conferma_elimina').css('display', 'none');
             $('#caricamento_elimina').css('display', 'inline');
@@ -158,7 +148,7 @@ impostazioni = {
         });
     },
     
-    chiudi_elimina: function() {
+    init_chiudi_elimina: function() {
         $('#chiudi_elimina, #sfondo_elimina').on('click', function() {
             $('#password').val('');
             $('#conferma_elimina').css('display', 'none');

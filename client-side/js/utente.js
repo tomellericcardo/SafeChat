@@ -1,20 +1,20 @@
 utente = {
     
     init: function() {
-        this.leggi_utente();
-        this.accesso_eseguito();
+        utente.leggi_utente();
+        utente.accesso_eseguito();
     },
     
     leggi_utente: function() {
-        this.username = sessionStorage.getItem('username');
-        this.password = sessionStorage.getItem('password');
+        utente.username = sessionStorage.getItem('username');
+        utente.password = sessionStorage.getItem('password');
     },
     
     accesso_eseguito: function() {
-        if (this.username && this.password) {
+        if (utente.username && utente.password) {
             var richiesta = {
-                username: this.username,
-                password: this.password
+                username: utente.username,
+                password: utente.password
             };
             $.ajax({
                 url: 'accesso_eseguito',

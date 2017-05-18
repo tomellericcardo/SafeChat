@@ -15,7 +15,7 @@
                 </div>
             </a>
             <a href="/conversazione?con={{partecipante}}" class="conversazione">
-                <div class="w3-col s6 m5 l6">
+                <div class="w3-col s8 m7 l8">
                     <p>
                         <b><span class="w3-large">{{partecipante}}</span></b>
                         <br>{{{testo}}}
@@ -24,13 +24,12 @@
                 </div>
             </a>
             <div class="w3-col s2 m2 l2">
-                &nbsp;
+                <div id="cestino" onclick="home.elimina_conversazione('{{partecipante}}')">
+                    <i class="material-icons w3-margin-top">delete</i>
+                </div>
                 {{#non_letti}}
                     <p class="w3-badge w3-green">{{non_letti}}</p>
                 {{/non_letti}}
-            </div>
-            <div id="cestino" onclick="home.elimina_conversazione('{{partecipante}}')" class="w3-col s2 m2 l2">
-                <i class="material-icons w3-margin-top">delete</i>
             </div>
         </div><hr>
     {{/conversazioni}}

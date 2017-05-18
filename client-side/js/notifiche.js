@@ -2,15 +2,15 @@ notifiche = {
     
     init: function() {
         navigator.serviceWorker.register('/sw.js');
-        this.leggi_utente();
-        this.leggi_notifiche();
-        setInterval(this.leggi_notifiche, 2000);
+        notifiche.leggi_utente();
+        notifiche.leggi_notifiche();
+        setInterval(notifiche.leggi_notifiche, 5000);
     },
     
     leggi_utente: function() {
-        this.username = sessionStorage.getItem('username');
-        this.password = sessionStorage.getItem('password');
-        this.n_notifiche = sessionStorage.getItem('n_notifiche');
+        notifiche.username = sessionStorage.getItem('username');
+        notifiche.password = sessionStorage.getItem('password');
+        notifiche.n_notifiche = sessionStorage.getItem('n_notifiche');
     },
     
     leggi_notifiche: function() {
@@ -25,7 +25,7 @@ notifiche = {
             dataType: 'json',
             data: JSON.stringify(richiesta),
             success: function(risposta) {
-                if (risposta.n_notifiche != notifiche.n_notifiche) {
+                if (!risposta.utente_non_valido && risposta.n_notifiche != notifiche.n_notifiche) {
                     notifiche.n_notifiche = risposta.n_notifiche;
                     sessionStorage.setItem('n_notifiche', notifiche.n_notifiche);
                     if (notifiche.n_notifiche != 0) {
@@ -35,7 +35,7 @@ notifiche = {
                         } else {
                             var testo_notifica = 'Hai ' + notifiche.n_notifiche + ' nuovi messaggi';
                         }
-                        notifiche.notifica(testo_notifica);
+                        notifiche.mostra_notifica(testo_notifica);
                     } else {
                         $('#notifiche').html('notifications_none');
                     }
@@ -46,7 +46,7 @@ notifiche = {
         });
     },
     
-    notifica: function(testo_notifica) {
+    mostra_notifica: function(testo_notifica) {
         Notification.requestPermission(function(result) {
             if (result === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {

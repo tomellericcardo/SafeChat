@@ -55,21 +55,30 @@ scrivi = {
     
     formatta_risultati: function(risposta) {
         var risultati = risposta.risultati;
-        var foto, username, nome, cognome;
+        var foto, username, nome, cognome, stato;
         for (var i = 0; i < risultati.length; i++) {
             foto = risultati[i][0];
             username = risultati[i][1];
             nome = risultati[i][2];
             cognome = risultati[i][3];
+            stato = home.formatta_stato(risultati[i][4]);
             risultati[i] = {
                 foto: foto,
                 username: username,
                 nome: nome,
-                cognome: cognome
+                cognome: cognome,
+                stato: stato
             };
         }
         risposta.risultati = risultati;
         return risposta;
+    },
+    
+    formatta_stato: function(stato) {
+        if (stato.length > 20) {
+            stato = stato.substring(0, 18) + '...';
+        }
+        return stato;
     },
     
     nuova_conversazione: function(destinatario) {

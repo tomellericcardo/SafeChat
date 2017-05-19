@@ -74,7 +74,7 @@ class SafeChat:
     
     def cerca_utente(self, testo):
         risultato = self.safeBase.leggi_righe('''
-            SELECT foto, username, nome, cognome
+            SELECT foto, username, nome, cognome, stato
             FROM profilo
             WHERE LOWER(username || nome || cognome)
             REGEXP ?

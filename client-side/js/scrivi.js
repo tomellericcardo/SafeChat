@@ -61,7 +61,7 @@ scrivi = {
             username = risultati[i][1];
             nome = risultati[i][2];
             cognome = risultati[i][3];
-            stato = home.formatta_stato(risultati[i][4]);
+            stato = scrivi.formatta_stato(risultati[i][4]);
             risultati[i] = {
                 foto: foto,
                 username: username,

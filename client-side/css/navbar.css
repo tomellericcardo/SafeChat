@@ -50,6 +50,6 @@
 
 /*** DAHBOARD ***/
 
-#dashboard {
+#dashboard, #dashboard_hr {
     display: none;
 }

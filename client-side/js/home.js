@@ -38,6 +38,11 @@ home = {
                 } else if (risposta.conversazioni) {
                     risposta = home.elabora_conversazioni(risposta);
                     sessionStorage.setItem('nuovi', '0');
+                    if (risposta.conversazioni.length == 0) {
+                        $('#conversazioni').css('margin-bottom', '0px');
+                    } else {
+                        $('#conversazioni').css('margin-bottom', '100px');
+                    }
                     $.get('/html/templates.html', function(contenuto) {
                         var template = $(contenuto).filter('#leggi_conversazioni').html();
                         $('#conversazioni').html(Mustache.render(template, risposta));

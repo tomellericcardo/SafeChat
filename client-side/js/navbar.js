@@ -21,7 +21,7 @@ navbar = {
     
     mostra_dashboard: function() {
         if (utente.username == 'admin') {
-            $('#dashboard').css('display', 'block');
+            $('#dashboard, #dashboard_hr').css('display', 'block');
         }
     },
     

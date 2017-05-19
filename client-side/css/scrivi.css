@@ -6,5 +6,6 @@
 }
 
 #foto_profilo {
-    max-height: 50px;
+    width: 90%;
+    max-width: 65px;
 }

@@ -74,13 +74,11 @@ profilo = {
     formatta_profilo: function(risposta) {
         var profilo = risposta.profilo;
         var foto = profilo[0];
-        var username = profilo[1];
-        var nome = profilo[2];
-        var cognome = profilo[3];
-        var stato = profilo[4];
+        var nome = profilo[1];
+        var cognome = profilo[2];
+        var stato = profilo[3];
         risposta.profilo = {
             foto: foto,
-            username: username,
             nome: nome,
             cognome: cognome,
             stato: stato

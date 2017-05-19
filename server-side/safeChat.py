@@ -141,7 +141,7 @@ class SafeChat:
     
     def leggi_profilo(self, username):
         risultato = self.safeBase.leggi_riga('''
-            SELECT foto, username, nome, cognome, stato
+            SELECT foto, nome, cognome, stato
             FROM profilo
             WHERE username = ?
         ''', (username,))

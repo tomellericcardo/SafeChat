@@ -9,7 +9,8 @@ class SafeBase:
     
     def __init__(self, g, database_filename):
         self.g = g
-        self.percorso = join(dirname(realpath(__file__)), database_filename)
+        posizione = dirname(realpath(__file__))
+        self.percorso = join(posizione, database_filename)
         self.init_db()
     
     def init_db(self):
@@ -100,11 +101,7 @@ class SafeBase:
         return risultato
     
     def leggi_dato(self, query, parametri):
-        cursore = self.g.db.cursor()
-        cursore.execute(query, parametri)
-        risultato = cursore.fetchone()[0]
-        cursore.close()
-        return risultato
+        return self.leggi_riga(query, parametri)[0]
     
     def scrivi(self, query, parametri):
         cursore = self.g.db.cursor()

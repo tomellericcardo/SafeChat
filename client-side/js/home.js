@@ -3,7 +3,7 @@ home = {
     init: function() {
         home.leggi_chiave();
         home.init_scrivi();
-        home.leggi_conversazioni();
+        home.carica_conversazioni();
         home.init_chiudi_elimina();
         home.init_elimina_definitivo();
         setInterval(home.aggiorna_conversazioni, 2000);
@@ -17,6 +17,20 @@ home = {
         $('#scrivi').on('click', function() {
             window.location.href = '/scrivi';
         });
+    },
+    
+    carica_conversazioni: function() {
+        var risultato = JSON.parse(sessionStorage.getItem('conversazioni'));
+        if (risultato) {
+            $.get('/html/templates.html', function(contenuto) {
+                var template = $(contenuto).filter('#leggi_conversazioni').html();
+                $('#conversazioni').html(Mustache.render(template, risultato));
+            }).then(function() {
+                home.leggi_conversazioni();
+            });
+        } else {
+            home.leggi_conversazioni();
+        }
     },
     
     leggi_conversazioni: function() {
@@ -37,16 +51,17 @@ home = {
                     utente.disconnetti_utente();
                 } else if (risposta.conversazioni) {
                     risposta = home.elabora_conversazioni(risposta);
+                    sessionStorage.setItem('conversazioni', JSON.stringify(risposta));
                     sessionStorage.setItem('nuovi', '0');
+                    $.get('/html/templates.html', function(contenuto) {
+                        var template = $(contenuto).filter('#leggi_conversazioni').html();
+                        $('#conversazioni').html(Mustache.render(template, risposta));
+                    });
                     if (risposta.conversazioni.length == 0) {
                         $('#conversazioni').css('margin-bottom', '0px');
                     } else {
                         $('#conversazioni').css('margin-bottom', '100px');
                     }
-                    $.get('/html/templates.html', function(contenuto) {
-                        var template = $(contenuto).filter('#leggi_conversazioni').html();
-                        $('#conversazioni').html(Mustache.render(template, risposta));
-                    });
                 }
             },
             error: function() {

@@ -5,7 +5,11 @@
     margin-bottom: 50px;
 }
 
-#foto_profilo {
+.foto_profilo {
     width: 90%;
     max-width: 65px;
+}
+
+.icona_profilo, .icona_scrivi {
+    padding-top: 20px;
 }

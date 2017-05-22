@@ -49,10 +49,10 @@
             <div class="w3-row">
                 <div class="w3-col s3 m3 l2">
                     {{#foto}}
-                        <img src="{{foto}}" id="foto_profilo" class="w3-margin-top w3-margin-bottom w3-circle">
+                        <img src="{{foto}}" class="w3-margin-top w3-margin-bottom w3-circle foto_profilo">
                     {{/foto}}
                     {{^foto}}
-                        <i class="material-icons w3-margin-top w3-margin-left">person</i>
+                        <i class="material-icons w3-margin-top w3-margin-left icona_profilo">person</i>
                     {{/foto}}
                 </div>
                 <div class="w3-col s8 m8 l9">
@@ -62,9 +62,12 @@
                         <br><i>{{stato}}</i>
                     </p>
                 </div>
-                <div class="w3-col s1 m1 l1"><i class="material-icons w3-margin-top">message</i></div>
+                <div class="w3-col s1 m1 l1">
+                    <i class="material-icons w3-margin-top icona_scrivi">chat</i>
+                </div>
             </div>
-        </a><hr>
+        </a>
+        <hr>
     {{/risultati}}
     {{^risultati}}
         <div class="w3-center">

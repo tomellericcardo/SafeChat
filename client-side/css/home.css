@@ -15,7 +15,7 @@
 
 .non_letti {
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 
@@ -39,7 +39,7 @@
     bottom: 20px;
     width: 55px;
     height: 55px;
-    padding-top: 16px;
-    padding-left: 16px;
+    padding-top: 15px;
+    padding-left: 15px;
     cursor: pointer;
 }

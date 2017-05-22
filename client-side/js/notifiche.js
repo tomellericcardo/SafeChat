@@ -4,7 +4,7 @@ notifiche = {
         navigator.serviceWorker.register('/sw.js');
         notifiche.leggi_utente();
         notifiche.leggi_notifiche();
-        setInterval(notifiche.leggi_notifiche, 5000);
+        setInterval(notifiche.leggi_notifiche, 4000);
     },
     
     leggi_utente: function() {
@@ -31,13 +31,14 @@ notifiche = {
                     if (notifiche.n_notifiche != 0) {
                         $('#notifiche').css('display', 'block');
                         if (notifiche.n_notifiche == 1) {
-                            var testo_notifica = 'Hai un nuovo messaggio';
+                            var testo_notifica = 'Un nuovo messaggio';
                         } else {
-                            var testo_notifica = 'Hai ' + notifiche.n_notifiche + ' nuovi messaggi';
+                            var testo_notifica = notifiche.n_notifiche + ' nuovi messaggi';
                         }
                         notifiche.mostra_notifica(testo_notifica);
                     } else {
                         $('#notifiche').html('notifications_none');
+                        notifiche.chiudi_notifica();
                     }
                 } else if (notifiche.n_notifiche != 0) {
                     $('#notifiche').html('notifications');
@@ -54,10 +55,18 @@ notifiche = {
                         body: testo_notifica,
                         icon: '/img/icona128.png',
                         vibrate: [200, 100, 200],
-                        tag: 'sf'
+                        tag: 'safechat'
                     });
                 });
             }
+        });
+    },
+    
+    chiudi_notifica: function() {
+        navigator.serviceWorker.ready.then(function(registration) {
+            registration.getNotifications().then(function(notifiche) {
+                notifiche[0].close();
+            });
         });
     }
     

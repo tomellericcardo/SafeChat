@@ -28,6 +28,11 @@ home = {
             }).then(function() {
                 home.leggi_conversazioni();
             });
+            if (risultato.conversazioni.length == 0) {
+                $('#conversazioni').css('margin-bottom', '0px');
+            } else {
+                $('#conversazioni').css('margin-bottom', '100px');
+            }
         } else {
             home.leggi_conversazioni();
         }

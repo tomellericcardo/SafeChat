@@ -10,7 +10,7 @@
                         <img src="{{foto}}" id="foto_profilo" class="w3-margin-top w3-circle">
                     {{/foto}}
                     {{^foto}}
-                        <i class="material-icons w3-margin-top">person</i>
+                        <i class="material-icons w3-margin-top icona_profilo">person</i>
                     {{/foto}}
                 </div>
             </a>
@@ -28,7 +28,7 @@
                     <i class="material-icons w3-margin-top">delete</i>
                 </div>
                 {{#non_letti}}
-                    <p class="w3-badge w3-green">{{non_letti}}</p>
+                    <p class="w3-green non_letti">{{non_letti}}</p>
                 {{/non_letti}}
             </div>
         </div><hr>
@@ -62,7 +62,7 @@
                         <br><i>{{stato}}</i>
                     </p>
                 </div>
-                <div class="w3-col s1 m1 l1"><i class="material-icons w3-margin-top">send</i></div>
+                <div class="w3-col s1 m1 l1"><i class="material-icons w3-margin-top">message</i></div>
             </div>
         </a><hr>
     {{/risultati}}
@@ -123,7 +123,7 @@
                     <img src="{{foto}}" id="foto_profilo" class="w3-circle">
                 {{/foto}}
                 {{^foto}}
-                    <i class="material-icons w3-jumbo w3-text-blue">person</i>
+                    <i id="icona_profilo" class="material-icons w3-jumbo w3-text-blue">person</i>
                 {{/foto}}
             </div>
             <div class="w3-col s9">

@@ -6,11 +6,16 @@
     max-width: 65px;
 }
 
+.icona_profilo {
+    padding: 20px 0 20px 0;
+}
 
-/*** ICONA IMMAGINE ***/
 
-#icona_immagine {
-    font-size: 15px;
+/*** NON LETTI ***/
+
+.non_letti {
+    text-align: center;
+    border-radius: 8px;
 }
 
 
@@ -34,7 +39,7 @@
     bottom: 20px;
     width: 55px;
     height: 55px;
-    padding-top: 15px;
-    padding-left: 15px;
+    padding-top: 16px;
+    padding-left: 16px;
     cursor: pointer;
 }

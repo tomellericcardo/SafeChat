@@ -90,6 +90,17 @@ class SafeChat:
         return risultato
     
     def leggi_messaggi(self, proprietario, partecipante):
+        self.safeBase.scrivi('''
+            DELETE FROM messaggio
+            WHERE proprietario = ? AND partecipante = ?
+            AND chiave NOT IN (
+                SELECT chiave
+                FROM messaggio
+                WHERE proprietario = ? AND partecipante = ?
+                ORDER DESC
+                LIMIT 10
+            )
+        ''', (proprietario, partecipante, proprietario, partecipante))
         risultato = self.safeBase.leggi_righe('''
             SELECT mittente, immagine, testo, DATETIME(data_ora, '+2 hours')
             FROM messaggio

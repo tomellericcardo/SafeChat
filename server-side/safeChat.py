@@ -97,7 +97,7 @@ class SafeChat:
                 SELECT chiave
                 FROM messaggio
                 WHERE proprietario = ? AND partecipante = ?
-                ORDER DESC
+                ORDER BY data_ora DESC
                 LIMIT 10
             )
         ''', (proprietario, partecipante, proprietario, partecipante))

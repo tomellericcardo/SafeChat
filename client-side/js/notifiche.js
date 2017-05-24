@@ -65,7 +65,10 @@ notifiche = {
     chiudi_notifica: function() {
         navigator.serviceWorker.ready.then(function(registration) {
             registration.getNotifications().then(function(notifiche) {
-                notifiche[0].close();
+                var notifica = notifiche[0];
+                if (notifica) {
+                    notifiche[0].close();
+                }
             });
         });
     }

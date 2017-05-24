@@ -81,7 +81,7 @@ conversazione = {
             });
             conversazione.aggiorna_messaggi();
         } else {
-            conversazione.leggi_messaggi();
+            conversazione.leggi_messaggi(false);
         }
     },
     
@@ -103,7 +103,7 @@ conversazione = {
                 } else {
                     conversazione.n_notifiche = notifiche.n_notifiche;
                     if (risposta.n_messaggi != conversazione.n_messaggi) {
-                        conversazione.leggi_messaggi();
+                        conversazione.leggi_messaggi(true);
                     }
                 }
             },
@@ -113,9 +113,11 @@ conversazione = {
         });
     },
     
-    leggi_messaggi: function() {
-        $('#messaggio_caricamento').html('Download messaggi...');
-        $('#caricamento').css('display', 'block');
+    leggi_messaggi: function(mostra_caricamento) {
+        if (mostra_caricamento) {
+            $('#messaggio_caricamento').html('Download messaggi...');
+            $('#caricamento').css('display', 'block');
+        }
         var richiesta = {
             proprietario: conversazione.proprietario,
             password: conversazione.password,
@@ -202,6 +204,8 @@ conversazione = {
         var testo = $('#testo').val();
         $('#testo').val('');
         if (testo.length > 0) {
+            $('#messaggio_caricamento').html('Invio messaggio...');
+            $('#caricamento').css('display', 'block');
             testo = window.btoa(unescape(encodeURIComponent(testo)));
             var testo_mittente = cryptico.encrypt(testo, conversazione.chiave_pubblica).cipher;
             var testo_destinatario = cryptico.encrypt(testo, conversazione.chiave_partecipante).cipher;
@@ -222,7 +226,7 @@ conversazione = {
                     if (risposta.utente_non_valido) {
                         utente.disconnetti_utente();
                     } else if (risposta.inviato) {
-                        conversazione.leggi_messaggi();
+                        conversazione.leggi_messaggi(false);
                     }
                 },
                 error: function() {
@@ -318,8 +322,7 @@ conversazione = {
                 if (risposta.utente_non_valido) {
                     utente.disconnetti_utente();
                 } else if (risposta.inviata) {
-                    conversazione.leggi_messaggi();
-                    $('#caricamento').css('display', 'none');
+                    conversazione.leggi_messaggi(false);
                 }
             },
             error: function() {

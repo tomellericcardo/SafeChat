@@ -90,17 +90,6 @@ class SafeChat:
         return risultato
     
     def leggi_messaggi(self, proprietario, partecipante):
-        self.safeBase.scrivi('''
-            DELETE FROM messaggio
-            WHERE proprietario = ? AND partecipante = ?
-            AND chiave NOT IN (
-                SELECT chiave
-                FROM messaggio
-                WHERE proprietario = ? AND partecipante = ?
-                ORDER BY data_ora DESC
-                LIMIT 10
-            )
-        ''', (proprietario, partecipante, proprietario, partecipante))
         risultato = self.safeBase.leggi_righe('''
             SELECT mittente, immagine, testo, DATETIME(data_ora, '+2 hours')
             FROM messaggio
@@ -123,6 +112,7 @@ class SafeChat:
             INSERT INTO messaggio (proprietario, partecipante, mittente, testo)
             VALUES (?, ?, ?, ?)
         ''', (destinatario, mittente, mittente, testo_destinatario))
+        self.elimina_vecchi(mittente, destinatario)
     
     def invia_immagine(self, mittente, destinatario, immagine_mittente, immagine_destinatario):
         self.safeBase.scrivi('''
@@ -133,6 +123,31 @@ class SafeChat:
             INSERT INTO messaggio (proprietario, partecipante, mittente, immagine, testo)
             VALUES (?, ?, ?, 1, ?)
         ''', (destinatario, mittente, mittente, immagine_destinatario))
+        self.elimina_vecchi(mittente, destinatario)
+    
+    def elimina_vecchi(self, mittente, destinatario):
+        self.safeBase.scrivi('''
+            DELETE FROM messaggio
+            WHERE proprietario = ? AND partecipante = ?
+            AND chiave NOT IN (
+                SELECT chiave
+                FROM messaggio
+                WHERE proprietario = ? AND partecipante = ?
+                ORDER BY data_ora DESC
+                LIMIT 20
+            )
+        ''', (mittente, destinatario, mittente, destinatario))
+        self.safeBase.scrivi('''
+            DELETE FROM messaggio
+            WHERE proprietario = ? AND partecipante = ?
+            AND chiave NOT IN (
+                SELECT chiave
+                FROM messaggio
+                WHERE proprietario = ? AND partecipante = ?
+                ORDER BY data_ora DESC
+                LIMIT 20
+            )
+        ''', (destinatario, mittente, destinatario, mittente))
     
     def n_messaggi(self, proprietario, partecipante):
         risultato = self.safeBase.leggi_righe('''

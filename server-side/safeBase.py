@@ -37,7 +37,7 @@ class SafeBase:
         database.commit()
         cursore.execute('''
             CREATE TABLE IF NOT EXISTS messaggio (
-                chiave INTEGER NOT NULL AUTOINCREMENT,
+                chiave INTEGER PRIMARY KEY AUTOINCREMENT,
                 proprietario TEXT NOT NULL,
                 partecipante TEXT NOT NULL,
                 mittente TEXT NOT NULL,

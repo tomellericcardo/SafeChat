@@ -23,12 +23,12 @@
                     </p>
                 </div>
             </a>
-            <div class="w3-col s2 m2 l2">
-                <div id="cestino" onclick="home.elimina_conversazione('{{partecipante}}')" class="w3-center">
+            <div class="w3-col s2 m2 l2 w3-center">
+                <div id="cestino" onclick="home.elimina_conversazione('{{partecipante}}')">
                     <i class="material-icons w3-margin-top">delete</i>
                 </div>
                 {{#non_letti}}
-                    <p class="w3-green non_letti">{{non_letti}}</p>
+                    <p class="w3-badge w3-green">{{non_letti}}</p>
                 {{/non_letti}}
             </div>
         </div><hr>

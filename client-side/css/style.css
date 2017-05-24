@@ -100,3 +100,10 @@ hr {
 #errore, #successo {
     padding-top: 30vh;
 }
+
+
+/*** BADGES ***/
+
+.w3-badge {
+    border-radius: 10px;
+}

@@ -1,6 +1,9 @@
 # SafeChat
-SafeChat è una semplice applicazione web di messaggistica istantanea con sisemi di sicurezza quali SHA2 e RSA.
-Link all'applicazione: [SafeChat](https://safechat.pythonanywhere.com)
+SafeChat Ã¨ una semplice applicazione web di messaggistica istantanea con sisemi di sicurezza quali SHA2 e RSA.
+
+## Collegamenti
+* Link all'applicazione: [SafeChat](https://safechat.pythonanywhere.com)
+* Guida utente: [Formato PDF](https://drive.google.com/file/d/0BwzGnaP5Ol1HVTJianZtaVFIYmc/view?usp=sharing)
 
 ## Dipendenze
 - [Flask 0.12](http://flask.pocoo.org)

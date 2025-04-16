@@ -21,7 +21,7 @@ class SafeChat:
         if risultato:
             password_criptata = risultato[0]
             sale = risultato[1]
-            valido = password_criptata == sha256(password + sale + self.pepe).hexdigest()
+            valido = password_criptata == sha256((password + sale + self.pepe).encode()).hexdigest()
         return valido
     
     def username_presente(self, username):
